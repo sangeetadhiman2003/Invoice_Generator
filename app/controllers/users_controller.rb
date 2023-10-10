@@ -55,7 +55,6 @@ class UsersController < ApplicationController
   end
 
   def send_email_user
-    byebug
     @user = User.find(params[:id])
     @subject = "Greeting"
     @message = "Welcome..!"
