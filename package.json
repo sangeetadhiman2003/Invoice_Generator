@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1"
+  }
+}

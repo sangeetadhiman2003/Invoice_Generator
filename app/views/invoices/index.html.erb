@@ -1,0 +1,41 @@
+<html>
+<body>
+<div class="padding_top">
+<h1 style="background-color:powderblue;">Listing Invoices Details</h1>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Invoie No</th>
+      <th>Invoice Date</th>
+      <th>User Name </th>
+      <th>User Id</th>
+      <th>Terms And Condition</th>
+      <th>Show</th>
+      <th>Edit</th>
+      <th>Destroy</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @invoices.each do |invoice| %>
+      <tr>
+         <td> <%= invoice.invoice_no %></td>
+         <td> <%= invoice.invoice_date %></td>
+         <td> <%= invoice.user&.name %></td>
+         <td> <%= invoice.user_id %></td>
+         <td> <%= invoice.terms_and_condition %></td>
+         <td><%= link_to "Show", invoice %></td>
+         <td><%= link_to "Edit", edit_invoice_path(invoice) %></td>
+         <td><%= link_to "Destroy", invoice,  method: :delete, data: { confirm: "Are you sure?" }  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<hr>
+</body>
+</html>
+<%= link_to "Back" , home_index_path, class: 'btn btn-inverse' %>

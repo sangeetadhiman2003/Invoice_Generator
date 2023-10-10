@@ -1,0 +1,34 @@
+<div class="padding_top">
+<center><h3 style="background-color:powderblue;">Invoice</h3></center>
+</div>
+<%= form_for Invoice.new , html: {id:'form2'} do |f| %>
+  <h3>
+  <%= f.label 'user Name:' %>
+  <%= @invoice.user&.name %>  </h3>
+
+  <h3>
+  <%= f.label 'invoice_no:' %>
+  <%= @invoice.invoice_no %>  </h3>
+  <h3>
+  <%= f.label 'invoice_date:' %>
+  <%= @invoice.invoice_date %>  </h3>
+  <h3>
+  <%= f.label 'due_date:' %>
+  <%= @invoice.due_date %>  </h3>
+  <h3>
+  <%= f.label 'terms_and_condition:' %>
+  <%= @invoice.terms_and_condition %>  </h3>
+  <h3>
+  <%= f.label 'notes:' %>
+  <%= @invoice.notes %>  </h3>
+  <h3>
+  <%= f.label 'user_id:' %>
+  <%= @invoice.user_id %>  </h3>
+
+  <div>
+    <% if @invoice.logo_image.attached? %>
+      <%= image_tag @invoice.logo_image %>
+      <% end %>
+  </div>
+<% end %>
+<%= link_to "Back" , home_index_path, class: 'btn btn-inverse' %>

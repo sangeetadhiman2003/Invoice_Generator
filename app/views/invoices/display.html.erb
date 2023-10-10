@@ -1,0 +1,14 @@
+<h2>hello....</h2>
+<h1>Form Data </h1>
+<ul>
+  <% @contacts.each do |data| %>
+    <li> <strong>Invoice Date: </strong> <%= data[:invoice_date] %><br>
+     <strong>Invoice No: </strong> <%= data[:invoice_no] %><br>
+     <strong>Notes: </strong> <%= data[:notes] %><br>
+     <strong>Rate: </strong> <%= data[:rate] %><br>
+     <strong>Quantity: </strong><%= data[:quantity] %><br>
+     <strong>Tax Value: </strong><%= data[:tax_value] %><br>
+     <strong>Gst: </strong> <%= data[:gst] %><br>
+    </li>
+  <% end %>
+</ul>

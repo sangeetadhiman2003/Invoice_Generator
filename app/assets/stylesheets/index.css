@@ -1,0 +1,25 @@
+
+
+.table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  align-items: center;
+  height: 50px;
+  width: 50%;
+  text-align: center;
+
+}
+.t{
+  height: 50px;
+  padding-top: 5px;
+  margin-bottom: 5px;
+}
+.padding_top{
+  padding-top: 20px;
+}
+.test {
+  color: black;
+}
+.nav{
+  color: black;
+}

@@ -1,0 +1,74 @@
+<center>
+  <div class="t">
+   <div class = "padding_top" >
+    <h2 style="background-color:powderblue;">Invoice Generator</h2>
+   </div>
+   <h4>Generate Pdf : <%= link_to "Generate Pdf" , download_pdf_item_path(@item), format: :pdf %> </h4>
+   <%=form_for :items do |item| %>
+    <table class="table">
+      <tr>
+        <th>Invoice Id</th>
+        <th>Item</th>
+        <th>Rate</th>
+        <th>Quantity</th>
+        <th>Tax Value</th>
+        <th>GST</th>
+        <th>Hours</th>
+      </tr>
+      <% total = 0 %>
+      <tr>
+        <td><%= @item.invoice&.id %></td>
+        <td><%=@item.name %></td>
+        <td><%= @item.rate %></td>
+        <td><%= @item.quantity %></td>
+        <td><%= @item.tax_value %></td>
+        <td><%= @item.gst %></td>
+        <td><%= @item.hours %></td>
+      </tr>
+      <% total = (@item.tax_value) * (@item.gst) %>
+
+        <tr>
+          <th colspan="7"></th>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="5">Tax Value</td>
+          <td ><%= @item.tax_value %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="5">Sub Total</td>
+          <td ><%= (@item.tax_value) + (@item.gst) %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="5">Discount</td>
+          <td>0.0</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="5">Total</td>
+          <td><%= (@item.tax_value) * (@item.gst) %></td>
+        </tr>
+        <tr>
+        <% amountPaid = (@item.tax_value) * (@item.gst) %>
+          <td></td>
+          <td colspan="5">Amount Paid</td>
+          <td><%= amountPaid %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="5">Due Balance</td>
+          <td ><%= (total - amountPaid) %></td>
+        </tr>
+        <% total = (@item.tax_value) * (@item.gst) * (@item.rate) %>
+        <tr>
+        <td></td>
+          <td colspan="5">Total Amount : </td>
+         <th><%= (total) %></th>
+        </tr>
+    </table>
+   <% end %>
+   </div>
+   <br>
+</center>

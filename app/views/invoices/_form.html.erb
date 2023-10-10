@@ -1,0 +1,64 @@
+
+<div class="container">
+ <div class="padding_top">
+  <h1 style="background-color:powderblue;">TAX INVOICE</h1>
+  </div>
+  <div class="form_invoice">
+    <%= form_with(model: @invoice, local: true) do |f|%>
+      <p>
+        <%= f.label 'Select User name' %>
+        <%= f.collection_select(:user_id, @users, :id , :name, prompt: true)  %>
+      </p>
+      <p>
+      <%= f.label 'image' %>
+      <%= f.file_field :logo_image %>
+    </p>
+
+      <p>
+        <%= f.label 'invoice_no' %>
+        <%= f.text_field :invoice_no %>
+      </p>
+      <p>
+        <%= f.label 'invoice_date' %>
+        <%= f.text_field :invoice_date %>
+      </p>
+      <div>
+        <%= f.fields_for :items do |item| %>
+          <table class="table">
+            <tr id="1">
+            <th>Item</th>
+              <th>Rate</th>
+              <th>Quantity</th>
+              <th>Tax Value</th>
+              <th>GST</th>
+              <th>Hours</th>
+
+            </tr>
+            <tr>
+              <td><%=item.text_field :name , placeholder: "Item"%></td>
+              <td><%= item.text_field :rate, placeholder: "Rate" %></td>
+              <td><%= item.text_field :quantity, placeholder: "Quantity" %></td>
+              <td><%= item.text_field :tax_value,  placeholder: "Tax Value" %></td>
+              <td><%= item.text_field :gst,  placeholder: "GST" %></td>
+              <td><%= item.text_field :hours ,  placeholder: "Hour" %></td>
+            </tr>
+          </table>
+        <% end %>
+        <div>
+        <%= link_to_add_association "Add Item", f, :items %>
+      <p>
+        <%= f.label 'notes' %>
+        <%= f.text_field :notes %>
+      </p>
+      <p>
+        <%= f.label 'terms_and_condition' %>
+        <%= f.text_field :terms_and_condition %>
+      </p>
+      <p>
+        <%= f.submit "submit" %>
+      </p>
+    <% end %>
+  </div>
+
+  <body>
+</div>

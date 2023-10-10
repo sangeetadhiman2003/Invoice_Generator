@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  invoice_no: MyString
+  invoice_date: MyString
+  due_date: MyString
+  terms_and_condition: MyText
+  notes: MyText
+  user: one
+
+two:
+  invoice_no: MyString
+  invoice_date: MyString
+  due_date: MyString
+  terms_and_condition: MyText
+  notes: MyText
+  user: two

@@ -1,0 +1,29 @@
+<div class="t">
+  <%= form_for Item.new do |f| %>
+    <table id="myTable">
+      <tr id="1">
+      <th >Item</th>
+        <th>Rate</th>
+        <th>Quantity</th>
+        <th>Tax Value</th>
+        <th>GST</th>
+        <th>Hours</th>
+        <th>Invoice_id</th>
+        <th>Total</th>
+      </tr>
+      <tr>
+        <td> <%= f.text_field :name%></td>
+        <td><%= f.text_field :rate%></td>
+        <td><%= f.text_field :quantity%></td>
+        <td><%= f.text_field :tax_value%></td>
+        <td><%= f.text_field :gst%></td>
+        <td><%= f.text_field :hours%></td>
+        <td><%= f.text_field :invoice_id%></td>
+      </tr>
+   </table>
+   <p>
+      <%= f.submit "submit" %>
+      </p>
+  <%end%>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="t">
+<center><h3 style="background-color:powderblue;">User</h3></center>
+  <%=form_for :users do |user| %>
+    <table class="table">
+      <tr id="1">
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>State</th>
+        <th>City</th>
+        <th>Address</th>
+        <th>Pan</th>
+        <th>Image</th>
+      </tr>
+      <tr>
+        <td> <%=@user.name %></td>
+        <td><%= @user.email %></td>
+        <td><%= @user.phone %></td>
+        <td><%= @user.state %></td>
+        <td><%= @user.city %></td>
+        <td><%= @user.address %></td>
+        <td><%= @user.pan %></td>
+        <td><% if @user.signature_image.attached? %>
+        <%= image_tag @user.signature_image %>
+       <% end %></td>
+      </tr>
+    </table>
+  <% end %>
+  <br>
+  <%= link_to "Generate Pdf", download_pdf_user_path(@user), format: :pdf %>
+   <br><br>
+  <%= link_to "Send Email", send_email_user_user_path(@user), method: :post %>
+  <br><br>
+  <%= link_to "Back" , home_index_path, class: 'btn btn-inverse' %>
+</div>
