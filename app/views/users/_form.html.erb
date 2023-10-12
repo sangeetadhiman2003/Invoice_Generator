@@ -24,14 +24,6 @@
       <div><%= message %></div>
     <% end %>
   </p>
-  <p>
-    <%= f.label 'state' %>
-    <%= f.text_field :state, placeholder: "Enter State"  %>
-    <% @user.errors.full_messages_for(:state).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
-  </p>
-  <p>
     <%= f.label 'city' %>
     <%= f.text_field :city , placeholder: "Enter City" %>
     <% @user.errors.full_messages_for(:city).each do |message| %>
@@ -50,7 +42,17 @@
     <%= f.file_field :signature_image %>
   </p>
   <p>
+    <%= f.label 'State' %>
+    <%= f.select :state, options_for_select(User::STATE_TYPE), {prompt:"Select State" }%>
+    <% @user.errors.full_messages_for(:state).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </p>
+  <p>
+
+  <p>
   <%= f.submit %>
+  <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => "btn btn-dark"}) %>
   </p>
   <% end %>
   <%= link_to "Back" , home_index_path, class: 'btn' %>

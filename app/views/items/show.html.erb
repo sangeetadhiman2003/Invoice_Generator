@@ -3,6 +3,7 @@
    <div class = "padding_top" >
     <h2 style="background-color:powderblue;">Invoice Generator</h2>
    </div>
+   <%= link_to "Back", items_path , class: 'btn' %>
    <h4>Generate Pdf : <%= link_to "Generate Pdf" , download_pdf_item_path(@item), format: :pdf %> </h4>
    <%=form_for :items do |item| %>
     <table class="table">
@@ -26,7 +27,6 @@
         <td><%= @item.hours %></td>
       </tr>
       <% total = (@item.tax_value) * (@item.gst) %>
-
         <tr>
           <th colspan="7"></th>
         </tr>

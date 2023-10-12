@@ -11,6 +11,7 @@ class ItemsController < ApplicationController
   def new
     @item = Item.new
     @invoice_id=Invoice.all.pluck(:invoice_id)
+    byebug
   end
 
   def create
@@ -47,6 +48,22 @@ class ItemsController < ApplicationController
     redirect_to root_path, status: :see_other
   end
 
+  def get_rate
+    item_name = params[:name]
+    item = Item.find_by(name: item_name)
+
+    if item
+      render json: {rate: item.rate }
+    else
+      render json: {rate: nil }
+    end
+  end
+
+  def get_rate
+    item = Item.find(params[:id])
+    render json: {rate: item.rate }
+  end
+
   private
   def item_params
     params.require(:item).permit(:name, :rate, :quantity, :tax_value, :hours, :gst, :invoice_id)
@@ -58,7 +75,7 @@ class ItemsController < ApplicationController
       text "Name: #{item.name}"
       text "Rate: #{item.rate}"
       text "Quantity: #{item.quantity}"
+
     end.render
   end
-
 end

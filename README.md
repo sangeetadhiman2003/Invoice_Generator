@@ -22,3 +22,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+git_token
+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

@@ -1,4 +1,7 @@
 class Item < ApplicationRecord
+
+ITEM_TYPES = ['Laptop', 'Mobile', 'Watch' ]
+
   belongs_to :invoice
 
   validates :name, presence: true

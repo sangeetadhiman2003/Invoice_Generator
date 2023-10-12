@@ -75,6 +75,7 @@ class UsersController < ApplicationController
       text "Address: #{user.address}"
       text "Email: #{user.email}"
       text "City: #{user.city}"
+      text "City: #{user.state}"
     end.render
   end
 end

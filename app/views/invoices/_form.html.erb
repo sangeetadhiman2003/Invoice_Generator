@@ -1,18 +1,29 @@
 
-<div class="container">
+<div>
  <div class="padding_top">
   <h1 style="background-color:powderblue;">TAX INVOICE</h1>
   </div>
   <div class="form_invoice">
     <%= form_with(model: @invoice, local: true) do |f|%>
-      <p>
+      <div class="row g-3">
+   <div class="col">
+     <p>
         <%= f.label 'Select User name' %>
         <%= f.collection_select(:user_id, @users, :id , :name, prompt: true)  %>
       </p>
+   </div>
+   <div class="col">
+    <p>
+     <%= f.label 'Select Client name' %>
+     <%= f.collection_select(:user_id, @users, :id , :name, prompt: true)  %>
+    </p>
+   </div>
+</div>
+
       <p>
       <%= f.label 'image' %>
-      <%= f.file_field :logo_image %>
-    </p>
+       <%= f.file_field :logo_image %>
+      </p>
 
       <p>
         <%= f.label 'invoice_no' %>
@@ -35,8 +46,10 @@
 
             </tr>
             <tr>
-              <td><%=item.text_field :name , placeholder: "Item"%></td>
-              <td><%= item.text_field :rate, placeholder: "Rate" %></td>
+              <td><%= item.select :name, options_for_select(Item::ITEM_TYPES),
+              {  id: :item_name },{prompt: 'Select Item Type' } %></td>
+
+              <td><%= item.text_field :rate, value: 100, id: 'item_rate',placeholder: "Rate" %></td>
               <td><%= item.text_field :quantity, placeholder: "Quantity" %></td>
               <td><%= item.text_field :tax_value,  placeholder: "Tax Value" %></td>
               <td><%= item.text_field :gst,  placeholder: "GST" %></td>
@@ -56,6 +69,7 @@
       </p>
       <p>
         <%= f.submit "submit" %>
+        <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
       </p>
     <% end %>
   </div>

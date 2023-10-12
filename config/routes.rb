@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :home
   resources :invoices
 
+  get 'items/get_rate' , to: 'items#get_rate'
+
   # get 'invoices/display'
 
 end

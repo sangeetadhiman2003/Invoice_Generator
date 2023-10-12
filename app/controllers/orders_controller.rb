@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      debugger
       OrderMailer.with(user: @user).new_user_email.deliver_later
 
       flash[:success] = "Thank you for your order! We'll get contact you soon!"

@@ -47,7 +47,11 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_caching = false
+
 
 
 
@@ -61,4 +65,21 @@ Rails.application.configure do
 
   host = 'localhost:3000'
   config.action_mailer.default_url_options = { :host => 'localhost:3000',protocol: 'http' }
+
+  config.active_record.dump_schema_after_migration = false
+
+  config.action_mailer.delivery_method = :smtp
+  # host = 'sangeetadhiman2003@gmail.com' #replace with your own url
+   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+# SMTP settings for gmail
+config.action_mailer.smtp_settings = {
+  :address              => "smtp.gmail.com",
+  :port                 => 587,
+  :user_name            => "sangeetadhiman2003@gmail.com",
+  :password             => "gsmiovukycyphoxj",
+  :authentication       => "plain",
+  :enable_starttls_auto => true
+}
+
 end

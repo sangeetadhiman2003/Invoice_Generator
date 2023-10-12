@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+
+  STATE_TYPE = ['MP', 'UP', 'MH', 'AP', 'RJ'].freeze
   acts_as_paranoid
   has_many :invoices
   has_one_attached :signature_image
