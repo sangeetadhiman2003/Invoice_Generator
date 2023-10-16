@@ -1,5 +1,10 @@
 <div class="t">
-  <%= form_for Item.new do |f| %>
+<%= form_with(model: @item, local: true) do |f|%>
+
+    <p>
+        <%= f.label 'Select Invoice name' %>
+        <%= f.collection_select(:invoice_id, @invoices, :id , :invoice_no, prompt: true)  %>
+      </p>
     <table id="myTable">
       <tr id="1">
       <th >Item</th>
@@ -17,7 +22,7 @@
         <td><%= f.text_field :quantity%></td>
         <td><%= f.text_field :tax_value%></td>
         <td><%= f.text_field :gst%></td>
-        <td><%= f.text_field :hours%></td>
+        <td><%= f.text_field :amountPaid%></td>
         <td><%= f.text_field :invoice_id%></td>
       </tr>
    </table>

@@ -1,12 +1,13 @@
 <div class="nested-fields">
    <table>
    <tr>
-      <td><%= f.text_field :name %></td>
-      <td><%= f.text_field :rate %></td>
-      <td><%= f.text_field :quantity %></td>
-      <td><%= f.text_field :tax_value %></td>
-      <td><%= f.text_field :gst  %></td>
-      <td><%= f.text_field :hours %></td>
+     <td><%= f.select :name, options_for_select(Item::ITEM_TYPES),
+      {  id: :item_name },{prompt: 'Select Item Type' } %></td>
+      <td><%= f.text_field :rate, id: 'item_rate',placeholder: "Rate" %></td>
+      <td><%= f.text_field :quantity, placeholder: "Quantity" %></td>
+      <td><%= f.text_field :tax_value, placeholder: "Tax Value" %></td>
+      <td><%= f.text_field :gst, placeholder: "GST"   %></td>
+      <td><%= f.text_field :amountPaid %></td>
    </tr>
    </table>
    <%= link_to_remove_association "Delete", f %>

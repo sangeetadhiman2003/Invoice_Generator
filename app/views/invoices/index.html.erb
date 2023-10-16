@@ -7,6 +7,7 @@
 <table>
   <thead>
     <tr>
+      <th>Invoice Id</th>
       <th>Invoie No</th>
       <th>Invoice Date</th>
       <th>User Name </th>
@@ -22,12 +23,13 @@
   <tbody>
     <% @invoices.each do |invoice| %>
       <tr>
+        <td> <%= invoice.id %></td>
          <td> <%= invoice.invoice_no %></td>
          <td> <%= invoice.invoice_date %></td>
          <td> <%= invoice.user&.name %></td>
          <td> <%= invoice.user_id %></td>
          <td> <%= invoice.terms_and_condition %></td>
-         <td><%= link_to "Show", invoice %></td>
+         <td><%= link_to "Show", show_items_invoice_path(invoice) %></td>
          <td><%= link_to "Edit", edit_invoice_path(invoice) %></td>
          <td><%= link_to "Destroy", invoice,  method: :delete, data: { confirm: "Are you sure?" }  %></td>
       </tr>

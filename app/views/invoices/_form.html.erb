@@ -12,12 +12,6 @@
         <%= f.collection_select(:user_id, @users, :id , :name, prompt: true)  %>
       </p>
    </div>
-   <div class="col">
-    <p>
-     <%= f.label 'Select Client name' %>
-     <%= f.collection_select(:user_id, @users, :id , :name, prompt: true)  %>
-    </p>
-   </div>
 </div>
 
       <p>
@@ -42,18 +36,17 @@
               <th>Quantity</th>
               <th>Tax Value</th>
               <th>GST</th>
-              <th>Hours</th>
+              <th>Amount Paid</th>
 
             </tr>
             <tr>
               <td><%= item.select :name, options_for_select(Item::ITEM_TYPES),
               {  id: :item_name },{prompt: 'Select Item Type' } %></td>
-
-              <td><%= item.text_field :rate, value: 100, id: 'item_rate',placeholder: "Rate" %></td>
+              <td><%= item.text_field :rate, id: 'item_rate',placeholder: "Rate" %></td>
               <td><%= item.text_field :quantity, placeholder: "Quantity" %></td>
-              <td><%= item.text_field :tax_value,  placeholder: "Tax Value" %></td>
-              <td><%= item.text_field :gst,  placeholder: "GST" %></td>
-              <td><%= item.text_field :hours ,  placeholder: "Hour" %></td>
+              <td><%= item.text_field :tax_value, id: 'tax_value', placeholder: "Tax Value" %></td>
+              <td><%= item.text_field :gst, id: 'gst_value',  placeholder: "GST" %></td>
+              <td><%= item.text_field :amountPaid , placeholder: "Amount" %></td>
             </tr>
           </table>
         <% end %>

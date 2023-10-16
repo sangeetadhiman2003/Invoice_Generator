@@ -8,7 +8,6 @@
    <%=form_for :items do |item| %>
     <table class="table">
       <tr>
-        <th>Invoice Id</th>
         <th>Item</th>
         <th>Rate</th>
         <th>Quantity</th>
@@ -18,13 +17,12 @@
       </tr>
       <% total = 0 %>
       <tr>
-        <td><%= @item.invoice&.id %></td>
         <td><%=@item.name %></td>
         <td><%= @item.rate %></td>
         <td><%= @item.quantity %></td>
         <td><%= @item.tax_value %></td>
         <td><%= @item.gst %></td>
-        <td><%= @item.hours %></td>
+        <td><%= @item.amountPaid %></td>
       </tr>
       <% total = (@item.tax_value) * (@item.gst) %>
         <tr>

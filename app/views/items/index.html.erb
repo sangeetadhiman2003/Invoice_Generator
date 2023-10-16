@@ -18,9 +18,9 @@
   <tbody>
     <% @items.each do |item| %>
       <tr>
-         <td> <%= item.name %></td>
-         <td> <%= item.rate %></td>
-         <td> <%= item.quantity %></td>
+         <td><%= item.name %></td>
+         <td><%= item.rate %></td>
+         <td><%= item.quantity %></td>
          <td><%= link_to "Show", item %></td>
          <td><%= link_to "Edit", edit_item_path(item) %></td>
         <td><%= link_to "Destroy", item, data: { method: :delete, confirm: "Are you sure?" } %></td>

@@ -2,6 +2,7 @@ class InvoicesController < ApplicationController
 
   def index
     @invoices = Invoice.all
+    @items = Item.all
   end
 
   def show
@@ -39,6 +40,11 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def show_items
+    @invoice = Invoice.find(params[:id])
+    @items = @invoice.items
+  end
+
   def destroy
     @invoice = Invoice.find(params[:id])
     @invoice.destroy
@@ -50,6 +56,6 @@ class InvoicesController < ApplicationController
 
   def invoice_params
     params.require(:invoice).permit(:invoice_no , :invoice_date , :due_date ,
-     :user_id , :terms_and_condition , :notes , :logo_image , items_attributes:[:name , :rate , :quantity , :hours , :gst , :tax_value ,:invoice_id] )
+     :user_id , :terms_and_condition , :notes , :logo_image , items_attributes:[:name , :rate , :quantity , :amountPaid , :gst , :tax_value ,:invoice_id] )
   end
 end

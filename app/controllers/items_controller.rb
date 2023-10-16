@@ -1,17 +1,17 @@
 class ItemsController < ApplicationController
   def index
     @items=Item.all
+    @invoices = Invoice.all
   end
 
   def show
     @item = Item.find(params[:id])
   end
 
-
   def new
     @item = Item.new
+    @invoices = Invoice.all
     @invoice_id=Invoice.all.pluck(:invoice_id)
-    byebug
   end
 
   def create
@@ -66,7 +66,7 @@ class ItemsController < ApplicationController
 
   private
   def item_params
-    params.require(:item).permit(:name, :rate, :quantity, :tax_value, :hours, :gst, :invoice_id)
+    params.require(:item).permit(:name, :rate, :quantity, :tax_value, :amountPaid, :gst, :invoice_id)
   end
 
   def generate_pdf(item)
@@ -75,6 +75,7 @@ class ItemsController < ApplicationController
       text "Name: #{item.name}"
       text "Rate: #{item.rate}"
       text "Quantity: #{item.quantity}"
+
 
     end.render
   end
