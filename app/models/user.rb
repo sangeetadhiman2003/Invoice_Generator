@@ -13,4 +13,8 @@ class User < ApplicationRecord
   validates :state, presence: true
   validates :phone, length: { is: 10}
 
+  def restore_id!
+    self.update(deleted_at: nil)
+  end
+
 end

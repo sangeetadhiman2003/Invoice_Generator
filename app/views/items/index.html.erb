@@ -4,9 +4,10 @@
 <h1 style="background-color:powderblue;">Listing Items Details</h1>
 </div>
 <div>
-<%= form_tag(items_path, method: :get) do %>
-  <%= text_field_tag :query, params[:query], placeholder: "Search items..." %>
-  <%= submit_tag "Search" %>
+<%= form_tag items_path, method: :get do %>
+  <%= label_tag 'product_name', 'Search by Product Name:' %>
+  <%= text_field_tag 'product_name' %>
+  <%= submit_tag 'Search' %>
 <% end %>
 </div>
 <% if @items.present? %>

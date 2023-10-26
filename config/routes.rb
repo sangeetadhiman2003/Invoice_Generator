@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     member do
       get 'download_pdf'
       post 'send_email_user'
-      post 'duplicate'
+      get 'duplicate'
       delete 'soft_delete'
       post 'restore'
     end

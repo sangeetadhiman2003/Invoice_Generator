@@ -54,18 +54,28 @@ class UsersController < ApplicationController
   end
 
   def duplicate
+    debugger
     original_user = User.find(params[:id])
     new_user = original_user.dup
-    new_user.save
 
-    redirect_to user_path, notice: 'Product duplicated successfully'
+    if new_user.save
+      redirect_to new_user, notice: 'User duplicated successfully'
+    else
+      redirect_to new_user, notice: 'User not duplicated successfully'
+    end
+
   end
 
   def restore
     @user = User.only_deleted.find(params[:id])
     @user.restore_id!
 
-    redirect_to users_path, notice: 'User has been restored.'
+    if @user.restore_id!
+      redirect_to users_path, notice: 'User has been restored.'
+    else
+    redirect_to users_path, notice: 'User has not been restored.'
+    end
+
   end
 
   def destroy

@@ -1,19 +1,18 @@
 require 'pagy'
 class ItemsController < ApplicationController
   def index
-
-    if params[:query].present?
-      # filtered data
-       @items = Item.where("name LIKE ?", "%#{params[:query]}%")
+    if params[:product_name].present?
+      product = Product.find_by(name: params[:product_name])
+      if product
+        @items = Item.where(product_id: product.id)
+      else
+        @items = Item.none
+      end
     else
-      # all data
       @items = Item.all
-      @invoices = Invoice.all
-
     end
 
     @pagy, @items = pagy(@items)
-
   end
 
 

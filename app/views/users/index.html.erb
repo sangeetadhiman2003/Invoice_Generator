@@ -36,9 +36,9 @@
             <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBmY1HEr3yq0hzsiu9tvMvbZbjXePTgEbzrjwdpTmR-HYCUD-aIxzapel0HGuHlF6j3WA&usqp=CAU",size: '30x30' %>
             <% end%>
             </td>
-            <td><%= link_to  duplicate_user_path(user), method: :post do %>
+            <td><%= link_to  duplicate_user_path(user) do %>
               <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVQXVHz7jyPmYqoLlr9XwC1WNNPy64ngScOw&usqp=CAU",size: '30x30' %>
-              <% end%>
+            <% end%>
             </td>
             <td><%= link_to  user, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-eye-open
             "><% end %></td>
