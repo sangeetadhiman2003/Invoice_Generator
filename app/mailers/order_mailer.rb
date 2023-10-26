@@ -5,7 +5,7 @@ class OrderMailer < ApplicationMailer
    @user = user
    @subject = subject
    @message = message
-   attachments['/home/developer/Downloads/nisha kumari.pdf']=File.read('/home/developer/Downloads/nisha kumari.pdf')
+   attachments['/home/developer/Downloads/Invoice@1-1.pdf']=File.read('//home/developer/Downloads/Invoice@1-1.pdf')
    mail(to:@user.email, subject: @subject)
   end
 end

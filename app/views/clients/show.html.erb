@@ -1,6 +1,6 @@
 <div class="t">
-<center><h3 style="background-color:powderblue;">User</h3></center>
-  <%=form_for :users do |item| %>
+<center><h3 style="background-color:powderblue;">Client</h3></center>
+  <%= form_for :clients do |client| %>
     <table class="table">
       <tr id="1">
         <th>Name</th>
@@ -9,24 +9,25 @@
         <th>State</th>
         <th>City</th>
         <th>Address</th>
-        <th>Pan</th>
         <th>Image</th>
       </tr>
       <tr>
-        <td> <%=@user.name %></td>
-        <td><%= @user.email %></td>
-        <td><%= @user.phone %></td>
-        <td><%= @user.state %></td>
-        <td><%= @user.city %></td>
-        <td><%= @user.address %></td>
-        <td><%= @user.pan %></td>
+        <td><%= @client.name %></td>
+        <td><%= @client.email %></td>
+        <td><%= @client.phone %></td>
+        <td><%= @client.state %></td>
+        <td><%= @client.city %></td>
+        <td><%= @client.address %></td>
+        <td>
+        <% if @client.signature_image.attached? %>
+          <%= image_tag @client.signature_image, height:250, width:250 %>
+          <% end %>
+        </td>
       </tr>
     </table>
   <% end %>
   <br>
-  <%= link_to "Generate Pdf", download_pdf_user_path(@user), format: :pdf %>
+  <%= link_to "Generate Pdf", download_pdf_client_path(@client), format: :pdf %>
    <br><br>
-  <%= link_to "Send Email", send_email_user_user_path(@user), method: :post %>
-  <br><br>
-  <%= link_to "Back" , home_index_path, class: 'btn btn-inverse' %>
+  <%= link_to "Back" , clients_path, class: 'btn btn-inverse' %>
 </div>

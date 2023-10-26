@@ -1,3 +1,4 @@
+require "prawn"
 class ClientsController < ApplicationController
 
   def index
@@ -6,6 +7,18 @@ class ClientsController < ApplicationController
 
   def show
     @client = Client.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.pdf { render pdf: generate_pdf(@user) }
+    end
+  end
+
+  def download_pdf
+    client = Client.find(params[:id])
+    send_data generate_pdf(client),
+    filename: "#{client.name}.pdf",
+    type: "application/pdf"
   end
 
   def new
@@ -44,6 +57,17 @@ class ClientsController < ApplicationController
   end
   private
   def client_params
-    params.require(:client).permit(:name, :email, :address, :state_name, :city, :gstin, :pan, :invoice_id)
+    params.require(:client).permit(:name, :email, :address, :state,:signature_image, :city, :pan)
   end
+
+  def generate_pdf(client)
+    Prawn::Document.new do
+      text client.name, align: :center
+      text "Address: #{client.address}"
+      text "Email: #{client.email}"
+      text "City: #{client.city}"
+      text "State: #{client.state}"
+    end.render
+  end
+
 end

@@ -1,41 +1,48 @@
 <nav class="navbar navbar-expand-lg bg-dark-subtle">
   <div class="container-fluid">
-  <strong>
-  <%= link_to root_path do %>
-    <%= image_tag("https://cdn-icons-png.flaticon.com/512/5973/5973800.png", size: '35x35') %>
-  <% end %>
-   <%= link_to 'Home' , home_index_path, class: "nav" %></strong>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <strong>
+        <li><%= link_to root_path do %>
+          <%= image_tag("https://cdn-icons-png.flaticon.com/512/5973/5973800.png", size: '53x53') %>
+        <% end %>
+         <%= link_to 'Home' , home_index_path, class: "nav", class: "link-body-emphasis" %></strong></li>
         <li class="nav-item  px-4">
         <strong>
         <%= link_to users_path do %>
-          <%= image_tag "https://assets.stickpng.com/thumbs/585e4beacb11b227491c3399.png",size: '35x35' %>
+          <%= image_tag "https://cdn-icons-png.flaticon.com/512/666/666201.png",size: '50x50' %>
         <% end%>
-        <%= link_to 'User' , users_path , class: "nav" %></strong>
+        <%= link_to 'User' , users_path , class: "nav", class: "link-body-emphasis" %></strong>
         </li>
-        <li class="nav-item  px-4">
+        <li class="nav-item px-2" >
+       <strong>
+       <%= link_to clients_path do %>
+        <li><%= image_tag("https://cdn-icons-png.flaticon.com/512/6009/6009864.png", size: '50x50') %>
+        <% end%>
+        <%= link_to 'Client' , clients_path , class: "nav", class: "link-body-emphasis"  %></strong>
+       </li>
+        <li class="nav-item  px-5">
         <strong>
         <%= link_to items_path do %>
-          <%= image_tag("https://cdn-icons-png.flaticon.com/512/4129/4129437.png", size: '35x35') %>
+          <%= image_tag("https://cdn-icons-png.flaticon.com/512/4129/4129437.png", size: '50x50') %>
         <% end%>
-        <%= link_to 'Item' , items_path , class: "nav" %>
+        <%= link_to 'Item' , items_path , class: "nav", class: "link-body-emphasis" %>
        </li></strong>
        </li>
-       <li class="nav-item px-4" >
+       <li class="nav-item px-1" >
        <strong>
        <%= link_to invoices_path do %>
-        <li><%= image_tag("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCjjf7VWDTYFuiywWIQ_jqRQ-fZcpw5pjbvAQ8AWs&s", size: '35x35') %>
+        <li><%= image_tag("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCjjf7VWDTYFuiywWIQ_jqRQ-fZcpw5pjbvAQ8AWs&s", size: '50x50') %>
         <% end%>
-        <%= link_to 'Invoices' , invoices_path , class: "nav"  %></strong>
+        <%= link_to 'Invoices' , invoices_path , class: "nav", class: "link-body-emphasis"  %></strong>
        </li>
-        <li class="nav-item dropdown px-4" >
+        <li class="nav-item dropdown px-2" >
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <%= image_tag("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBAeVuh4IDx4NnKfv77vZi_nTCvNOGkbpQjL-BuIs&s", size: '35x35') %>
-            <strong>Show List </strong>
+            <strong>Show List</strong>
           </a>
           <ul class="dropdown-menu">
             <li><%= link_to 'User' , users_path , class: 'navber-brand '%></li>

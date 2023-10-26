@@ -13,6 +13,8 @@
       <th>User Name </th>
       <th>User Id</th>
       <th>Terms And Condition</th>
+      <th>PDF</th>
+      <th>Copy</th>
       <th>Show</th>
       <th>Edit</th>
       <th>Destroy</th>
@@ -29,9 +31,17 @@
          <td> <%= invoice.user&.name %></td>
          <td> <%= invoice.user_id %></td>
          <td> <%= invoice.terms_and_condition %></td>
-         <td><%= link_to "Show", show_items_invoice_path(invoice) %></td>
-         <td><%= link_to "Edit", edit_invoice_path(invoice) %></td>
-         <td><%= link_to "Destroy", invoice,  method: :delete, data: { confirm: "Are you sure?" }  %></td>
+         <td> <%= link_to invoice_path(invoice, format: :pdf) do %>
+          <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBmY1HEr3yq0hzsiu9tvMvbZbjXePTgEbzrjwdpTmR-HYCUD-aIxzapel0HGuHlF6j3WA&usqp=CAU",size: '30x30' %>
+          <% end%></td>
+          <td><%= link_to  duplicate_invoice_path(invoice), method: :post do %>
+            <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVQXVHz7jyPmYqoLlr9XwC1WNNPy64ngScOw&usqp=CAU",size: '30x30' %>
+            <% end%>
+          </td>
+         <td><%= link_to invoice, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-eye-open
+         "><% end %></td>
+         <td><%= link_to edit_invoice_path(invoice), class: "link-body-emphasis" do %><span class="glyphicon glyphicon-pencil"<% end %></td>
+         <td><%= link_to invoice,  method: :delete, data: { confirm: "Are you sure?" } , class: "link-body-emphasis" do %><span class="glyphicon glyphicon-trash"><% end %></td>
       </tr>
     <% end %>
   </tbody>

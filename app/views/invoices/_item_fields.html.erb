@@ -1,14 +1,28 @@
-<div class="nested-fields">
-   <table>
-   <tr>
-     <td><%= f.select :name, options_for_select(Item::ITEM_TYPES),
-      {  id: :item_name },{prompt: 'Select Item Type' } %></td>
-      <td><%= f.text_field :rate, id: 'item_rate',placeholder: "Rate" %></td>
-      <td><%= f.text_field :quantity, placeholder: "Quantity" %></td>
-      <td><%= f.text_field :tax_value, placeholder: "Tax Value" %></td>
-      <td><%= f.text_field :gst, placeholder: "GST"   %></td>
-      <td><%= f.text_field :amountPaid %></td>
-   </tr>
-   </table>
-   <%= link_to_remove_association "Delete", f %>
+<div class = "nested-fields">
+  <%= f.label :product_id, 'Select Product' %>
+  <%= f.collection_select :product_id, Product.all, :id, :name, { prompt: 'Please Select product' }, { id: 'product_select' } %>
+
+  <div class="product_attributes" style="display: none;">
+    <table class = "table table-bordered">
+      <tr>
+        <th width="10%">Item</th>
+        <th width="10%">Rate</th>
+        <th width="10%">Tax Value</th>
+        <th width="10%">GST</th>
+        <th width="10%">Quantity</th>
+        <th width="10%">Amount Paid</th>
+      </tr>
+      <tr>
+        <td><span class="product_name"></span></td>
+        <td><span class="product_rate"></span></td>
+        <td><span class="product_tax_value"></span></td>
+        <td><span class="product_gst"></span></td>
+        <td><%= f.text_field :quantity, placeholder: "Quantity",size:"10" %></td>
+        <td><%= f.text_field :amountPaid, placeholder:"Amount Paid",size:"10" %></td>
+      </tr>
+    </table>
+   </div>
+
+   <%= link_to_remove_association 'Remove Item', f %>
+  </div>
 </div>

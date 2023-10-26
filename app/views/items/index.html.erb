@@ -3,32 +3,50 @@
 <div class="padding_top">
 <h1 style="background-color:powderblue;">Listing Items Details</h1>
 </div>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Rate</th>
-      <th>Quantity</th>
-      <th>Show</th>
-      <th>Edit</th>
-      <th>Destroy</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @items.each do |item| %>
+<div>
+<%= form_tag(items_path, method: :get) do %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search items..." %>
+  <%= submit_tag "Search" %>
+<% end %>
+</div>
+<% if @items.present? %>
+  <table>
+    <thead>
       <tr>
-         <td><%= item.name %></td>
-         <td><%= item.rate %></td>
-         <td><%= item.quantity %></td>
-         <td><%= link_to "Show", item %></td>
-         <td><%= link_to "Edit", edit_item_path(item) %></td>
-        <td><%= link_to "Destroy", item, data: { method: :delete, confirm: "Are you sure?" } %></td>
+        <th>Name</th>
+        <th>Rate</th>
+        <th>Quantity</th>
+        <th>PDF</th>
+        <th>Show</th>
+        <th>Edit</th>
+        <th>Destroy</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @items.each do |item| %>
+        <tr>
+          <td><%= highlight(item.product.name, params[:search]) %></td>
+          <td><%= item.product.rate %></td>
+          <td><%= item.quantity %></td>
+          <td> <%= link_to item_path(item, format: :pdf), class: "link-body-emphasis" do %>
+            <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBmY1HEr3yq0hzsiu9tvMvbZbjXePTgEbzrjwdpTmR-HYCUD-aIxzapel0HGuHlF6j3WA&usqp=CAU",size: '30x30' %>
+            <% end%></td>
+          <td><%= link_to  item, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-eye-open
+            "><% end %></td>
+            <td><%= link_to  edit_item_path(item), class: "link-body-emphasis" do %><span class="glyphicon glyphicon-pencil"<% end %></td>
+              <td><%= link_to item,  method: :delete, data: { confirm: "Are you sure?" }, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-trash"><% end %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% else %>
+  <p>No results found for "<%= @query %>".</p>
+<% end %>
 <hr>
+<center>
+ <%== pagy_bootstrap_nav(@pagy) %>
+</center>
 </body>
 </html>
 <%= link_to "Back" , home_index_path, class: 'btn' %>

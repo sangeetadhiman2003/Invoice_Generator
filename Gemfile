@@ -56,7 +56,17 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'acts_as_paranoid'
+gem 'acts_as_paranoid', '~> 0.6.0'
 gem 'prawn'
 gem 'wicked_pdf'
 gem "letter_opener", group: :development
+gem 'momentjs-rails'
+gem 'bootstrap-daterangepicker-rails'
+gem 'jquery-turbolinks'
+group :development do
+  gem 'sunspot_solr'
+end
+gem 'wkhtmltopdf-binary'
+gem 'pagy'
+gem 'bootstrap-sass'
+gem 'rubocop', require: false

@@ -1,15 +1,37 @@
+require 'pagy'
 class ItemsController < ApplicationController
   def index
-    @items=Item.all
-    @invoices = Invoice.all
+
+    if params[:query].present?
+      # filtered data
+       @items = Item.where("name LIKE ?", "%#{params[:query]}%")
+    else
+      # all data
+      @items = Item.all
+      @invoices = Invoice.all
+
+    end
+
+    @pagy, @items = pagy(@items)
+
   end
+
 
   def show
     @item = Item.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = render_to_string pdf: "#{@item.id}", template: 'items/show.html.erb', layout: 'pdf.html.erb'
+        send_data pdf, filename: "#{@item.id}.pdf",type: 'application/pdf' , disposition: 'attachment'
+      end
+    end
   end
 
   def new
     @item = Item.new
+    @product = Product.all
     @invoices = Invoice.all
     @invoice_id=Invoice.all.pluck(:invoice_id)
   end
@@ -22,13 +44,6 @@ class ItemsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def download_pdf
-    item = Item.find(params[:id])
-    send_data generate_pdf(item),
-    filename: "#{item.name}.pdf",
-    type: "application/pdf"
   end
 
   def update
@@ -62,6 +77,9 @@ class ItemsController < ApplicationController
   def get_rate
     item = Item.find(params[:id])
     render json: {rate: item.rate }
+  end
+
+  def get_rate
   end
 
   private

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  rate: 1
+  tax_value: 1
+  gst: 1
+
+two:
+  name: MyString
+  rate: 1
+  tax_value: 1
+  gst: 1

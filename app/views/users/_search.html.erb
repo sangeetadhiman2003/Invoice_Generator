@@ -1,0 +1,10 @@
+<% if @results.present? %>
+  <h2>Search Results for "<%= params[:query] %>"</h2>
+  <ul>
+    <% @results.each do |user| %>
+      <li><%= user.name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No results found for "<%= @query %>".</p>
+<% end %>

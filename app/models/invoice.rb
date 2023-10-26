@@ -1,6 +1,7 @@
 class Invoice < ApplicationRecord
   belongs_to :user
-  has_many :items
+  belongs_to :client
+  has_many :items, dependent: :destroy
   has_one_attached :logo_image
   accepts_nested_attributes_for :items
 

@@ -1,8 +1,17 @@
 require "prawn"
 class UsersController < ApplicationController
+
   def index
-    @users = User.all
+    if params[:query].present?
+      # filtered data
+       @users = User.where("name LIKE ?", "%#{params[:query]}%")
+    else
+      # all data
+      @users = User.all
+    end
+
   end
+
 
   def new
     @user = User.new
@@ -11,7 +20,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-       redirect_to @invoice.user
+       flash[:notice] = "User was successfully created."
+       redirect_to @user
     else
        render :new, status: :unprocessable_entity
     end
@@ -22,15 +32,11 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.pdf { render pdf: generate_pdf(@user) }
+      format.pdf do
+        pdf = render_to_string pdf: "#{@user.id}", template: 'users/show.html.erb', layout: 'pdf.html.erb'
+        send_data pdf, filename: "#{@user.name}.pdf",type: 'application/pdf' , disposition: 'attachment'
+      end
     end
-  end
-
-  def download_pdf
-    user = User.find(params[:id])
-    send_data generate_pdf(user),
-    filename: "#{user.name}.pdf",
-    type: "application/pdf"
   end
 
   def edit
@@ -47,11 +53,26 @@ class UsersController < ApplicationController
     end
   end
 
+  def duplicate
+    original_user = User.find(params[:id])
+    new_user = original_user.dup
+    new_user.save
+
+    redirect_to user_path, notice: 'Product duplicated successfully'
+  end
+
+  def restore
+    @user = User.only_deleted.find(params[:id])
+    @user.restore_id!
+
+    redirect_to users_path, notice: 'User has been restored.'
+  end
+
   def destroy
     @user = User.find(params[:id])
     @user.destroy
 
-    redirect_to root_path, status: :see_other
+    redirect_to users_path, notice: 'User was moved to the recycle bin.'
   end
 
   def send_email_user

@@ -3,11 +3,11 @@ class Item < ApplicationRecord
 ITEM_TYPES = ['Laptop', 'Mobile', 'Watch' ]
 
   belongs_to :invoice
+  belongs_to :product
 
-  validates :name, presence: true
-  validates :rate, presence: true
-  validates :quantity, presence: true
-  validates :amountPaid, presence: true
-  validates :gst, presence: true
-  validates :tax_value, presence: true
+  def calculate_total
+    subtotal = product.rate
+    total_tax = product.tax_value + (product.rate * (product.gst)/100)
+    subtotal + total_tax
+  end
 end

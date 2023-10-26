@@ -3,14 +3,27 @@ class InvoicesController < ApplicationController
   def index
     @invoices = Invoice.all
     @items = Item.all
+    @clients = Client.all
   end
 
   def show
     @invoice = Invoice.find(params[:id])
+    @items = @invoice.items
+
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = render_to_string pdf: "#{@invoice.id}", template: 'invoices/show.html.erb', layout: 'pdf.html.erb'
+        send_data pdf, filename: "#{@invoice.invoice_no}.pdf",type: 'application/pdf' , disposition: 'attachment'
+      end
+    end
   end
 
   def new
-    @users=User.all
+    @users = User.all
+    @clients = Client.all
+    @products = Product.all
     @invoice = Invoice.new
     @invoice.items.build
   end
@@ -21,12 +34,14 @@ class InvoicesController < ApplicationController
       redirect_to @invoice.user
     else
       @users=User.all
+      @clients = Client.all
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
     @users = User.all
+    @clients = Client.all
     @invoice = Invoice.find(params[:id])
   end
 
@@ -40,9 +55,12 @@ class InvoicesController < ApplicationController
     end
   end
 
-  def show_items
-    @invoice = Invoice.find(params[:id])
-    @items = @invoice.items
+  def duplicate
+    original_invoice = Invoice.find(params[:id])
+    new_invoice = original_invoice.dup
+    new_invoice.save
+
+    redirect_to invoice_path, notice: 'Product duplicated successfully'
   end
 
   def destroy
@@ -52,10 +70,16 @@ class InvoicesController < ApplicationController
     redirect_to root_path, status: :see_other
   end
 
+  def calculate_total
+    subtotal = product.rate
+    total_tax = product.tax_value + (product.rate * (product.gst)/100)
+    subtotal + total_tax
+  end
+
   private
 
   def invoice_params
     params.require(:invoice).permit(:invoice_no , :invoice_date , :due_date ,
-     :user_id , :terms_and_condition , :notes , :logo_image , items_attributes:[:name , :rate , :quantity , :amountPaid , :gst , :tax_value ,:invoice_id] )
+     :user_id , :client_id , :terms_and_condition , :notes , :logo_image , items_attributes: [:quantity, :amountPaid , :invoice_id, :product_id] )
   end
 end

@@ -21,7 +21,7 @@
         <td><%= @user.address %></td>
         <td><%= @user.pan %></td>
         <td><% if @user.signature_image.attached? %>
-        <%= image_tag @user.signature_image %>
+        <%= image_tag @user.signature_image, height:150, width:150 %>
        <% end %></td>
       </tr>
     </table>

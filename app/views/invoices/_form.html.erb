@@ -1,71 +1,90 @@
 
 <div>
- <div class="padding_top">
   <h1 style="background-color:powderblue;">TAX INVOICE</h1>
-  </div>
   <div class="form_invoice">
     <%= form_with(model: @invoice, local: true) do |f|%>
-      <div class="row g-3">
-   <div class="col">
-     <p>
-        <%= f.label 'Select User name' %>
-        <%= f.collection_select(:user_id, @users, :id , :name, prompt: true)  %>
-      </p>
-   </div>
-</div>
+    <div class="row g-3">
+      <div class="col">
+        <strong> <%= f.label 'Select User name' %></strong>
+        <%= f.collection_select(:user_id, @users, :id , :name, prompt: 'Please Select User')  %>
+      </div>
+      <div class="col">
+        <p>
+          <strong><%= f.label 'Select Client name' %></strong>
+          <%= f.collection_select(:client_id, @clients, :id , :name, prompt: 'Please Select Client') %>
+          </p>
+      </div>
+    </div>
 
-      <p>
-      <%= f.label 'image' %>
-       <%= f.file_field :logo_image %>
-      </p>
-
+    <p>
+    <%= f.label 'image' %>
+      <%= f.file_field :logo_image %>
+    </p>
+    <div class = "col">
       <p>
         <%= f.label 'invoice_no' %>
         <%= f.text_field :invoice_no %>
       </p>
+    </div>
+    <div class = "col">
       <p>
         <%= f.label 'invoice_date' %>
-        <%= f.text_field :invoice_date %>
+        <%= f.date_field :invoice_date , class: "datapicker" , data: {datapicker: true } %>
       </p>
+      </div>
       <div>
-        <%= f.fields_for :items do |item| %>
-          <table class="table">
-            <tr id="1">
-            <th>Item</th>
-              <th>Rate</th>
-              <th>Quantity</th>
-              <th>Tax Value</th>
-              <th>GST</th>
-              <th>Amount Paid</th>
-
-            </tr>
-            <tr>
-              <td><%= item.select :name, options_for_select(Item::ITEM_TYPES),
-              {  id: :item_name },{prompt: 'Select Item Type' } %></td>
-              <td><%= item.text_field :rate, id: 'item_rate',placeholder: "Rate" %></td>
-              <td><%= item.text_field :quantity, placeholder: "Quantity" %></td>
-              <td><%= item.text_field :tax_value, id: 'tax_value', placeholder: "Tax Value" %></td>
-              <td><%= item.text_field :gst, id: 'gst_value',  placeholder: "GST" %></td>
-              <td><%= item.text_field :amountPaid , placeholder: "Amount" %></td>
-            </tr>
-          </table>
-        <% end %>
         <div>
-        <%= link_to_add_association "Add Item", f, :items %>
-      <p>
-        <%= f.label 'notes' %>
-        <%= f.text_field :notes %>
-      </p>
-      <p>
-        <%= f.label 'terms_and_condition' %>
-        <%= f.text_field :terms_and_condition %>
-      </p>
-      <p>
-        <%= f.submit "submit" %>
-        <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
-      </p>
+          <%= f.fields_for :items do |item| %>
+            <div class="fields">
+              <p>
+                <strong><%= f.label 'Select product name' %></strong>
+                <%= item.collection_select(:product_id, Product.all, :id , :name, { prompt: 'Please Select product' }, { id: 'product_select' }) %>
+              </p>
+              <div id="product_attributes" style="display: none;">
+                 <table class = "table table-bordered">
+                  <tr>
+                    <th width="10%">Item</th>
+                    <th width="10%">Rate</th>
+                    <th width="10%">Tax Value</th>
+                    <th width="10%">GST</th>
+                    <th width="10%">Quantity</th>
+                    <th width="10%">Amount Paid</th>
+                  </tr>
+                  <tr>
+                    <td><span id="product_name"></span></td>
+                    <td><span id="product_rate"></span></td>
+                    <td><span id="product_tax_value"></span></td>
+                    <td><span id="product_gst"></span></td>
+                    <td><%= item.text_field :quantity, placeholder: "Quantity",size:"10" %></td>
+                    <td><%= item.text_field :amountPaid, placeholder:"Amount Paid",size:"10" %></td>
+                  </tr>
+                 </table>
+              </div>
+            </div>
+          <% end %>
+          <div>
+            <%= link_to_add_association "Add Item", f, :items %>
+          </div>
+        </div>
+          <div class = "row">
+           <div class = "col">
+              <%= f.label 'notes' %>
+              <%= f.text_area :notes %>
+            </div>
+            <div class = "col">
+              <%= f.label 'terms_and_condition' %>
+              <%= f.text_area :terms_and_condition %>
+            </div>
+        </div>
+        <div class = "row">
+          <div class = "col g-3" >
+            <%= f.submit "submit" , class: 'btn btn-dark' %>
+          </div>
+          <div class = "col g-3" >
+            <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </div>
-
-  <body>
+ </div>
 </div>

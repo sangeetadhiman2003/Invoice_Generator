@@ -1,35 +1,65 @@
-<center>
- <div class="form">
-    <div class="padding_top">
-      <h1 style="background-color:powderblue;">Client</h1>
-    </div>
-      <%= form_for Client.new do |f| %>
-      <p>
-      <%= f.label 'email' %>
-      <%= f.text_field :email, placeholder: "Enter Email" %>
-      <% @client.errors.full_messages_for(:email).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-      </p>
-      <p>
-      <%= f.label 'name' %>
-      <%= f.text_field :name, placeholder: "Enter Name" ,  class: "form-control" %>
-      </p>
+<html>
+ <head>
+  <script>
+    var products = <%= @products.to_json %>;
+  </script>
+ </head>
+  <center>
+  <div class="form">
+      <div class="padding_top">
+        <h1 style="background-color:powderblue;">Client</h1>
+      </div>
+      <%= form_with(model: @client, local: true) do |f|%>      <p>
+        <%= f.label 'email' %>
+        <%= f.text_field :email, placeholder: "Enter Email" %>
+        <% @client.errors.full_messages_for(:email).each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+        </p>
+        <p>
+        <%= f.label 'name' %>
+        <%= f.text_field :name, placeholder: "Enter Name" %>
+        <% @client.errors.full_messages_for(:name).each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+        </p>
         <p>
         <%= f.label 'address' %>
         <%= f.text_field :address, placeholder: "Enter Address" %>
+        <% @client.errors.full_messages_for(:address).each do |message| %>
+          <div><%= message %></div>
+        <% end %>
         </p>
-      <p>
-      <%= f.label 'state' %>
-      <%= f.text_field :state, placeholder: "Enter State" %>
+        <p>
+        <%= f.label 'city' %>
+        <%= f.text_field :city, placeholder: "Enter City" %>
+        <% @client.errors.full_messages_for(:city).each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+        </p>
+        <p>
+        <%= f.label 'phone' %>
+        <%= f.text_field :phone, placeholder: "Enter Contact " %>
+        <% @client.errors.full_messages_for(:phone).each do |message| %>
+          <div><%= message %></div>
+        <% end %>
+        </p>
+        <p>
+          <%= f.label 'State' %>
+          <%= f.select :state, options_for_select(User::STATE_TYPE), {prompt:"Select State" }%>
+          <% @client.errors.full_messages_for(:state).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+        </p>
+        <p>
+          <%= f.label 'image' %>
+          <%= f.file_field :signature_image %>
       </p>
-      <p>
-      <%= f.label 'city' %>
-      <%= f.text_field :city, placeholder: "Enter City" %>
-      </p>
-      <%= f.submit 'Submit'%>
-      </p>
-      <% end %>
+        <%= f.submit 'Submit'%>
+        </p>
+        <% end %>
+      </div>
+
     </div>
-  </div>
-</center>
+  </center>
+</html>

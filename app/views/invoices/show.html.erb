@@ -1,34 +1,89 @@
 <div class="padding_top">
-<center><h3 style="background-color:powderblue;">Invoice</h3></center>
-</div>
-<%= form_for Invoice.new , html: {id:'form2'} do |f| %>
-  <h3>
-  <%= f.label 'user Name:' %>
-  <%= @invoice.user&.name %>  </h3>
+ <h2 style="background-color:powderblue;">Item for Invoices <%= @invoice.id %></h2>
+<div>
+<center>
+  <h4>User: <%= @invoice.user.name %></h4>
+</center>
+<h5>Date: <%= @invoice.invoice_date %></h5>
+<table class="table table-bordered">
+ <thead>
+  <tr>
+    <th scope="col" class="col-1">Item</th>
+    <th scope="col" class="col-1">Rate</th>
+    <th scope="col" class="col-1">Quantity</th>
+    <th scope="col" class="col-1">Tax Value</th>
+    <th scope="col" class="col-1">GST</th>
+    <th scope="col" class="col-1">Amount Paid</th>
+  </tr>
+ </thead>
+  <% total = 0 %>
+  <% tax_value = 0 %>
+  <% amount_paid = 0 %>
+  <% sub_total = 0 %>
+  <% due_balance = 0 %>
+  <% if @items.present? %>
+    <% @items.each do |item| %>
+     <tbody>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.product.rate %></td>
+        <td><%= item.quantity %></td>
+        <td><%= item.product.tax_value %></td>
+        <td><%= item.product.gst %></td>
+        <td><%= item&.amountPaid %></td>
+      </tr>
+      <% tax_value = tax_value + (item.product.tax_value) %>
+      <% ans = (item.product.rate)*(item.product.gst)/100 %>
+      <% sub_total = sub_total + ans + (item.product.rate) %>
+      <% amount_paid = amount_paid + item&.amountPaid %>
 
-  <h3>
-  <%= f.label 'invoice_no:' %>
-  <%= @invoice.invoice_no %>  </h3>
-  <h3>
-  <%= f.label 'invoice_date:' %>
-  <%= @invoice.invoice_date %>  </h3>
-  <h3>
-  <%= f.label 'due_date:' %>
-  <%= @invoice.due_date %>  </h3>
-  <h3>
-  <%= f.label 'terms_and_condition:' %>
-  <%= @invoice.terms_and_condition %>  </h3>
-  <h3>
-  <%= f.label 'notes:' %>
-  <%= @invoice.notes %>  </h3>
-  <h3>
-  <%= f.label 'user_id:' %>
-  <%= @invoice.user_id %>  </h3>
+    <% end %>
+  <% else %>
+    <tr>
+      <td colspan = "4">NO Items Found For This Invoice. </td>
+    </tr>
+  <% end %>
+  <tr>
+   <th colspan="7"></th>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">Tax Value</td>
+    <td><%= tax_value %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">Sub Total</td>
+    <td><%= sub_total %></td>
+  </tr>
 
-  <div>
-    <% if @invoice.logo_image.attached? %>
-      <%= image_tag @invoice.logo_image %>
-      <% end %>
-  </div>
-<% end %>
+  <% total= sub_total + tax_value %>
+  <tr>
+    <td></td>
+    <td colspan="4">Total</td>
+    <td><%= total %></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="4">Discount</td>
+    <td><% if total > 50000 %>
+        <%= total-5000 %>
+        <% else %>
+        <%= "0.0" %>
+        <%end %>
+    </td>
+  </tr>
+  <tr>
+  <td></td>
+  <td colspan="4">Amount Paid</td>
+  <td><%= amount_paid %></td>
+</tr>
+<tr>
+    <td></td>
+    <td colspan="4">Due Balance</td>
+    <td><%= total - amount_paid  %></td>
+  </tr>
+ </tbody>
+</table>
+
 <%= link_to "Back", invoices_path, class: 'btn' %>
