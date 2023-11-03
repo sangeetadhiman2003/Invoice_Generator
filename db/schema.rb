@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_10_122732) do
+ActiveRecord::Schema.define(version: 2023_10_30_104451) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -54,20 +54,29 @@ ActiveRecord::Schema.define(version: 2023_10_10_122732) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_id"
+    t.index ["client_id"], name: "index_invoices_on_client_id"
     t.index ["user_id"], name: "index_invoices_on_user_id"
   end
 
   create_table "items", force: :cascade do |t|
-    t.string "name"
-    t.integer "rate"
-    t.string "quantity"
-    t.integer "hours"
-    t.integer "gst"
-    t.integer "tax_value"
+    t.decimal "quantity"
+    t.integer "amountPaid"
     t.integer "invoice_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "product_id"
     t.index ["invoice_id"], name: "index_items_on_invoice_id"
+    t.index ["product_id"], name: "index_items_on_product_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.integer "rate"
+    t.integer "tax_value"
+    t.integer "gst"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
