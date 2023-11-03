@@ -1,65 +1,81 @@
 <html>
- <head>
-  <script>
-    var products = <%= @products.to_json %>;
-  </script>
- </head>
-  <center>
   <div class="form">
       <div class="padding_top">
         <h1 style="background-color:powderblue;">Client</h1>
       </div>
-      <%= form_with(model: @client, local: true) do |f|%>      <p>
-        <%= f.label 'email' %>
-        <%= f.text_field :email, placeholder: "Enter Email" %>
-        <% @client.errors.full_messages_for(:email).each do |message| %>
-          <div><%= message %></div>
-        <% end %>
-        </p>
-        <p>
-        <%= f.label 'name' %>
-        <%= f.text_field :name, placeholder: "Enter Name" %>
-        <% @client.errors.full_messages_for(:name).each do |message| %>
-          <div><%= message %></div>
-        <% end %>
-        </p>
-        <p>
-        <%= f.label 'address' %>
-        <%= f.text_field :address, placeholder: "Enter Address" %>
-        <% @client.errors.full_messages_for(:address).each do |message| %>
-          <div><%= message %></div>
-        <% end %>
-        </p>
-        <p>
-        <%= f.label 'city' %>
-        <%= f.text_field :city, placeholder: "Enter City" %>
-        <% @client.errors.full_messages_for(:city).each do |message| %>
-          <div><%= message %></div>
-        <% end %>
-        </p>
-        <p>
-        <%= f.label 'phone' %>
-        <%= f.text_field :phone, placeholder: "Enter Contact " %>
-        <% @client.errors.full_messages_for(:phone).each do |message| %>
-          <div><%= message %></div>
-        <% end %>
-        </p>
-        <p>
-          <%= f.label 'State' %>
-          <%= f.select :state, options_for_select(User::STATE_TYPE), {prompt:"Select State" }%>
+    <div class="row">
+      <div class="col-md-6">
+        <%= form_with(model: @client, local: true) do |f|%>
+          <div class="mb-3 row">
+            <%= f.label 'email', class:"col-sm-2 col-form-control" %>
+          <div class="col">
+          <%= f.text_field :email, placeholder: "Enter Email", class:"form-control" %>
+          <% @client.errors.full_messages_for(:email).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+            <%= f.label 'name', class:"col-sm-2 col-form-label",id: "name-field"  %>
+          <div class="col">
+          <%= f.text_field :name, placeholder: "Enter Name", class:"form-control" %>
+          <% @client.errors.full_messages_for(:name).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+            <%= f.label 'address', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.text_field :address, placeholder: "Enter Address", class:"form-control" %>
+          <% @client.errors.full_messages_for(:address).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+            <%= f.label 'city', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.text_field :city, placeholder: "Enter City", class:"form-control" %>
+          <% @client.errors.full_messages_for(:city).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+            <%= f.label 'phone', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.text_field :phone, placeholder: "Enter Phone", class:"form-control" %>
+          <% @client.errors.full_messages_for(:phone).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+            <%= f.label 'Select state ', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.select :state, options_for_select(Client::STATE_TYPE), {prompt:"Select State" } ,class:"form-control"  %>
           <% @client.errors.full_messages_for(:state).each do |message| %>
             <div><%= message %></div>
           <% end %>
-        </p>
-        <p>
-          <%= f.label 'image' %>
-          <%= f.file_field :signature_image %>
-      </p>
-        <%= f.submit 'Submit'%>
-        </p>
+          </div>
+        </div>
+        <div class="mb-3 row">
+            <%= f.label 'Please  ',  class:"col-sm-2 col-form-label" %>
+          <div class="col">
+            <%= f.file_field :signature_image , id:"formFile" , class:"form-control"%>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col">
+          <%= f.submit 'Submit'%>
+          </div>
+        </div>
         <% end %>
       </div>
-
+      <div class="col-md-6">
+      <%= image_tag('https://media.istockphoto.com/id/1355236544/photo/abstract-illuminated-modern-laptop.webp?b=1&s=170667a&w=0&k=20&c=WEZon8llJ7v4YrrRQPmAxz7TdyR3nTtTQiKFHDvy7oA=', size: '550x318') %>
+      </div>
     </div>
-  </center>
+  </div>
 </html>

@@ -27,7 +27,7 @@
     </table>
   <% end %>
   <br>
-  <%= link_to "Generate Pdf", download_pdf_client_path(@client), format: :pdf %>
+  <%= link_to "Generate Pdf", download_pdf_client_path(@client), format: :pdf, class: "link-body-emphasis"  %>
    <br><br>
   <%= link_to "Back" , clients_path, class: 'btn btn-inverse' %>
 </div>

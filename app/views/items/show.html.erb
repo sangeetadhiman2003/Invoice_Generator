@@ -16,11 +16,11 @@
       </tr>
       <% total = 0 %>
       <tr>
-        <td><%=@item.product.name %></td>
-        <td><%= @item.product.rate %></td>
+        <td><%=@item.product&.name %></td>
+        <td><%= @item.product&.rate %></td>
         <td><%= @item.quantity %></td>
-        <td><%= @item.product.tax_value %></td>
-        <td><%= @item.product.gst %></td>
+        <td><%= @item.product&.tax_value %></td>
+        <td><%= @item.product&.gst %></td>
         <td><%= @item.amountPaid %></td>
       </tr>
       <% total = (@item.product.tax_value) * (@item.product.gst) %>

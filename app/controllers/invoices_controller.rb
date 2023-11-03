@@ -4,11 +4,14 @@ class InvoicesController < ApplicationController
     @invoices = Invoice.all
     @items = Item.all
     @clients = Client.all
+    @users = User.all.sort_by { |user| [user.name.downcase, user.name] }
   end
 
   def show
     @invoice = Invoice.find(params[:id])
     @items = @invoice.items
+
+    total_value = @invoice.calculate_total_tax
 
 
     respond_to do |format|
@@ -40,9 +43,10 @@ class InvoicesController < ApplicationController
   end
 
   def edit
-    @users = User.all
-    @clients = Client.all
     @invoice = Invoice.find(params[:id])
+    @users = User.all
+    @product = Product.all
+    @clients = Client.all
   end
 
   def update
@@ -67,7 +71,7 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
     @invoice.destroy
 
-    redirect_to root_path, status: :see_other
+    redirect_to invoices_path, status: :see_other
   end
 
   def calculate_total
@@ -79,7 +83,6 @@ class InvoicesController < ApplicationController
   private
 
   def invoice_params
-    params.require(:invoice).permit(:invoice_no , :invoice_date , :due_date ,
-     :user_id , :client_id , :terms_and_condition , :notes , :logo_image , items_attributes: [:quantity, :amountPaid , :invoice_id, :product_id] )
+    params.require(:invoice).permit(:id, :invoice_no , :invoice_date , :due_date , :user_id , :client_id , :terms_and_condition , :notes , :logo_image , items_attributes: [:id, :quantity, :amountPaid , :invoice_id, :product_id, :_destroy] )
   end
 end

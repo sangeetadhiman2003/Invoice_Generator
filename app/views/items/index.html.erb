@@ -3,13 +3,14 @@
 <div class="padding_top">
 <h1 style="background-color:powderblue;">Listing Items Details</h1>
 </div>
-<div>
+<div class="form-group">
 <%= form_tag items_path, method: :get do %>
   <%= label_tag 'product_name', 'Search by Product Name:' %>
   <%= text_field_tag 'product_name' %>
   <%= submit_tag 'Search' %>
 <% end %>
 </div>
+<br>
 <% if @items.present? %>
   <table>
     <thead>
@@ -26,9 +27,10 @@
 
     <tbody>
       <% @items.each do |item| %>
+
         <tr>
-          <td><%= highlight(item.product.name, params[:search]) %></td>
-          <td><%= item.product.rate %></td>
+          <td><%= highlight(item.product&.name, params[:search]) %></td>
+          <td><%= item.product&.rate %></td>
           <td><%= item.quantity %></td>
           <td> <%= link_to item_path(item, format: :pdf), class: "link-body-emphasis" do %>
             <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBmY1HEr3yq0hzsiu9tvMvbZbjXePTgEbzrjwdpTmR-HYCUD-aIxzapel0HGuHlF6j3WA&usqp=CAU",size: '30x30' %>
@@ -41,7 +43,7 @@
       <% end %>
     </tbody>
   </table>
-  <% else %>
+<% else %>
   <p>No results found for "<%= @query %>".</p>
 <% end %>
 <hr>

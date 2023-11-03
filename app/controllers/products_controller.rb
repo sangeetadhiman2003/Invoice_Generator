@@ -11,7 +11,7 @@ class ProductsController < ApplicationController
       gst: @product.gst,
       tax_value: @product.tax_value,
       rate: @product.rate
-  }
+    }
 
     # render json: @product.slice(:name, :rate, :tax_value, :gst)
   end

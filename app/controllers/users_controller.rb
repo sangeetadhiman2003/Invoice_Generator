@@ -7,11 +7,10 @@ class UsersController < ApplicationController
        @users = User.where("name LIKE ?", "%#{params[:query]}%")
     else
       # all data
-      @users = User.all
+      @users = User.all.sort_by { |user| [user.name.downcase, user.name] }
     end
 
   end
-
 
   def new
     @user = User.new
@@ -54,7 +53,6 @@ class UsersController < ApplicationController
   end
 
   def duplicate
-    debugger
     original_user = User.find(params[:id])
     new_user = original_user.dup
 
@@ -90,8 +88,60 @@ class UsersController < ApplicationController
     @subject = "Greeting"
     @message = "Welcome..!"
 
-    OrderMailer.send_email(@user, @subject, @message).deliver_now
-    redirect_to root_path, notice: "Email send successfully"
+    OrderMailer.send_email(@user).deliver_now
+    redirect_to user_path(@user), notice: "Email send successfully"
+  end
+
+  def share_email
+    selected_user_ids = params[:user_ids] || []
+    selected_users = User.where(id: selected_user_ids)
+
+    # Your logic to send an email to the selected users
+    selected_users.each do |user|
+      OrderMailer.send_email(user).deliver_now
+    end
+
+    redirect_to users_path, notice: 'Email shared with selected users.'
+  end
+
+  def delete_image
+    user = User.find(params[:id])
+
+    begin
+      user.signature_image.purge  # Assuming "avatar" is the name of the attachment.
+      flash[:notice] = "Image deleted successfully."
+    rescue => e
+      flash[:notice] = "Failed to delete the image: #{e.message}"
+    end
+
+    redirect_to user_path(user)  # Redirect to the user's profile or wherever is appropriate.
+  end
+
+  def delete_selected
+    selected_user_ids = params[:user_ids] || []
+    User.where(id: selected_user_ids).destroy_all
+    redirect_to users_path, notice: 'Selected users deleted.'
+  end
+
+  def batch_action
+    batch_action = params[:batch_action]
+    selected_user_ids = params[:user_ids] || []
+
+    case batch_action
+    when 'delete'
+      User.where(id: selected_user_ids).destroy_all
+      redirect_to users_path, notice: 'Selected users deleted.'
+    when 'share_email'
+      selected_users = User.where(id: selected_user_ids)
+      # Your logic to send an email to the selected users
+      selected_users.each do |user|
+        OrderMailer.send_email(user).deliver_now
+      end
+      redirect_to users_path, notice: 'Email shared with selected users.'
+    else
+      # Handle unsupported batch actions
+      redirect_to users_path, alert: 'Invalid batch action.'
+    end
   end
 
   private

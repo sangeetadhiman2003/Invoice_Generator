@@ -11,6 +11,7 @@
         <th>Address</th>
         <th>Pan</th>
         <th>Image</th>
+        <th>Delete Image</th>
       </tr>
       <tr>
         <td> <%=@user.name %></td>
@@ -23,13 +24,14 @@
         <td><% if @user.signature_image.attached? %>
         <%= image_tag @user.signature_image, height:150, width:150 %>
        <% end %></td>
+       <td><%= link_to delete_image_user_path(@user),  method: :delete, data: { confirm: "Are you sure?" }, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-trash"><% end %></td>
       </tr>
     </table>
   <% end %>
   <br>
-  <%= link_to "Generate Pdf", download_pdf_user_path(@user), format: :pdf %>
+  <%= link_to "Generate Pdf", download_pdf_user_path(@user), format: :pdf , class: "link-body-emphasis"  %>
    <br><br>
-  <%= link_to "Send Email", send_email_user_user_path(@user), method: :post %>
+  <%= link_to "Send Email", send_email_user_user_path(@user), method: :post, class: "link-body-emphasis"  %>
   <br><br>
   <%= link_to "Back" , users_path, class: 'btn btn-inverse' %>
 </div>

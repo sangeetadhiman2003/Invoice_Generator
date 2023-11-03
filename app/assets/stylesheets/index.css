@@ -14,3 +14,12 @@
 .nav{
   color: black;
 }
+.scrollable-select {
+  max-height: 200px; /* Adjust the height as needed */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+}
+.highlighted {
+  background-color: yellow; /* Set your preferred highlight color */
+  font-weight: bold; /* Optionally, make the text bold */
+}

@@ -2,46 +2,74 @@
 <div>
   <h1 style="background-color:powderblue;">TAX INVOICE</h1>
   <div class="form_invoice">
-    <%= form_with(model: @invoice, local: true) do |f|%>
-    <div class="row g-3">
-      <div class="col">
-        <strong> <%= f.label 'Select User name' %></strong>
-        <%= f.collection_select(:user_id, @users, :id , :name, prompt: 'Please Select User')  %>
-      </div>
-      <div class="col">
-        <p>
-          <strong><%= f.label 'Select Client name' %></strong>
-          <%= f.collection_select(:client_id, @clients, :id , :name, prompt: 'Please Select Client') %>
-          </p>
-      </div>
-    </div>
+    <%= form_with(model: @invoice, local: true, id: 'form') do |f| %>
+      <div  class="mb-3 row">
+        <div class="col ">
+          <% if @users.present? %>
+            <div class="form-group">
+              <%= f.label :user, "Select a User" %>
+              <%= f.hidden_field :user_id, id: 'selected_user', class: 'form-control' %>
+              <input class="form-control" list="userDatalistOptions" id="user_search" placeholder="Type to search...">
 
-    <p>
-    <%= f.label 'image' %>
-      <%= f.file_field :logo_image %>
-    </p>
-    <div class = "col">
-      <p>
-        <%= f.label 'invoice_no' %>
-        <%= f.text_field :invoice_no %>
-      </p>
-    </div>
-    <div class = "col">
-      <p>
-        <%= f.label 'invoice_date' %>
-        <%= f.date_field :invoice_date , class: "datapicker" , data: {datapicker: true } %>
-      </p>
+              <datalist id="userDatalistOptions">
+                <% User.order(:name).all.each do |user| %>
+                  <option value="<%= user.name %>" data-id="<%= user.id %>">
+                <% end %>
+              </datalist>
+            </div>
+          <% end %>
+        </div>
+        <div class="col ">
+          <% if @clients.present? %>
+              <div class="form-group">
+              <%= f.label :client, "Select a Client" %>
+              <%= f.hidden_field :client_id, id: 'selected_clients', class: 'form-control' %>
+              <input class="form-control" list="clientDatalistOptions" id="clients_search" placeholder="Type to search...">
+
+              <datalist id="clientDatalistOptions">
+                <% Client.order(:name).all.each do |client| %>
+                  <option value="<%= client.name %>" data-id="<%= client.id %>">
+                <% end %>
+              </datalist>
+            </div>
+         <% end %>
+        </div>
       </div>
-      <div>
-        <div>
+      <br>
+      <div class="mb-3 row">
+        <div class="col-sm-2 ">
+          <%= f.label 'Logo image' %>
+          <%= f.file_field :logo_image %>
+        </div>
+      </div>
+      <br>
+      <div class="row g-3">
+        <div class="col ">
+          <%= f.label 'invoice_no',class: "col-sm-2 col-form-label" %>
+          <%= f.text_field :invoice_no %>
+          <% @invoice.errors.full_messages_for(:invoice_no).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+        </div>
+        <div class="col ">
+          <%= f.label 'invoice_date', class: "col-sm-2 col-form-label" %>
+          <%= f.date_field :invoice_date , class: "datapicker" , data: {datapicker: true } %>
+          <% @invoice.errors.full_messages_for(:invoice_date).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+      <br>
+      <div class="row g-3">
+        <div class="col">
           <%= f.fields_for :items do |item| %>
-            <div class="fields">
-              <p>
-                <strong><%= f.label 'Select product name' %></strong>
-                <%= item.collection_select(:product_id, Product.all, :id , :name, { prompt: 'Please Select product' }, { id: 'product_select' }) %>
-              </p>
+            <%#= render 'item_fields', f: item %>
+            <div class = "fields">
+              <%= item.label :product_id, 'Select Product' %>
+                <%= item.collection_select :product_id, Product.all, :id, :name, { prompt: 'Please Select product' }, { id: 'product_select' } %>
+
               <div id="product_attributes" style="display: none;">
-                 <table class = "table table-bordered">
+                <table class = "table table-bordered">
                   <tr>
                     <th width="10%">Item</th>
                     <th width="10%">Rate</th>
@@ -58,33 +86,38 @@
                     <td><%= item.text_field :quantity, placeholder: "Quantity",size:"10" %></td>
                     <td><%= item.text_field :amountPaid, placeholder:"Amount Paid",size:"10" %></td>
                   </tr>
-                 </table>
-              </div>
+                </table>
             </div>
           <% end %>
-          <div>
-            <%= link_to_add_association "Add Item", f, :items %>
-          </div>
         </div>
-          <div class = "row">
-           <div class = "col">
-              <%= f.label 'notes' %>
-              <%= f.text_area :notes %>
-            </div>
-            <div class = "col">
-              <%= f.label 'terms_and_condition' %>
-              <%= f.text_area :terms_and_condition %>
-            </div>
+      </div>
+      <div class="links">
+        <strong><%= link_to_add_association "Add Item", f, :items, class: "link-body-emphasis" %></strong>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.label 'notes' %>
+          <%= f.text_area :notes %>
+          <% @invoice.errors.full_messages_for(:notes).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
         </div>
-        <div class = "row">
-          <div class = "col g-3" >
-            <%= f.submit "submit" , class: 'btn btn-dark' %>
-          </div>
-          <div class = "col g-3" >
-            <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
-          </div>
+        <div class="col">
+          <%= f.label 'terms_and_condition' %>
+          <%= f.text_area :terms_and_condition %>
+          <% @invoice.errors.full_messages_for(:terms_and_condition).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col g-3" >
+          <%= f.submit "submit", class: 'btn btn-dark' %>
+        </div>
+        <div class="col g-3" >
+          <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
         </div>
       </div>
     <% end %>
- </div>
+  </div>
 </div>

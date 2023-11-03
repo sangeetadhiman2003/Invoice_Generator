@@ -1,58 +1,83 @@
 <div class="form">
- <div class="padding_top">
+  <div>
   <h1 style="background-color:powderblue;">User</h1>
- </div>
- <%= form_with(model: @user, local: true) do |f|%>
-  <p>
-  <%= f.label 'email' %>
-  <%= f.text_field :email, placeholder: "Enter Email" %>
-  <% @user.errors.full_messages_for(:email).each do |message| %>
-    <div><%= message %></div>
-  <% end %>
-  </p>
-  <p>
-  <%= f.label 'name' %>
-  <%= f.text_field :name, placeholder: "Enter Name" %>
-  <% @user.errors.full_messages_for(:name).each do |message| %>
-    <div><%= message %></div>
-  <% end %>
-  </p>
-  <p>
-  <%= f.label 'address' %>
-  <%= f.text_field :address, placeholder: "Enter Address" %>
-  <% @user.errors.full_messages_for(:address).each do |message| %>
-    <div><%= message %></div>
-  <% end %>
-  </p>
-  <p>
-  <%= f.label 'city' %>
-  <%= f.text_field :city, placeholder: "Enter City" %>
-  <% @user.errors.full_messages_for(:city).each do |message| %>
-    <div><%= message %></div>
-  <% end %>
-  </p>
-  <p>
-  <%= f.label 'phone' %>
-  <%= f.text_field :phone, placeholder: "Enter Contact " %>
-  <% @user.errors.full_messages_for(:phone).each do |message| %>
-    <div><%= message %></div>
-  <% end %>
-  </p>
-  <p>
-    <%= f.label 'State' %>
-    <%= f.select :state, options_for_select(User::STATE_TYPE), {prompt:"Select State" }%>
-    <% @user.errors.full_messages_for(:state).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
-  </p>
-  <p>
-    <%= f.label 'image' %>
-    <%= f.file_field :signature_image %>
- </p>
-  <%= f.submit 'Submit'%>
-  </p>
-  <% end %>
-
-
-
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <%= form_with(model: @user, local: true) do |f|%>
+        <div class="mb-3 row">
+          <div class="col-sm-2 ">
+          <%= f.label 'email', class:"col-sm-2 col-form-control" %>
+          </div>
+          <div class="col">
+          <%= f.text_field :email, placeholder: "Enter Email", class:"form-control" %>
+          <% @user.errors.full_messages_for(:email).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <%= f.label 'name', class:"col-sm-2 col-form-label",id: "name-field" %>
+          <div class="col">
+          <%= f.text_field :name, placeholder: "Enter Name", class:"form-control" %>
+          <% @user.errors.full_messages_for(:name).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <%= f.label 'address', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.text_field :address, placeholder: "Enter Address", class:"form-control" %>
+          <% @user.errors.full_messages_for(:address).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+           <%= f.label 'city', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.text_field :city, placeholder: "Enter City", class:"form-control" %>
+          <% @user.errors.full_messages_for(:city).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <%= f.label 'phone', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.text_field :phone, placeholder: "Enter Phone", class:"form-control" %>
+          <% @user.errors.full_messages_for(:phone).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <%= f.label 'Select state ', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.select :state, options_for_select(User::STATE_TYPE), {prompt:"Select State" } ,class:"form-control"  %>
+          <% @user.errors.full_messages_for(:state).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+           <%= f.label 'Please  ',  class:"col-sm-2 col-form-label" %>
+          <div class="col">
+            <%= f.file_field :signature_image , id:"formFile" , class:"form-control"%>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col">
+          <%= f.submit 'Submit'%>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <%= image_tag('https://image.shutterstock.com/image-photo/butterfly-grass-on-meadow-night-260nw-1111729556.jpg', size: '550x335') %>
+    </div>
+    <div class="col-md-2">
+  </div>
+  </div>
 </div>

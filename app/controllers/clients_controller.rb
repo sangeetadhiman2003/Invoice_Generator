@@ -2,7 +2,7 @@ require "prawn"
 class ClientsController < ApplicationController
 
   def index
-    @clients = Client.all
+    @clients = Client.all.sort_by { |client| [client.name.downcase, client.name] }
   end
 
   def show
@@ -42,7 +42,7 @@ class ClientsController < ApplicationController
   def update
     @client = Client.find(params[:id])
 
-    if @client.update(article_params)
+    if @client.update(client_params)
       redirect_to @client
     else
       render :edit, status: :unprocessable_entity

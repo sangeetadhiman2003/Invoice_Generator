@@ -13,9 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
 //= require cocoon
 //= require moment
 //= require daterangepicker
 //= require bootstrap
 //= require jquery.turbolinks
+//= require_tree .

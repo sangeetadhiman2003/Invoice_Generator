@@ -2,12 +2,13 @@ require 'pagy'
 class ItemsController < ApplicationController
   def index
     if params[:product_name].present?
-      product = Product.find_by(name: params[:product_name])
-      if product
-        @items = Item.where(product_id: product.id)
+      search_word = params[:product_name]
+      if search_word
+        @items = Item.joins(:product).where("products.name LIKE ?", "%#{search_word}%")
       else
         @items = Item.none
       end
+
     else
       @items = Item.all
     end
@@ -92,8 +93,6 @@ class ItemsController < ApplicationController
       text "Name: #{item.name}"
       text "Rate: #{item.rate}"
       text "Quantity: #{item.quantity}"
-
-
     end.render
   end
 end

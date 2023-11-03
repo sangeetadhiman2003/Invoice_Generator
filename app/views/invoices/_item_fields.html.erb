@@ -1,9 +1,9 @@
 <div class = "nested-fields">
   <%= f.label :product_id, 'Select Product' %>
-  <%= f.collection_select :product_id, Product.all, :id, :name, { prompt: 'Please Select product' }, { id: 'product_select' } %>
+  <%= f.collection_select :product_id, Product.all, :id, :name, { prompt: 'Please Select product' }, { class: 'product-select' } %>
 
   <div class="product_attributes" style="display: none;">
-    <table class = "table table-bordered">
+    <table class = "table table-striped">
       <tr>
         <th width="10%">Item</th>
         <th width="10%">Rate</th>
@@ -21,8 +21,8 @@
         <td><%= f.text_field :amountPaid, placeholder:"Amount Paid",size:"10" %></td>
       </tr>
     </table>
-   </div>
+  </div>
 
-   <%= link_to_remove_association 'Remove Item', f %>
+  <%= link_to_remove_association 'Remove Item', f , class: "link-body-emphasis" %>
   </div>
 </div>

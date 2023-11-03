@@ -14,6 +14,12 @@ Rails.application.routes.draw do
       get 'duplicate'
       delete 'soft_delete'
       post 'restore'
+      delete 'delete_image'
+    end
+    collection do
+      delete 'delete_selected'
+      post 'share_email'
+      post 'batch_action'
     end
 
   end

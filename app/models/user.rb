@@ -17,4 +17,8 @@ class User < ApplicationRecord
     self.update(deleted_at: nil)
   end
 
+  def name=(value)
+    super(value.to_s.titleize)
+  end
+
 end
