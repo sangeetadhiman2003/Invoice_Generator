@@ -28,12 +28,52 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    selected_layout = params[:layout]
 
     respond_to do |format|
       format.html
       format.pdf do
         pdf = render_to_string pdf: "#{@user.id}", template: 'users/show.html.erb', layout: 'pdf.html.erb'
         send_data pdf, filename: "#{@user.name}.pdf",type: 'application/pdf' , disposition: 'attachment'
+      end
+    end
+  end
+
+
+
+  # def download_pdf
+  #   @user = User.find(params[:id])
+  #   selected_layout = params[:layout] || 'default_layout'
+  #   # UserPdfGeneratorJob.perform_async(@user.id)
+
+  #   respond_to do |format|
+  #     format.html { render 'show' }
+  #     format.pdf do
+  #       render pdf: 'user_details',
+  #              template: 'users/show.html.erb',
+  #              layout: "pdf/#{selected_layout}.html.erb",
+  #              xhr: false
+  #     end
+  #   end
+  # end
+
+  def download_pdf
+    @user = User.find(params[:id])
+    selected_layout = params[:layout] || 'default_layout'
+
+    respond_to do |format|
+      format.html { render 'show' }
+      format.pdf do
+        html_content = render_to_string(template: 'users/show.html.erb')
+        template_path = 'users/show.html.erb' # Adjust the path as needed
+
+        # Pass HTML content and template information to the job
+        UserPdfGeneratorJob.perform_async(@user.id, html_content, template_path, selected_layout)
+
+        render pdf: 'user_details',
+               template: 'users/show.html.erb',
+               layout: "pdf/#{selected_layout}.html.erb",
+               xhr: false
       end
     end
   end
@@ -92,18 +132,6 @@ class UsersController < ApplicationController
     redirect_to user_path(@user), notice: "Email send successfully"
   end
 
-  def share_email
-    selected_user_ids = params[:user_ids] || []
-    selected_users = User.where(id: selected_user_ids)
-
-    # Your logic to send an email to the selected users
-    selected_users.each do |user|
-      OrderMailer.send_email(user).deliver_now
-    end
-
-    redirect_to users_path, notice: 'Email shared with selected users.'
-  end
-
   def delete_image
     user = User.find(params[:id])
 
@@ -128,20 +156,34 @@ class UsersController < ApplicationController
     selected_user_ids = params[:user_ids] || []
 
     case batch_action
+
     when 'delete'
+
       User.where(id: selected_user_ids).destroy_all
       redirect_to users_path, notice: 'Selected users deleted.'
+
     when 'share_email'
+
       selected_users = User.where(id: selected_user_ids)
-      # Your logic to send an email to the selected users
+
       selected_users.each do |user|
-        OrderMailer.send_email(user).deliver_now
+        EmailSenderJob.perform_async(user.id)
+        #OrderMailer.send_email(user).deliver_now
       end
+
+      flash[:notice] = "Emails are being sent in the background."
+
       redirect_to users_path, notice: 'Email shared with selected users.'
     else
-      # Handle unsupported batch actions
+
       redirect_to users_path, alert: 'Invalid batch action.'
     end
+  end
+
+
+
+  def select_all
+    selected_user_ids = params[:selected_user_ids]
   end
 
   private
@@ -150,13 +192,4 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :address, :state, :city, :gstin, :pan, :phone, :signature_image)
   end
 
-  def generate_pdf(user)
-    Prawn::Document.new do
-      text user.name, align: :center
-      text "Address: #{user.address}"
-      text "Email: #{user.email}"
-      text "City: #{user.city}"
-      text "City: #{user.state}"
-    end.render
-  end
 end

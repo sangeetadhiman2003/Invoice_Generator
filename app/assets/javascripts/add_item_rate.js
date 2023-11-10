@@ -6,8 +6,10 @@ $(document).on('turbolinks:load', function() {
 
 
 $(document).on('cocoon:after-insert', function(e, insertedItem) {
+
   var select = insertedItem.find('.product-select');
   select.on('change', function() {
+
     handleProductSelection(select);
 
   });
@@ -75,5 +77,56 @@ $(document).ready(function() {
       // Clear the hidden field if no match is found
       $('#selected_clients').val('');
     }
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const deselectAllButton = document.getElementById('deselect-all-button');
+  const userCheckboxes = document.querySelectorAll('input[name="user_ids[]"]');
+
+  deselectAllButton.addEventListener('click', function() {
+    userCheckboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+    });
+  });
+});
+
+
+$(document).ready(function() {
+  $('#select-all-checkbox').click(function() {
+    // Toggle the selection state of all user checkboxes
+    $('.user-checkbox').prop('checked', this.checked);
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const deselectAllButton = document.getElementById('deselect-all-button');
+  const userCheckboxes = document.querySelectorAll('input[name="invoice_ids[]"]');
+
+  deselectAllButton.addEventListener('click', function() {
+    userCheckboxes.forEach(function(checkbox) {
+      checkbox.checked = false;
+    });
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  var layoutSelect = document.getElementById('layout_select');
+  var layoutHiddenInput = document.getElementById('layout_hidden_input');
+  var generatePdfLink = document.getElementById('generate_pdf_link');
+
+  layoutSelect.addEventListener('change', function() {
+    var selectedLayout = layoutSelect.value;
+    console.log('Selected Layout:', selectedLayout); // Add this line
+    generatePdfLink.dataset.layout = selectedLayout;
+
+    layoutHiddenInput.value = selectedLayout;
+    console.log(layoutHiddenInput.value);
+
+    // Update the data-layout attribute of the "Generate PDF" button
+    generatePdfLink.dataset.layout = selectedLayout;
+
   });
 });

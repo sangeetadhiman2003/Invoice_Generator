@@ -1,24 +1,39 @@
+require 'combine_pdf'
 class InvoicesController < ApplicationController
 
   def index
-    @invoices = Invoice.all
-    @items = Item.all
-    @clients = Client.all
-    @users = User.all.sort_by { |user| [user.name.downcase, user.name] }
+
+
+    @layouts = [
+      ['Layout A'],
+      ['Layout B'],
+      ['Layout C'],
+    ]
+
+    if params[:query].present?
+      # filtered data
+       @invoices = Invoice.where("invoice_date LIKE ?", "%#{params[:query]}%")
+    else
+      # all data
+      @invoices = Invoice.all
+      @items = Item.all
+      @clients = Client.all
+      @users = User.all.sort_by { |user| [user.name.downcase, user.name] }
+
+    end
+
   end
 
   def show
     @invoice = Invoice.find(params[:id])
     @items = @invoice.items
 
-    total_value = @invoice.calculate_total_tax
-
-
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = render_to_string pdf: "#{@invoice.id}", template: 'invoices/show.html.erb', layout: 'pdf.html.erb'
-        send_data pdf, filename: "#{@invoice.invoice_no}.pdf",type: 'application/pdf' , disposition: 'attachment'
+        html_content = render_to_string(layout: 'layouts/pdf_layout', template: 'invoices/show.html.erb', locals: { invoice: @invoice })
+
+      render pdf: 'invoice.pdf', layout: 'layouts/pdf_layout', content: html_content
       end
     end
   end
@@ -74,15 +89,48 @@ class InvoicesController < ApplicationController
     redirect_to invoices_path, status: :see_other
   end
 
-  def calculate_total
-    subtotal = product.rate
-    total_tax = product.tax_value + (product.rate * (product.gst)/100)
-    subtotal + total_tax
+
+  def batch_action
+    batch_action = params[:batch_action]
+    selected_invoice_ids = params[:invoice_ids] || []
+
+    case batch_action
+      when 'delete'
+        Invoice.where(id: selected_invoice_ids).destroy_all
+        redirect_to invoices_path, notice: 'Selected invoices deleted.'
+      when 'generate_pdf'
+        selected_invoice_ids = params[:invoice_ids]
+        selected_layout = params[:layout]
+        debugger
+        invoices = Invoice.where(id: selected_invoice_ids)
+        #PdfGeneratorJob.perform_async(invoices)
+
+
+        html_content = []
+
+        invoices.each do |invoice|
+          @invoice = invoice
+          @items = @invoice.items
+          html_content << render_to_string(layout: "pdf/#{selected_layout}.html.erb", template: 'invoices/show.html.erb', locals: { invoice: @invoice })
+        end
+
+        combined_html = html_content.join("\n")
+
+        pdf_data = WickedPdf.new.pdf_from_string(combined_html)
+
+        send_data pdf_data, type: "application/pdf", filename: "combined_invoices.pdf"
+
+
+      else
+        redirect_to invoices_path, alert: 'Invalid batch action.'
+      end
   end
+
 
   private
 
   def invoice_params
     params.require(:invoice).permit(:id, :invoice_no , :invoice_date , :due_date , :user_id , :client_id , :terms_and_condition , :notes , :logo_image , items_attributes: [:id, :quantity, :amountPaid , :invoice_id, :product_id, :_destroy] )
   end
+
 end

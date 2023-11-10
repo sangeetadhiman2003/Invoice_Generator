@@ -14,23 +14,29 @@
         <th>Delete Image</th>
       </tr>
       <tr>
-        <td> <%=@user.name %></td>
-        <td><%= @user.email %></td>
-        <td><%= @user.phone %></td>
-        <td><%= @user.state %></td>
-        <td><%= @user.city %></td>
-        <td><%= @user.address %></td>
-        <td><%= @user.pan %></td>
-        <td><% if @user.signature_image.attached? %>
-        <%= image_tag @user.signature_image, height:150, width:150 %>
+        <td> <%=@user&.name %></td>
+        <td><%= @user&.email %></td>
+        <td><%= @user&.phone %></td>
+        <td><%= @user&.state %></td>
+        <td><%= @user&.city %></td>
+        <td><%= @user&.address %></td>
+        <td><%= @user&.pan %></td>
+        <td><% if @user&.signature_image&.attached? %>
+        <%#= image_tag @user.signature_image, height:150, width:150 %>
        <% end %></td>
        <td><%= link_to delete_image_user_path(@user),  method: :delete, data: { confirm: "Are you sure?" }, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-trash"><% end %></td>
       </tr>
     </table>
   <% end %>
   <br>
-  <%= link_to "Generate Pdf", download_pdf_user_path(@user), format: :pdf , class: "link-body-emphasis"  %>
-   <br><br>
+
+  <%= form_tag download_pdf_user_path(@user, format: :pdf), method: :get, class: 'pdf-form' do %>
+    <%= label_tag 'layout', 'Select Layout:' %>
+    <%= select_tag 'layout', options_for_select([['Layout 1', 'user_layout'], ['Layout 2', 'user_layout2']]), class: 'select' %>
+    <%= submit_tag 'Generate PDF', class: 'btn btn-primary' %>
+  <% end %>
+
+  <br><br>
   <%= link_to "Send Email", send_email_user_user_path(@user), method: :post, class: "link-body-emphasis"  %>
   <br><br>
   <%= link_to "Back" , users_path, class: 'btn btn-inverse' %>

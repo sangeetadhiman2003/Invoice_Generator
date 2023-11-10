@@ -11,6 +11,10 @@
   <% end %>
 </div>
 <%= form_tag(batch_action_users_path, method: :post) do %>
+  <label>
+    <input type="checkbox" id="select-all-checkbox" />
+    Select All Users
+  </label>
   <% if @users.present? %>
     <table class="table table-striped">
       <thead>
@@ -32,7 +36,8 @@
       <tbody>
         <% @users.each do |user| %>
           <tr>
-            <td><%= check_box_tag 'user_ids[]', user.id %></td>
+            <td><%= check_box_tag 'user_ids[]', user.id, false, class: 'user-checkbox' %>
+            </td>
             <td><%= highlight(user.name, params[:search]) %></td>
             <td><%= user.id %></td>
             <td><%= user.address%></td>

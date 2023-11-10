@@ -63,10 +63,9 @@
       <div class="row g-3">
         <div class="col">
           <%= f.fields_for :items do |item| %>
-            <%#= render 'item_fields', f: item %>
             <div class = "fields">
               <%= item.label :product_id, 'Select Product' %>
-                <%= item.collection_select :product_id, Product.all, :id, :name, { prompt: 'Please Select product' }, { id: 'product_select' } %>
+              <%= item.collection_select :product_id, Product.all, :id, :name, { prompt: 'Please Select product' }, { id: 'product_select' } %>
 
               <div id="product_attributes" style="display: none;">
                 <table class = "table table-bordered">
@@ -87,6 +86,7 @@
                     <td><%= item.text_field :amountPaid, placeholder:"Amount Paid",size:"10" %></td>
                   </tr>
                 </table>
+              </div>
             </div>
           <% end %>
         </div>

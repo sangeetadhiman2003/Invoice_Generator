@@ -3,6 +3,7 @@ class User < ApplicationRecord
   acts_as_paranoid
 
   STATE_TYPE = ['MP', 'UP', 'MH', 'AP', 'RJ'].freeze
+  LAYOUT_TYPE = ['Simple', 'Stylish']
   has_many :invoices , dependent: :destroy
   has_one_attached :signature_image
 

@@ -70,3 +70,6 @@ gem 'wkhtmltopdf-binary'
 gem 'pagy'
 gem 'bootstrap-sass'
 gem 'rubocop', require: false
+gem 'sidekiq', '~> 6.3'
+gem 'redis' , '~> 4.0'
+gem 'combine_pdf'

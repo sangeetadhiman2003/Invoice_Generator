@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   root 'home#index'
 
   resources :clients do
@@ -35,6 +39,10 @@ Rails.application.routes.draw do
   resources :invoices do
     member do
       post 'duplicate'
+    end
+    collection do
+      post 'generate_pdf'
+      post 'batch_action'
     end
   end
 

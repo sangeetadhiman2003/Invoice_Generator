@@ -11,6 +11,7 @@ class Invoice < ApplicationRecord
   validates :user_id, presence: true
   validates :terms_and_condition, presence: true
 
+
   def calculate_total(item)
     item.quantity * item.product&.rate
   end

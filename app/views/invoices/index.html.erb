@@ -3,49 +3,80 @@
 <div class="padding_top">
 <h1 style="background-color:powderblue;">Listing Invoices Details</h1>
 </div>
+<div class="form-group">
+<%= form_tag(invoices_path, method: :get) do %>
+    <%= text_field_tag :query, params[:query], placeholder: "Search invoices by date..." %>
+    <%= submit_tag "Search" %>
+  <% end %>
+</div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Invoice Id</th>
-      <th>Invoie No</th>
-      <th>Invoice Date</th>
-      <th>User Name </th>
-      <th>User Id</th>
-      <th>Terms And Condition</th>
-      <th>PDF</th>
-      <th>Copy</th>
-      <th>Show</th>
-      <th>Edit</th>
-      <th>Destroy</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<%= hidden_field_tag 'layout', '', id: 'layout_hidden_input' %>
 
-  <tbody>
-    <% @invoices.each do |invoice| %>
-      <tr>
-        <td> <%= invoice.id %></td>
-         <td> <%= invoice.invoice_no %></td>
-         <td> <%= invoice.invoice_date %></td>
-         <td> <%= invoice.user&.name %></td>
-         <td> <%= invoice.user_id %></td>
-         <td> <%= invoice.terms_and_condition %></td>
-         <td> <%= link_to invoice_path(invoice, format: :pdf) do %>
-          <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBmY1HEr3yq0hzsiu9tvMvbZbjXePTgEbzrjwdpTmR-HYCUD-aIxzapel0HGuHlF6j3WA&usqp=CAU",size: '30x30' %>
-          <% end%></td>
-          <td><%= link_to  duplicate_invoice_path(invoice), method: :post do %>
-            <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVQXVHz7jyPmYqoLlr9XwC1WNNPy64ngScOw&usqp=CAU",size: '30x30' %>
-            <% end%>
-          </td>
-         <td><%= link_to invoice, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-eye-open
-         "><% end %></td>
-         <td><%= link_to edit_invoice_path(invoice), class: "link-body-emphasis" do %><span class="glyphicon glyphicon-pencil"<% end %></td>
-         <td><%= link_to invoice,  method: :delete, data: { confirm: "Are you sure?" } , class: "link-body-emphasis" do %><span class="glyphicon glyphicon-trash"><% end %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= form_with(url: batch_action_invoices_path, method: :post) do %>
+  <label>
+    <input type="checkbox" id="select-all-checkbox" />
+    Select All Invoices
+  </label>
+  <br>
+  <%= label_tag 'layout', 'Select Layout For Generating PDF:' %>
+  <%= select_tag 'layout', options_for_select([['Layout1', 'invoice_layout'], ['Layout2', 'invoice_layout2']]), class: 'select', class: "form-control" %>
+
+
+  <% if @invoices.present? %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Invoice Id</th>
+          <th>Invoie No</th>
+          <th>Invoice Date</th>
+          <th>User Name </th>
+          <th>User Id</th>
+          <th>Terms And Condition</th>
+          <th>PDF</th>
+          <th>Copy</th>
+          <th>Show</th>
+          <th>Edit</th>
+          <th>Destroy</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @invoices.each do |invoice| %>
+          <tr>
+            <td> <%= check_box_tag 'invoice_ids[]', invoice.id, false, class: 'user-checkbox' %></td>
+            <td> <%= invoice.invoice_no %></td>
+            <td> <%= invoice.invoice_date %></td>
+            <td> <%= invoice.user&.name %></td>
+            <td> <%= invoice.user_id %></td>
+            <td> <%= invoice.terms_and_condition %></td>
+            <td> <%= link_to invoice_path(invoice, format: :pdf) do %>
+              <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBmY1HEr3yq0hzsiu9tvMvbZbjXePTgEbzrjwdpTmR-HYCUD-aIxzapel0HGuHlF6j3WA&usqp=CAU",size: '30x30' %>
+              <% end%></td>
+              <td><%= link_to  duplicate_invoice_path(invoice), method: :post do %>
+                <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVQXVHz7jyPmYqoLlr9XwC1WNNPy64ngScOw&usqp=CAU",size: '30x30' %>
+                <% end%>
+              </td>
+            <td><%= link_to invoice, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-eye-open
+            "><% end %></td>
+            <td><%= link_to edit_invoice_path(invoice), class: "link-body-emphasis" do %><span class="glyphicon glyphicon-pencil"<% end %></td>
+            <td><%= link_to invoice,  method: :delete, data: { confirm: "Are you sure?" } , class: "link-body-emphasis" do %><span class="glyphicon glyphicon-trash"><% end %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  <% else %>
+    <p>No results found for "<%= @query %>".</p>
+  <% end %>
+
+  <%= submit_tag 'Delete Selected Users', name: 'batch_action', value: 'delete' , class:"btn btn-dark" %>
+
+
+  <%= submit_tag 'Generate PDF', name: 'batch_action', value: 'generate_pdf', class: 'btn btn-dark', id: 'generate_pdf_link' %>
+
+  <%= button_tag 'Deselect All', type: 'button', id: 'deselect-all-button', class:"btn btn-dark" %>
+<% end %>
 
 <hr>
 </body>

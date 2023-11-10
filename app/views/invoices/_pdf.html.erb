@@ -25,7 +25,7 @@
   <% ans = 0 %>
   <% total_gst = 0 %>
   <% if @items.present? %>
-    <% @invoice.items.each do |item| %>
+    <% @items.each do |item| %>
      <tbody>
       <tr>
         <td><%= item.product&.name %></td>

@@ -1,6 +1,8 @@
 require "letter_opener"
 class OrderMailer < ApplicationMailer
+
   default from: 'sangeetadhiman2003@gmail.com'
+
   def send_email(user)
    @user = user
    @subject = "Greeting"
