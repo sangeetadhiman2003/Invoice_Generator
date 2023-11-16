@@ -1,11 +1,37 @@
-<!-- app/views/layouts/pdf.html.erb -->
+
+
+
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>PDF Layout</title>
-    <%= wicked_pdf_stylesheet_link_tag 'application' %>
-  </head>
-  <body>
+ <style>
+  #invoice{
+
+    text-align: right;
+  }
+  #pdf-layout {
+    background-image: url('https://www.imageshine.in/uploads/gallery/Blue-Abstract-Background-free-Vector-image.png');
+    background-size: contain; /* Adjust to your needs */
+    background-position:flex; /* Adjust to your needs */
+    background-repeat: repeat;
+  }
+
+  #invoice_img{
+    text-align: left;
+  }
+
+ </style>
+<head>
+  <title>PDF Layout</title>
+  <link rel="stylesheet" href="<%= wicked_pdf_stylesheet_link_tag 'pdf_stylesheet' %>" media="all" />
+</head>
+<body>
+  <!-- Add an image to the layout -->
+  <div id="invoice_img"><img src="https://www.chargebee.com/blog/wp-content/uploads/2015/07/invoice-banner.png"  height="200" width="1000" </div>
+
+  <div id="pdf-layout">
     <%= yield %>
-  </body>
+  </div>
+
+
+</body>
 </html>

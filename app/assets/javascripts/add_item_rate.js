@@ -40,16 +40,20 @@ function handleProductSelection(select) {
 });
 
 
-document.addEventListener("DOMContentLoaded", function() {
-  const nameField = document.getElementById("name-field");
 
-  nameField.addEventListener("input", function() {
-    const inputValue = nameField.value;
-    if (inputValue.length > 0) {
-      nameField.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
-    }
+document.addEventListener("DOMContentLoaded", function() {
+  const nameFields = document.querySelectorAll(".name-field");
+
+  nameFields.forEach(function(nameField) {
+    nameField.addEventListener("input", function() {
+      const inputValue = nameField.value;
+      if (inputValue.length > 0) {
+        nameField.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+      }
+    });
   });
 });
+
 
 
 $(document).ready(function() {
@@ -80,7 +84,7 @@ $(document).ready(function() {
   });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('turbolinks:load', function() {
   const deselectAllButton = document.getElementById('deselect-all-button');
   const userCheckboxes = document.querySelectorAll('input[name="user_ids[]"]');
 
@@ -92,15 +96,22 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-$(document).ready(function() {
+document.addEventListener('turbolinks:load', function() {
   $('#select-all-checkbox').click(function() {
     // Toggle the selection state of all user checkboxes
     $('.user-checkbox').prop('checked', this.checked);
   });
+
+
+  $('#deselect_all_checkbox').change(function() {
+    var isChecked = $(this).prop('checked');
+    $('.item_checkbox').prop('checked', !isChecked);
+  });
+
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('turbolinks:load', function() {
   const deselectAllButton = document.getElementById('deselect-all-button');
   const userCheckboxes = document.querySelectorAll('input[name="invoice_ids[]"]');
 

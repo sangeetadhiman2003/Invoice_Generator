@@ -39,24 +39,6 @@ class UsersController < ApplicationController
     end
   end
 
-
-
-  # def download_pdf
-  #   @user = User.find(params[:id])
-  #   selected_layout = params[:layout] || 'default_layout'
-  #   # UserPdfGeneratorJob.perform_async(@user.id)
-
-  #   respond_to do |format|
-  #     format.html { render 'show' }
-  #     format.pdf do
-  #       render pdf: 'user_details',
-  #              template: 'users/show.html.erb',
-  #              layout: "pdf/#{selected_layout}.html.erb",
-  #              xhr: false
-  #     end
-  #   end
-  # end
-
   def download_pdf
     @user = User.find(params[:id])
     selected_layout = params[:layout] || 'default_layout'
@@ -74,6 +56,7 @@ class UsersController < ApplicationController
                template: 'users/show.html.erb',
                layout: "pdf/#{selected_layout}.html.erb",
                xhr: false
+
       end
     end
   end

@@ -2,14 +2,6 @@ require 'combine_pdf'
 class InvoicesController < ApplicationController
 
   def index
-
-
-    @layouts = [
-      ['Layout A'],
-      ['Layout B'],
-      ['Layout C'],
-    ]
-
     if params[:query].present?
       # filtered data
        @invoices = Invoice.where("invoice_date LIKE ?", "%#{params[:query]}%")
@@ -101,10 +93,8 @@ class InvoicesController < ApplicationController
       when 'generate_pdf'
         selected_invoice_ids = params[:invoice_ids]
         selected_layout = params[:layout]
-        debugger
         invoices = Invoice.where(id: selected_invoice_ids)
         #PdfGeneratorJob.perform_async(invoices)
-
 
         html_content = []
 
@@ -112,14 +102,14 @@ class InvoicesController < ApplicationController
           @invoice = invoice
           @items = @invoice.items
           html_content << render_to_string(layout: "pdf/#{selected_layout}.html.erb", template: 'invoices/show.html.erb', locals: { invoice: @invoice })
+          html_content << "<p style='page-break-before: always'></p>"
         end
 
         combined_html = html_content.join("\n")
 
-        pdf_data = WickedPdf.new.pdf_from_string(combined_html)
+        pdf_data = WickedPdf.new.pdf_from_string(combined_html, page_size: 'A4')
 
         send_data pdf_data, type: "application/pdf", filename: "combined_invoices.pdf"
-
 
       else
         redirect_to invoices_path, alert: 'Invalid batch action.'
