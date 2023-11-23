@@ -47,7 +47,7 @@ class UsersController < ApplicationController
       format.html { render 'show' }
       format.pdf do
         html_content = render_to_string(template: 'users/show.html.erb')
-        template_path = 'users/show.html.erb' # Adjust the path as needed
+        template_path = 'users/show.html.erb'
 
         # Pass HTML content and template information to the job
         UserPdfGeneratorJob.perform_async(@user.id, html_content, template_path, selected_layout)
@@ -55,8 +55,8 @@ class UsersController < ApplicationController
         render pdf: 'user_details',
                template: 'users/show.html.erb',
                layout: "pdf/#{selected_layout}.html.erb",
+               disposition: 'attachment',
                xhr: false
-
       end
     end
   end
@@ -119,13 +119,13 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
 
     begin
-      user.signature_image.purge  # Assuming "avatar" is the name of the attachment.
+      user.signature_image.purge
       flash[:notice] = "Image deleted successfully."
     rescue => e
       flash[:notice] = "Failed to delete the image: #{e.message}"
     end
 
-    redirect_to user_path(user)  # Redirect to the user's profile or wherever is appropriate.
+    redirect_to user_path(user)
   end
 
   def delete_selected
@@ -164,9 +164,36 @@ class UsersController < ApplicationController
   end
 
 
-
   def select_all
     selected_user_ids = params[:selected_user_ids]
+  end
+
+  def generate_and_email_invoices
+    @user = User.find(params[:id])
+    invoices = @user.invoices
+
+    html_content = []
+    invoices.each do |invoice|
+      @invoice = invoice
+      @items = @invoice.items
+      html_content << render_to_string(
+        template: 'invoices/show.html.erb',
+        layout: 'pdf/invoice_layout.html.erb',
+        locals: { invoice: @invoice }
+      )
+      html_content << "<p style='page-break-before: always'></p>"
+    end
+
+    combined_html = html_content.join("\n")
+
+    pdf_data = WickedPdf.new.pdf_from_string(combined_html, page_size: 'A4')
+    combined_pdf_filename = "combined_invoices.pdf"
+
+    EmailSenderJob.new.share_mail_user(@user, pdf_data, combined_pdf_filename)
+
+    #OrderMailer.invoices_pdf_email(@user, pdf_data, combined_pdf_filename).deliver_now
+
+    redirect_to users_path, notice: "PDFs generated and sent to #{@user.name}."
   end
 
   private

@@ -40,6 +40,7 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new(invoice_params)
+    debugger
     if @invoice.save
       redirect_to @invoice.user
     else
@@ -94,7 +95,6 @@ class InvoicesController < ApplicationController
         selected_invoice_ids = params[:invoice_ids]
         selected_layout = params[:layout]
         invoices = Invoice.where(id: selected_invoice_ids)
-        #PdfGeneratorJob.perform_async(invoices)
 
         html_content = []
 
@@ -107,6 +107,8 @@ class InvoicesController < ApplicationController
 
         combined_html = html_content.join("\n")
 
+        PdfGeneratorJob.perform_async(selected_invoice_ids, combined_html, 'invoices/show.html.erb', selected_layout)
+
         pdf_data = WickedPdf.new.pdf_from_string(combined_html, page_size: 'A4')
 
         send_data pdf_data, type: "application/pdf", filename: "combined_invoices.pdf"
@@ -115,6 +117,7 @@ class InvoicesController < ApplicationController
         redirect_to invoices_path, alert: 'Invalid batch action.'
       end
   end
+
 
 
   private

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       delete 'soft_delete'
       post 'restore'
       delete 'delete_image'
+      post 'generate_and_email_invoices'
     end
     collection do
       delete 'delete_selected'
@@ -51,4 +52,5 @@ Rails.application.routes.draw do
       get 'details', to: 'products#details'
     end
   end
+
 end

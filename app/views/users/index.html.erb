@@ -26,6 +26,7 @@
           <th>Email</th>
           <th>PDF</th>
           <th>Copy</th>
+          <th>Invoice Pdf </th>
           <th>Show</th>
           <th>Edit</th>
           <th>Destroy</th>
@@ -49,6 +50,11 @@
               <td><%= link_to  duplicate_user_path(user) do %>
                 <%= image_tag "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVQXVHz7jyPmYqoLlr9XwC1WNNPy64ngScOw&usqp=CAU",size: '30x30' %>
               <% end%>
+              </td>
+              <td>
+                <%= link_to generate_and_email_invoices_user_path(user), method: :post do %>
+                  <%= image_tag('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFeIulSZiGogMVH6xOeb1-8rB_M040rMA2kw&usqp=CAU', size: '35x35' , alt: 'Generate and Send Invoices') %>
+                <% end %>
               </td>
               <td><%= link_to  user, class: "link-body-emphasis" do %><span class="glyphicon glyphicon-eye-open
               "><% end %></td>
