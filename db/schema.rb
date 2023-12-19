@@ -86,7 +86,6 @@ ActiveRecord::Schema.define(version: 2023_10_30_104451) do
     t.string "address"
     t.string "city"
     t.string "state"
-    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"

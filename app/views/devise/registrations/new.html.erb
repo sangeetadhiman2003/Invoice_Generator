@@ -1,0 +1,51 @@
+<center>
+<h2>Sign up for organization</h2>
+  <div class="row">
+    <div class="col-md-6">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="mb-3 row">
+        <%= f.label 'name', class:"col-sm-2 col-form-control" %>
+        <div class="col">
+          <%= f.text_field :name, placeholder: "Enter name of organization", class:"form-control" %>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <%= f.label 'email', class:"col-sm-2 col-form-control" %>
+        <div class="col">
+          <%= f.email_field :email, placeholder: "Enter Email", class:"form-control" %>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <%= f.label 'password', class:"col-sm-2 col-form-control" %>
+        <div class="col">
+          <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %><br />
+          <%#= f.password_field :password, autocomplete: "new-password" %>
+          <%= f.password_field :password, placeholder: "Enter password", class:"form-control" %>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <%= f.label 'password_confirmation', class:"col-sm-2 col-form-control" %>
+        <div class="col">
+          <%= f.password_field :password_confirmation, placeholder: "Enter New Password", class:"form-control" %>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Sign up" %>
+      </div>
+    <% end %>
+    </div>
+    <div class="col-md-6">
+      <%= image_tag('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUAv2SzopG8pBzJhCxKprxgPEQb5pH1g44jQ&usqp=CAU') %>
+    </div>
+  </div>
+</center>
+
+<%= link_to "Back" , home_index_path, class: 'btn btn-inverse' %>

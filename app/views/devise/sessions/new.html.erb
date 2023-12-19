@@ -1,0 +1,41 @@
+<center>
+  <h2>Log in</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="mb-3 row">
+        <%= f.label 'email', class:"col-sm-2 col-form-control" %>
+        <div class="col">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <%= f.label 'password_confirmation', class:"col-sm-2 col-form-control" %>
+        <div class="col">
+          <%= f.password_field :password, autocomplete: "current-password" , class:"form-control" %>
+        </div>
+      </div>
+
+
+      <div class="mb-3 row">
+        <% if devise_mapping.rememberable? %>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Sign up" %>
+      </div>
+    <% end %>
+    </div>
+    <div class="col-md-6">
+      <%= image_tag('https://static.vecteezy.com/system/resources/thumbnails/021/919/677/small/login-icon-in-trendy-flat-style-isolated-on-white-background-approach-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-flat-style-for-graphic-design-vector.jpg') %>
+    </div>
+  </div>
+</center>

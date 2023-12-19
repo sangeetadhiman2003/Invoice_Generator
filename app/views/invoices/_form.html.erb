@@ -7,15 +7,9 @@
         <div class="col ">
           <% if @users.present? %>
             <div class="form-group">
-              <%= f.label :user, "Select a User" %>
-              <%= f.hidden_field :user_id, id: 'selected_user', class: 'form-control' %>
-              <input class="form-control" list="userDatalistOptions" id="user_search" placeholder="Type to search...">
-
-              <datalist id="userDatalistOptions">
-                <% User.order(:name).all.each do |user| %>
-                  <option value="<%= user.name %>" data-id="<%= user.id %>">
-                <% end %>
-              </datalist>
+            <%= f.label :user, "Select a User" %>
+             <%#= f.collection_select :user_id, User.all, :id, :name, prompt: true %>
+             <%= f.collection_select(:user_id, @users, :id, :name, prompt: true) %>
             </div>
           <% end %>
         </div>
@@ -23,14 +17,7 @@
           <% if @clients.present? %>
               <div class="form-group">
               <%= f.label :client, "Select a Client" %>
-              <%= f.hidden_field :client_id, id: 'selected_clients', class: 'form-control' %>
-              <input class="form-control" list="clientDatalistOptions" id="clients_search" placeholder="Type to search...">
-
-              <datalist id="clientDatalistOptions">
-                <% Client.order(:name).all.each do |client| %>
-                  <option value="<%= client.name %>" data-id="<%= client.id %>">
-                <% end %>
-              </datalist>
+             <%= f.collection_select(:client_id, @clients, :id, :name, prompt: true) %>
             </div>
          <% end %>
         </div>

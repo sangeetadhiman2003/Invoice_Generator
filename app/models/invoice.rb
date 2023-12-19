@@ -1,4 +1,5 @@
 class Invoice < ApplicationRecord
+  before_create :set_invoicenumber
   belongs_to :user
   belongs_to :client
   has_many :items, dependent: :destroy
@@ -66,8 +67,26 @@ class Invoice < ApplicationRecord
       due_balance = grand_total - total_amountPaid
     end
 
-
   end
 
+  def self.next_invoice_number
+    current_year = Date.today.year.to_s
+    last_invoice_number = Invoice.where("invoice_no LIKE ?", "invoice/#{current_year}/%").maximum(:invoice_no)
+
+    if last_invoice_number
+      last_number = last_invoice_number.split('/').last.to_i
+      next_number = last_number + 1
+    else
+      next_number = 1
+    end
+
+    "invoice/#{current_year}/" + "%03d" % next_number
+  end
+
+  private
+
+  def set_invoicenumber
+    self.invoice_no = Invoice.next_invoice_number
+  end
 
 end

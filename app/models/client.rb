@@ -1,5 +1,6 @@
 class Client < ApplicationRecord
   has_many :invoices, dependent: :destroy
+  belongs_to :user
   has_one_attached :signature_image
   STATE_TYPE = ['MP', 'UP', 'MH', 'AP', 'RJ'].freeze
 

@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-
+  belongs_to :organization
+  has_many :clients
+  has_many :invoices
   acts_as_paranoid
 
   STATE_TYPE = ['MP', 'UP', 'MH', 'AP', 'RJ'].freeze

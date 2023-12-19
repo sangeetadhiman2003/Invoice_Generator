@@ -1,8 +1,13 @@
 require "prawn"
 class ClientsController < ApplicationController
+   before_action :set_organization
+
 
   def index
-    @clients = Client.all.sort_by { |client| [client.name.downcase, client.name] }
+    # @clients = Client.all.sort_by { |client| [client.name.downcase, client.name] }
+    @clients = Client.joins(user: :organization).where(organizations: { id: @organization.id })
+    @users = User.where(organization_id: current_organization.id)
+
   end
 
   def show
@@ -23,6 +28,7 @@ class ClientsController < ApplicationController
 
   def new
     @client = Client.new
+    @users = User.where(organization_id: current_organization.id)
   end
 
   def create
@@ -57,7 +63,7 @@ class ClientsController < ApplicationController
   end
   private
   def client_params
-    params.require(:client).permit(:name, :email, :address, :state,:signature_image, :city, :pan)
+    params.require(:client).permit(:name, :email, :address, :state,:signature_image, :city, :pan, :user_id)
   end
 
   def generate_pdf(client)
@@ -68,6 +74,10 @@ class ClientsController < ApplicationController
       text "City: #{client.city}"
       text "State: #{client.state}"
     end.render
+  end
+
+  def set_organization
+    @organization = current_organization
   end
 
 end

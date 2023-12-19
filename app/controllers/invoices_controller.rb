@@ -1,5 +1,7 @@
 require 'combine_pdf'
 class InvoicesController < ApplicationController
+  before_action :set_organization
+
 
   def index
     if params[:query].present?
@@ -7,10 +9,15 @@ class InvoicesController < ApplicationController
        @invoices = Invoice.where("invoice_date LIKE ?", "%#{params[:query]}%")
     else
       # all data
-      @invoices = Invoice.all
+      @invoices = Invoice.joins(user: :organization).where(organizations: { id: @organization.id })
+      # @users = User.where(organization_id: current_organization.id)
+
+      #@invoices = Invoice.all
       @items = Item.all
-      @clients = Client.all
-      @users = User.all.sort_by { |user| [user.name.downcase, user.name] }
+      @clients = Client.joins(user: :organization).where(organizations: { id: @organization.id })
+      @users = User.where(organization_id: current_organization.id).sort_by { |user| [user.name.downcase, user.name] }
+
+
 
     end
 
@@ -20,27 +27,28 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
     @items = @invoice.items
 
+
     respond_to do |format|
       format.html
       format.pdf do
-        html_content = render_to_string(layout: 'layouts/pdf_layout', template: 'invoices/show.html.erb', locals: { invoice: @invoice })
+        html_content = render_to_string(layout: 'pdf.html.erb', template: 'invoices/show.html.erb', locals: { invoice: @invoice })
 
-      render pdf: 'invoice.pdf', layout: 'layouts/pdf_layout', content: html_content
+      render pdf: 'invoice.pdf', layout: 'pdf.html.erb', content: html_content
       end
     end
   end
 
   def new
-    @users = User.all
-    @clients = Client.all
+    @users = User.where(organization_id: current_organization.id)
+    @clients = Client.joins(user: :organization).where(organizations: { id: @organization.id })
     @products = Product.all
     @invoice = Invoice.new
+    @invoice.invoice_no = Invoice.next_invoice_number
     @invoice.items.build
   end
 
   def create
     @invoice = Invoice.new(invoice_params)
-    debugger
     if @invoice.save
       redirect_to @invoice.user
     else
@@ -124,6 +132,10 @@ class InvoicesController < ApplicationController
 
   def invoice_params
     params.require(:invoice).permit(:id, :invoice_no , :invoice_date , :due_date , :user_id , :client_id , :terms_and_condition , :notes , :logo_image , items_attributes: [:id, :quantity, :amountPaid , :invoice_id, :product_id, :_destroy] )
+  end
+
+  def set_organization
+    @organization = current_organization
   end
 
 end

@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
 
+  devise_for :organizations
+
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
   root 'home#index'
+
 
   resources :clients do
     member do

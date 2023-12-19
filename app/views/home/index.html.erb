@@ -1,23 +1,39 @@
-<center>
- <html>
-  <body style="background-color: light">
-    <div class="padding_top">
+<% if organization_signed_in? %>
+  <center>
+  <html>
+    <body style="background-color: light">
+      <div class="padding_top">
 
-      <h2 style="background-color:powderblue;" >Welcome to invoice generator</h2>
-    </div>
-    <br>
-    <%= image_tag("https://img.icons8.com/?size=50&id=6697&format=png", size: '35x35') %> <%= link_to "Create Invoice For Existing User" , new_invoice_path, class: "link-body-emphasis" %>
-    <br>
-    <br>
-    <%= image_tag("https://img.icons8.com/?size=50&id=6697&format=png", size: '35x35') %><%= link_to "Create New User" , new_user_path, class: "link-body-emphasis" %>
-    <br>
-    <br>
-    <%= image_tag("https://img.icons8.com/?size=50&id=6697&format=png", size: '35x35') %> <%= link_to "Create New Client" , new_client_path, class: "link-body-emphasis"%>
-    <br>
-    <br>
-    <%= image_tag("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStSKS7A9VdWB6U-33FPM1e_MMmGy9R1kJ1_ZYWT5WkmCgKCNQj1NSq0K95lE-P4N_fEB8&usqp=CAU", :alt => "image missing",  size: '300x300', style: 'border: 1px solid gray;') %>
-    <div>
+        <h2 style="background-color:powderblue;" >Welcome to invoice generator</h2>
+      </div>
+      <br>
+      <%= image_tag("https://img.icons8.com/?size=50&id=6697&format=png", size: '35x35') %> <%= link_to "Create Invoice For Existing User" , new_invoice_path, class: "link-body-emphasis" %>
+      <br>
+      <br>
+      <%= image_tag("https://img.icons8.com/?size=50&id=6697&format=png", size: '35x35') %><%= link_to "Create New User" , new_user_path, class: "link-body-emphasis" %>
+      <br>
+      <br>
+      <%= image_tag("https://img.icons8.com/?size=50&id=6697&format=png", size: '35x35') %> <%= link_to "Create New Client" , new_client_path, class: "link-body-emphasis"%>
+      <br>
+      <br>
+      <%= image_tag("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStSKS7A9VdWB6U-33FPM1e_MMmGy9R1kJ1_ZYWT5WkmCgKCNQj1NSq0K95lE-P4N_fEB8&usqp=CAU", :alt => "image missing",  size: '300x300', style: 'border: 1px solid gray;') %>
+      <div>
 
-  </body>
- </html>
-</center>
+    </body>
+  </html>
+  </center>
+<% else %>
+  <center>
+    <h2>Welcome to invoice Generator </h2>
+    <%= link_to new_organization_session_path do %>
+      <%= image_tag "https://t3.ftcdn.net/jpg/04/54/09/98/360_F_454099801_32LqElT2W1vgRQ6YRsp3h2IsKQxTCnaG.jpg" , size: '380x280'%>
+    <% end%>
+
+
+    <%= link_to new_organization_registration_path  do %>
+      <%= image_tag "https://previews.123rf.com/images/theerakit/theerakit2006/theerakit200600042/149948008-sign-up-icon-on-white-background-finger-presses-on-sign-up-button-sign-up-symbol.jpg" , size: '300x300' %>
+    <% end%>
+
+  </center>
+
+<% end %>

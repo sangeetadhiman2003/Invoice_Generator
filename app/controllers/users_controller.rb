@@ -1,5 +1,6 @@
 require "prawn"
 class UsersController < ApplicationController
+  before_action :set_user, only: %i[ show edit update destroy ]
 
   def index
     if params[:query].present?
@@ -7,7 +8,9 @@ class UsersController < ApplicationController
        @users = User.where("name LIKE ?", "%#{params[:query]}%")
     else
       # all data
-      @users = User.all.sort_by { |user| [user.name.downcase, user.name] }
+      @users = User.where(organization_id: current_organization.id).sort_by { |user| [user.name.downcase, user.name] }
+
+
     end
 
   end
@@ -17,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = current_organization.users.new(user_params)
     if @user.save
        flash[:notice] = "User was successfully created."
        redirect_to @user
@@ -25,6 +28,7 @@ class UsersController < ApplicationController
        render :new, status: :unprocessable_entity
     end
   end
+
 
   def show
     @user = User.find(params[:id])
@@ -198,8 +202,18 @@ class UsersController < ApplicationController
 
   private
 
+  def set_user
+    @user = User.find(params[:id])
+  end
+
   def user_params
-    params.require(:user).permit(:name, :email, :address, :state, :city, :gstin, :pan, :phone, :signature_image)
+    params.require(:user).permit(:name, :email, :address, :state, :city, :gstin, :pan, :phone, :signature_image,:organization_id)
+  end
+
+  def authorize_user_for_organization
+    unless current_user.organization_id.present?
+      redirect_to root_path, alert: "You do not belong to any organization."
+    end
   end
 
 end

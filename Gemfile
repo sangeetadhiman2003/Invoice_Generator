@@ -73,3 +73,9 @@ gem 'rubocop', require: false
 gem 'sidekiq', '~> 6.3'
 gem 'redis' , '~> 4.0'
 gem 'combine_pdf'
+gem 'devise'
+gem 'therubyracer'
+gem 'omniauth'
+gem 'omniauth-digitalocean'
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"

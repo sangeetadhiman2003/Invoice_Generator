@@ -82,4 +82,7 @@ config.action_mailer.smtp_settings = {
   :enable_starttls_auto => true
 }
 
+# ENV['GOOGLE_OAUTH_CLIENT_ID'] = '184058393064-3d5edd8pf9s8uoibm18diog0b2r3lgrc.apps.googleusercontent.com '
+# ENV['GOOGLE_OAUTH_CLIENT_SECRET'] = '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 '
+
 end
