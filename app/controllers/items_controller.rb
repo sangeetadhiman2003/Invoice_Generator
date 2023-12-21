@@ -1,14 +1,14 @@
 require 'pagy'
+
 class ItemsController < ApplicationController
   def index
     if params[:product_name].present?
       search_word = params[:product_name]
-      if search_word
-        @items = Item.joins(:product).where("products.name LIKE ?", "%#{search_word}%")
+      @items = if search_word
+        Item.joins(:product).where("products.name LIKE ?", "%#{search_word}%")
       else
-        @items = Item.none
+        Item.none
       end
-
     else
       @items = Item.all
     end
@@ -33,7 +33,8 @@ class ItemsController < ApplicationController
     @item = Item.new
     @product = Product.all
     @invoices = Invoice.all
-    @invoice_id=Invoice.all.pluck(:invoice_id)
+    # use shorter command
+    @invoice_id = Invoice.all.pluck(:id)
   end
 
   def create
@@ -84,7 +85,7 @@ class ItemsController < ApplicationController
 
   private
   def item_params
-    params.require(:item).permit(:name, :rate, :quantity, :tax_value, :amountPaid, :gst, :invoice_id)
+    params.require(:item).permit(:name, :rate, :quantity, :tax_value, :amountPaid, :gst)
   end
 
   def generate_pdf(item)

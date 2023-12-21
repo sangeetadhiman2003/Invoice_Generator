@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
 
   def details
     @product = Product.find(params[:id])
-     render json: {
+    render json: {
       name: @product.name,
       gst: @product.gst,
       tax_value: @product.tax_value,

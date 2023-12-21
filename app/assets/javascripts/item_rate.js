@@ -3,7 +3,7 @@ $(document).on('turbolinks:load', function() {
       var productId = $(this).val();
       var productAttributes = $(this).closest('.fields').find( '#product_attributes');
       if (productId) {
-        console.log("hello");
+        console.log("hello item_rate.js is running");
         $.ajax({
           url: '/products/' + productId + '/details.json',
           type: 'GET',

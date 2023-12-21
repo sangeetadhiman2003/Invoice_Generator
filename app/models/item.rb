@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
 
-ITEM_TYPES = ['Laptop', 'Mobile', 'Watch' ]
+  ITEM_TYPES = ['Laptop', 'Mobile', 'Watch' ]
 
   belongs_to :invoice
   belongs_to :product

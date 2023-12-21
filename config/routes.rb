@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :clients do
     member do
       get 'download_pdf'
+      get 'details', to: 'clients#details'
     end
   end
 
@@ -43,6 +44,7 @@ Rails.application.routes.draw do
   resources :invoices do
     member do
       post 'duplicate'
+      post 'preview'
     end
     collection do
       post 'generate_pdf'

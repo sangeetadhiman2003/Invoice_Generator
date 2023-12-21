@@ -1,4 +1,5 @@
 $(document).on('turbolinks:load', function() {
+  console.log("hello");
   // Attach event handlers to existing items
   $('.nested-fields .product-select').on('change', function() {
     handleProductSelection($(this));
@@ -6,7 +7,7 @@ $(document).on('turbolinks:load', function() {
 
 
 $(document).on('cocoon:after-insert', function(e, insertedItem) {
-
+  console.log("hello...add_rate_cocoon gem");
   var select = insertedItem.find('.product-select');
   select.on('change', function() {
 
@@ -39,8 +40,6 @@ function handleProductSelection(select) {
 }
 });
 
-
-
 document.addEventListener("DOMContentLoaded", function() {
   const nameFields = document.querySelectorAll(".name-field");
 
@@ -53,8 +52,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 });
-
-
 
 $(document).ready(function() {
   $('#user_search').on('input', function() {
@@ -95,7 +92,6 @@ document.addEventListener('turbolinks:load', function() {
   });
 });
 
-
 document.addEventListener('turbolinks:load', function() {
   $('#select-all-checkbox').click(function() {
     // Toggle the selection state of all user checkboxes
@@ -110,7 +106,6 @@ document.addEventListener('turbolinks:load', function() {
 
 });
 
-
 document.addEventListener('turbolinks:load', function() {
   const deselectAllButton = document.getElementById('deselect-all-button');
   const userCheckboxes = document.querySelectorAll('input[name="invoice_ids[]"]');
@@ -121,7 +116,6 @@ document.addEventListener('turbolinks:load', function() {
     });
   });
 });
-
 
 document.addEventListener('DOMContentLoaded', function() {
   var layoutSelect = document.getElementById('layout_select');

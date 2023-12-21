@@ -3,7 +3,7 @@
   <%= f.collection_select :product_id, Product.all, :id, :name, { prompt: 'Please Select product' }, { class: 'product-select' } %>
 
   <div class="product_attributes" style="display: none;">
-    <table class = "table table-striped">
+    <table class = "table table-bordered">
       <thead>
         <tr>
           <th width="10%">Item</th>

@@ -9,8 +9,6 @@ class UsersController < ApplicationController
     else
       # all data
       @users = User.where(organization_id: current_organization.id).sort_by { |user| [user.name.downcase, user.name] }
-
-
     end
 
   end
@@ -25,15 +23,14 @@ class UsersController < ApplicationController
        flash[:notice] = "User was successfully created."
        redirect_to @user
     else
-       render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
   end
 
 
   def show
-    @user = User.find(params[:id])
+    #@user = User.find(params[:id])
     selected_layout = params[:layout]
-
     respond_to do |format|
       format.html
       format.pdf do
@@ -66,12 +63,11 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    #@user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
-
+    #@user = User.find(params[:id])
     if @user.update(user_params)
       redirect_to @user
     else
@@ -93,6 +89,7 @@ class UsersController < ApplicationController
 
   def restore
     @user = User.only_deleted.find(params[:id])
+    # TODO: Remove duplicate code
     @user.restore_id!
 
     if @user.restore_id!
@@ -100,7 +97,6 @@ class UsersController < ApplicationController
     else
     redirect_to users_path, notice: 'User has not been restored.'
     end
-
   end
 
   def destroy
@@ -143,30 +139,26 @@ class UsersController < ApplicationController
     selected_user_ids = params[:user_ids] || []
 
     case batch_action
-
     when 'delete'
-
       User.where(id: selected_user_ids).destroy_all
       redirect_to users_path, notice: 'Selected users deleted.'
-
     when 'share_email'
-
       selected_users = User.where(id: selected_user_ids)
 
       selected_users.each do |user|
+        # TODO: check this mail sending in backgroud with deliver_later option
         EmailSenderJob.perform_async(user.id)
-        #OrderMailer.send_email(user).deliver_now
+        # OrderMailer.send_email(user).deliver_now
+        #OrderMailer.send_email(user).deliver_later
       end
 
       flash[:notice] = "Emails are being sent in the background."
 
       redirect_to users_path, notice: 'Email shared with selected users.'
     else
-
       redirect_to users_path, alert: 'Invalid batch action.'
     end
   end
-
 
   def select_all
     selected_user_ids = params[:selected_user_ids]

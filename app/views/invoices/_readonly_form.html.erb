@@ -1,6 +1,4 @@
-<div>
-  <h1 style="background-color:powderblue;">TAX INVOICE</h1>
-  <div class="form_invoice" >
+<div class="form_invoice">
     <%= form_with(model: @invoice, remote: true, id: 'form') do |f| %>
       <div  class="mb-3 row">
         <div class="col ">
@@ -104,8 +102,8 @@
         <div class="col g-3" >
           <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
         </div>
+        <%= button_tag "Preview", type: "button", id: "preview-button" %>
+
       </div>
-      <%= button_tag "Preview", id: "preview_btn", type: "button" %>
+      </div>
     <% end %>
-  </div>
-</div>

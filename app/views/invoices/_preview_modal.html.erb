@@ -1,0 +1,8 @@
+<!-- _preview_form.html.erb -->
+<%= form_with(model: @invoice, local: true) do |f| %>
+  <!-- Render read-only fields similar to new/invoice.html.erb but set them as disabled -->
+  <!-- Example: -->
+  <%= f.label :invoice_no %>
+  <%= f.text_field :invoice_no, disabled: true %>
+  <!-- Repeat for other fields -->
+<% end %>

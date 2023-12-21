@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  hour: 1
+  amount: MyString
+  invoice: one
+
+two:
+  name: MyString
+  hour: 1
+  amount: MyString
+  invoice: two

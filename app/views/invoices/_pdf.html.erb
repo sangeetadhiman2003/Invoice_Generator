@@ -6,7 +6,7 @@
 </center>
 <h5>Date: <%= @invoice.invoice_date %></h5>
 <table class="table table-bordered">
- <thead>
+<thead>
   <tr>
     <th scope="col" class="col-1">Item</th>
     <th scope="col" class="col-1">Rate</th>
@@ -16,7 +16,7 @@
     <th scope="col" class="col-1">Amount Paid</th>
     <th scope="col" class="col-1">Total</th>
   </tr>
- </thead>
+</thead>
   <% total = 0 %>
   <% tax_value = 0 %>
   <% amount_paid = 0 %>
@@ -26,7 +26,7 @@
   <% total_gst = 0 %>
   <% if @items.present? %>
     <% @items.each do |item| %>
-     <tbody>
+    <tbody>
       <tr>
         <td><%= item.product&.name %></td>
         <td><%= item.product&.rate %></td>
@@ -43,7 +43,7 @@
     </tr>
   <% end %>
   <tr>
-   <th colspan="7"></th>
+  <th colspan="7"></th>
   </tr>
   <tr>
     <td></td>
@@ -72,13 +72,12 @@
   <td></td>
   <td colspan="5">Amount Paid</td>
   <td><%= @invoice.calculate_amount_paid %></td>
-</tr>
-<tr>
+  </tr>
+  <tr>
     <td></td>
     <td colspan="5">Due Balance</td>
     <td><%= @invoice.calculate_due  %></td>
   </tr>
- </tbody>
+</tbody>
 </table>
-
 <%= link_to "Back", invoices_path, class: 'btn' %>

@@ -1,17 +1,19 @@
 class Invoice < ApplicationRecord
+  # TODO: naming
   before_create :set_invoicenumber
   belongs_to :user
   belongs_to :client
   has_many :items, dependent: :destroy
+  has_many :services, dependent: :destroy
   has_one_attached :logo_image
   accepts_nested_attributes_for :items , allow_destroy: true
+  accepts_nested_attributes_for :services , allow_destroy: true
 
   validates :invoice_no, presence: true
   validates :invoice_date, presence: true
-  validates :notes, presence: true
   validates :user_id, presence: true
-  validates :terms_and_condition, presence: true
-
+  # validates :terms_and_condition, presence: true
+  # validates :notes, presence: true
 
   def calculate_total(item)
     item.quantity * item.product&.rate
@@ -24,7 +26,6 @@ class Invoice < ApplicationRecord
   def calculate_total_gst
     items.sum { |item| ((item.product&.rate)*(item.product&.gst))/100 }
   end
-
 
   def calculate_sub_total
     total_gst = calculate_total_gst
