@@ -44,11 +44,11 @@ Rails.application.routes.draw do
   resources :invoices do
     member do
       post 'duplicate'
-      post 'preview'
     end
     collection do
       post 'generate_pdf'
       post 'batch_action'
+      get 'preview'
     end
   end
 

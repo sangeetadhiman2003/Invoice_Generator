@@ -19,3 +19,18 @@
 //= require bootstrap
 //= require jquery.turbolinks
 //= require_tree .
+
+
+
+$(document).ready(function () {
+  // Open the modal when clicking the preview button
+  console.log("i am clicking preview button");
+  $('[name="preview_button"]').click(function () {
+    $('#preview-modal').show();
+  });
+
+  // Close the modal when clicking the close button
+  $('.close').click(function () {
+    $('#preview-modal').hide();
+  });
+});

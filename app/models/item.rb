@@ -1,9 +1,9 @@
 class Item < ApplicationRecord
 
-  ITEM_TYPES = ['Laptop', 'Mobile', 'Watch' ]
-
   belongs_to :invoice
   belongs_to :product
+
+  ITEM_TYPES = ['Laptop', 'Mobile', 'Watch' ]
 
   def calculate_total
     subtotal = product.rate

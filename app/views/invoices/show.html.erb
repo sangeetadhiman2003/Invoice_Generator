@@ -29,61 +29,61 @@
   <% due_balance = 0 %>
   <% ans = 0 %>
   <% total_gst = 0 %>
-  <% if @items.present? %>
-    <% @invoice.items.each do |item| %>
-     <tbody>
+  <tbody>
+    <% if @items.present? %>
+      <% @invoice.items.each do |item| %>
+        <tr>
+          <td><%= item.product&.name %></td>
+          <td><%= item.product&.rate %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.product&.tax_value %></td>
+          <td><%= item.product&.gst %></td>
+          <td><%= item&.amountPaid %></td>
+          <td><%= @invoice.calculate_total(item) %></td>
+        </tr>
+      <% end %>
+    <% else %>
       <tr>
-        <td><%= item.product&.name %></td>
-        <td><%= item.product&.rate %></td>
-        <td><%= item.quantity %></td>
-        <td><%= item.product&.tax_value %></td>
-        <td><%= item.product&.gst %></td>
-        <td><%= item&.amountPaid %></td>
-        <td><%= @invoice.calculate_total(item) %></td>
+        <td colspan = "4">NO Items Found For This Invoice. </td>
       </tr>
     <% end %>
-  <% else %>
     <tr>
-      <td colspan = "4">NO Items Found For This Invoice. </td>
+    <th colspan="7"></th>
     </tr>
-  <% end %>
-  <tr>
-   <th colspan="7"></th>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="5">Tax Value</td>
-    <td><%= @invoice.calculate_total_tax %></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="5">Sub Total</td>
-    <td><%= @invoice.calculate_sub_total%></td>
-  </tr>
+    <tr>
+      <td></td>
+      <td colspan="5">Tax Value</td>
+      <td><%= @invoice.calculate_total_tax %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td colspan="5">Sub Total</td>
+      <td><%= @invoice.calculate_sub_total%></td>
+    </tr>
 
-  <% total= sub_total + tax_value %>
-  <tr>
+    <% total= sub_total + tax_value %>
+    <tr>
+      <td></td>
+      <td colspan="5">Grand Total</td>
+      <td><%= @invoice.calculate_grand_total %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td colspan="5">Discount</td>
+      <td><%= @invoice.calculate_discount %>
+      </td>
+    </tr>
+    <tr>
     <td></td>
-    <td colspan="5">Grand Total</td>
-    <td><%= @invoice.calculate_grand_total %></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td colspan="5">Discount</td>
-    <td><%= @invoice.calculate_discount %>
-    </td>
-  </tr>
-  <tr>
-  <td></td>
-  <td colspan="5">Amount Paid</td>
-  <td><%= @invoice.calculate_amount_paid %></td>
-</tr>
-<tr>
-    <td></td>
-    <td colspan="5">Due Balance</td>
-    <td><%= @invoice.calculate_due  %></td>
-  </tr>
- </tbody>
+    <td colspan="5">Amount Paid</td>
+    <td><%= @invoice.calculate_amount_paid %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td colspan="5">Due Balance</td>
+      <td><%= @invoice.calculate_due  %></td>
+    </tr>
+  </tbody>
 </table>
 
 <%= link_to "Back", invoices_path, class: 'btn' %>

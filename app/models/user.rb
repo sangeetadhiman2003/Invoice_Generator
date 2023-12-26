@@ -1,11 +1,10 @@
 class User < ApplicationRecord
-  belongs_to :organization
-  has_many :clients
-  has_many :invoices
   acts_as_paranoid
 
-  STATE_TYPE = ['MP', 'UP', 'MH', 'AP', 'RJ'].freeze
-  LAYOUT_TYPE = ['Simple', 'Stylish']
+  belongs_to :organization
+
+  has_many :clients
+  has_many :invoices
   has_many :invoices , dependent: :destroy
   has_one_attached :signature_image
 
@@ -15,6 +14,10 @@ class User < ApplicationRecord
   validates :city, presence: true
   validates :state, presence: true
   validates :phone, length: { is: 10}
+
+  STATE_TYPE = ['MP', 'UP', 'MH', 'AP', 'RJ'].freeze
+  LAYOUT_TYPE = ['Simple', 'Stylish']
+
 
   def restore_id!
     self.update(deleted_at: nil)

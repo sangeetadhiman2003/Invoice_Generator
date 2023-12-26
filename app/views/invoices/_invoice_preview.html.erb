@@ -1,0 +1,80 @@
+<div>
+  <h1 style="background-color:powderblue;">TAX INVOICE</h1>
+  <div class="form_invoice" >
+    <%= form_with(model: @invoice, remote: true, id: 'form') do |f| %>
+      <div  class="mb-3 row">
+        <div class="col ">
+          <%= f.label 'User name' %>
+          <%= @invoice.user&.name%>
+        </div>
+        <div class="col ">
+          <%= f.label 'Client name' %>
+          <%= @invoice.client&.name%>
+        </div>
+      </div>
+      <br>
+      <div class="mb-3 row">
+        <div class="col-sm-2 ">
+          <%= f.label 'Logo image' %>
+          <%= f.file_field :logo_image %>
+        </div>
+      </div>
+      <br>
+      <div class="row g-3">
+        <div class="col ">
+          <%= f.label 'invoice_no',class: "col-sm-2 col-form-label" %>
+          <%= @invoice.invoice_no%>
+        </div>
+        <div class="col ">
+          <%= f.label 'invoice_date', class: "col-sm-2 col-form-label" %>
+          <%= @invoice.invoice_date %>
+        </div>
+      </div>
+      <br>
+      <div class="row g-3">
+        <div class="col">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th scope="col" class="col-1">Item</th>
+              <th scope="col" class="col-1">Rate</th>
+              <th scope="col" class="col-1">Quantity</th>
+              <th scope="col" class="col-1">Amount Paid</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% if  @invoice.items.present? %>
+                <% @invoice.items.each do |item| %>
+                  <tr>
+                    <td><%= item.product&.name %></td>
+                    <td><%= item.product&.rate %></td>
+                    <td><%= item.quantity %></td>
+                    <td><%= item&.amountPaid %></td>
+                  </tr>
+                <% end %>
+              <% else %>
+                <tr>
+                  <td colspan = "4">NO Items Found For This Invoice. </td>
+                </tr>
+              <% end %>
+              <tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="links">
+        <strong><%#= link_to_add_association "Add Item", f, :items, class: "link-body-emphasis" %></strong>
+      </div>
+      <div class="row">
+        <div class="col">
+          <%= f.label 'notes' %>
+          <%= @invoice.notes %>
+        </div>
+        <div class="col">
+          <%= f.label 'terms_and_condition' %>
+          <%= @invoice.terms_and_condition %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

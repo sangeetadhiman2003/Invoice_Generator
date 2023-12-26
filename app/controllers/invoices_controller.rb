@@ -1,7 +1,7 @@
 require 'combine_pdf'
 class InvoicesController < ApplicationController
   before_action :set_organization
-  before_action :_set_invoice, only: [:show, :edit, :update, :destroy]
+  before_action :set_invoice, only: [:show, :edit, :update, :destroy]
   before_action :set_organization_and_invoice_type
 
   def index
@@ -37,18 +37,36 @@ class InvoicesController < ApplicationController
     @clients = Client.joins(user: :organization).where(organizations: { id: @organization.id })
     @products = Product.all
     @invoice = Invoice.new
-    @invoice.invoice_no = Invoice.next_invoice_number
     @invoice.items.build
+    @invoice.invoice_no = Invoice.next_invoice_number
+
+
   end
+
+  # def create
+  #   @invoice = Invoice.new(invoice_params)
+  #   if params[:preview_button]
+  #     # Store the invoice attributes in the session for preview
+  #     session[:preview_invoice_attributes] = @invoice
+  #     redirect_to preview_invoices_path
+  #   elsif @invoice.save
+  #     redirect_to @invoice, notice: 'Invoice was successfully created.'
+  #   else
+  #     render :new
+  #   end
+  # end
 
   def create
     @invoice = Invoice.new(invoice_params)
-    if @invoice.save
-      redirect_to @invoice.user
+
+    if params[:preview_button]
+      render :preview
     else
-      @users = User.all
-      @clients = Client.all
-      render :new, status: :unprocessable_entity
+      if @invoice.save
+        redirect_to @invoice, notice: 'Invoice was successfully created.'
+      else
+        render :new
+      end
     end
   end
 
@@ -79,7 +97,6 @@ class InvoicesController < ApplicationController
   def destroy
     #@invoice = Invoice.find(params[:id])
     @invoice.destroy
-
     redirect_to invoices_path, status: :see_other
   end
 
@@ -117,11 +134,17 @@ class InvoicesController < ApplicationController
     end
   end
 
+  # def preview
+  #   @invoice_attributes = session[:preview_invoice_attributes]
+  #   @invoice = Invoice.new(@invoice_attributes || {})
+  #   @items = @invoice.items
+  #   render :preview
+  # end
+
   def preview
     @invoice = Invoice.new(invoice_params)
-    render :new
+    render :preview
   end
-
 
   private
 

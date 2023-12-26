@@ -46,7 +46,6 @@
         </div>
       </div>
       <br>
-
       <div class="row g-3">
         <div class="col">
           <%= f.fields_for :items do |item| %>
@@ -105,7 +104,8 @@
           <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
         </div>
       </div>
-      <%= button_tag "Preview", id: "preview_btn", type: "button" %>
+      <%#= button_tag "Preview", id: "preview_btn", type: "button" %>
+      <%= f.submit 'Preview', name: 'preview_button' %>
     <% end %>
   </div>
 </div>
