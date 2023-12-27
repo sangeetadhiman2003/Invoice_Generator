@@ -3,6 +3,7 @@ class InvoicesController < ApplicationController
   before_action :set_organization
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
   before_action :set_organization_and_invoice_type
+  before_action :load_invoice_from_session, only: [:new]
 
   def index
     if params[:query].present?
@@ -37,22 +38,21 @@ class InvoicesController < ApplicationController
     @clients = Client.joins(user: :organization).where(organizations: { id: @organization.id })
     @products = Product.all
     @invoice = Invoice.new
+    @invoice.services.build
     @invoice.items.build
     @invoice.invoice_no = Invoice.next_invoice_number
-
-
-  end
+ end
 
   # def create
   #   @invoice = Invoice.new(invoice_params)
   #   if params[:preview_button]
-  #     # Store the invoice attributes in the session for preview
-  #     session[:preview_invoice_attributes] = @invoice
-  #     redirect_to preview_invoices_path
-  #   elsif @invoice.save
-  #     redirect_to @invoice, notice: 'Invoice was successfully created.'
+  #     render :preview
   #   else
-  #     render :new
+  #     if @invoice.save
+  #       redirect_to @invoice, notice: 'Invoice was successfully created.'
+  #     else
+  #       render :new
+  #     end
   #   end
   # end
 
@@ -60,15 +60,16 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new(invoice_params)
 
     if params[:preview_button]
+      session[:invoice_params] = invoice_params
       render :preview
+    elsif @invoice.save
+      session[:invoice_params] = nil
+      redirect_to @invoice, notice: 'Invoice was successfully created.'
     else
-      if @invoice.save
-        redirect_to @invoice, notice: 'Invoice was successfully created.'
-      else
-        render :new
-      end
+      render :new
     end
   end
+
 
   def edit
     # @invoice = Invoice.find(params[:id])
@@ -135,15 +136,17 @@ class InvoicesController < ApplicationController
   end
 
   # def preview
-  #   @invoice_attributes = session[:preview_invoice_attributes]
-  #   @invoice = Invoice.new(@invoice_attributes || {})
-  #   @items = @invoice.items
-  #   render :preview
+  #   @invoice = Invoice.new(invoice_params)
+  #   render preview
   # end
 
   def preview
     @invoice = Invoice.new(invoice_params)
-    render :preview
+
+    respond_to do |format|
+      format.html { render partial: 'invoices/preview_content', locals: { invoice: @invoice } }
+      format.js   # This will look for a file named preview.js.erb
+    end
   end
 
   private
@@ -157,12 +160,16 @@ class InvoicesController < ApplicationController
   end
 
   def set_organization_and_invoice_type
-    # @organization = current_organization if organization_signed_in?
+    #@organization = current_organization if organization_signed_in?
     @invoice_type = 'PRODUCT'
   end
 
   def set_invoice
     @invoice = Invoice.find(params[:id])
+  end
+
+  def load_invoice_from_session
+    @invoice = Invoice.new(session[:invoice_params])
   end
 
 end

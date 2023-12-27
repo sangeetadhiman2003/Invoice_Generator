@@ -1,5 +1,4 @@
 $(document).on('turbolinks:load', function() {
-  console.log("hello");
   // Attach event handlers to existing items
   $('.nested-fields .product-select').on('change', function() {
     handleProductSelection($(this));
