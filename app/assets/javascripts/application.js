@@ -19,3 +19,4 @@
 //= require bootstrap
 //= require jquery.turbolinks
 //= require_tree .
+//= require popper

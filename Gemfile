@@ -79,3 +79,4 @@ gem 'omniauth'
 gem 'omniauth-digitalocean'
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
+gem 'popper_js', '~> 2.11.8'

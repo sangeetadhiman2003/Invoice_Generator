@@ -1,7 +1,8 @@
 require "prawn"
 class ClientsController < ApplicationController
   before_action :set_organization
-  before_action :set_client
+  before_action :set_client, only: %i[ show edit update destroy details ]
+
   def index
     # @clients = Client.all.sort_by { |client| [client.name.downcase, client.name] }
     @clients = Client.joins(user: :organization).where(organizations: { id: @organization.id })

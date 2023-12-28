@@ -7,3 +7,4 @@
 <% end %>
 <%#= link_to "Back to Edit", new_invoice_path(@invoice.attributes) %>
 <%#= link_to 'Edit Invoice', edit_invoice_path(@invoice) %>
+<%= link_to 'Back to New Invoice', new_invoice_path(session_params: session[:invoice_params]) %>

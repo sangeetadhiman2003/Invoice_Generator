@@ -11,14 +11,12 @@ class Invoice < ApplicationRecord
   accepts_nested_attributes_for :items , allow_destroy: true
   accepts_nested_attributes_for :services , allow_destroy: true
 
-  validates :invoice_no, presence: true
-  validates :invoice_date, presence: true
-  validates :user_id, presence: true
+  validates :invoice_no, :invoice_date, :user_id,  presence: true
   # validates :terms_and_condition, presence: true
   # validates :notes, presence: true
 
   def calculate_total(item)
-    item.quantity * item.product&.rate
+    item&.quantity * item.product&.rate
   end
 
   def calculate_total_tax
@@ -84,6 +82,14 @@ class Invoice < ApplicationRecord
     end
 
     "invoice/#{current_year}/" + "%03d" % next_number
+  end
+
+  def sub_total_service(service)
+    service&.hour * service&.amount
+  end
+
+  def as_json(options = {})
+    super(options.merge(except: [:created_at, :updated_at]))
   end
 
   private

@@ -106,6 +106,15 @@
         <div class="col g-3" >
           <%= f.submit 'Preview', name: 'preview_button', class: 'btn btn-dark', id: 'preview_button' %>
         </div>
+
+        <div class="col g-3" >
+          <%= link_to 'preview Modal', preview_invoices_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'btn btn-dark btn-lg'}  %>
+          <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+          </div>
+        </div>
+
       </div>
     <% end %>
   </div>

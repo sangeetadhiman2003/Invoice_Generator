@@ -184,6 +184,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pdf-core (0.9.0)
+    popper_js (2.11.8)
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
@@ -339,6 +340,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   pagy
+  popper_js (~> 2.11.8)
   prawn
   puma (~> 3.0)
   rails (~> 5.2, >= 5.2.8.1)
