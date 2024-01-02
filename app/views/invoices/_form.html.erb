@@ -104,7 +104,7 @@
           <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
         </div>
         <div class="col g-3" >
-          <%= f.submit 'Preview', name: 'preview_button', class: 'btn btn-dark', id: 'preview_button' %>
+          <%= f.submit 'Preview', name: 'preview_button', class: 'btn btn-dark', id: 'preview_button', data: { toggle: 'modal', target: '#previewModal' } %>
         </div>
 
         <div class="col g-3" >

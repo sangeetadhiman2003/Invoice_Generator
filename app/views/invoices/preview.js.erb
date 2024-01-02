@@ -1,0 +1,4 @@
+// app/views/invoices/preview.js.erb
+console.log("hello..invoice.js.erb");
+$('#invoicePreviewModal .modal-body').html("<%= j render(partial: 'invoice_preview', locals: { invoice: @invoice }) %>");
+$('#invoicePreviewModal').modal('show');

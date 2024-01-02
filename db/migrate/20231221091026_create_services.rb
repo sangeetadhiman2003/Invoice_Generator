@@ -3,7 +3,7 @@ class CreateServices < ActiveRecord::Migration[5.2]
     create_table :services do |t|
       t.string :name
       t.integer :hour
-      t.string :amount
+      t.integer :amount
       t.references :invoice, foreign_key: true
 
       t.timestamps

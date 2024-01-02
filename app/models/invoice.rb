@@ -84,12 +84,24 @@ class Invoice < ApplicationRecord
     "invoice/#{current_year}/" + "%03d" % next_number
   end
 
+  def as_json(options = {})
+    super(options.merge(except: [:created_at, :updated_at]))
+  end
+
   def sub_total_service(service)
     service&.hour * service&.amount
   end
 
-  def as_json(options = {})
-    super(options.merge(except: [:created_at, :updated_at]))
+  def calculate_tax(sub_total)
+    if sub_total > 20000
+      return 200
+    else
+      return 100
+    end
+  end
+
+  def calculate_total_amount(sub_total,tax)
+    return sub_total + tax
   end
 
   private

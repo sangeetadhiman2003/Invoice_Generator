@@ -4,7 +4,7 @@
 <h1 style="background-color:powderblue;">Listing Invoices Details</h1>
 </div>
 <div class="form-group">
-<%= form_tag(invoices_path, method: :get) do %>
+  <%= form_tag(invoices_path, method: :get) do %>
     <%= text_field_tag :query, params[:query], placeholder: "Search invoices by date..." %>
     <%= submit_tag "Search" %>
   <% end %>
@@ -77,8 +77,6 @@
 
   <%= button_tag 'Deselect All', type: 'button', id: 'deselect-all-button', class:"btn btn-dark" %>
 <% end %>
-
-
 
 <hr>
 </body>

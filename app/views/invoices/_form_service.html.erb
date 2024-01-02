@@ -56,9 +56,10 @@
       <div class="row g-3">
         <div class="col">
             <div class = "fields">
-              <%= f.label :client, "Select a Client" %>
-              <%= f.collection_select(:client_id, @clients, :id, :name, { prompt: true }, { id: 'client_select' }) %>
-              <div id="clients_attributes" style="display: none;">
+             <%= f.label :client, "Select a Client" %>
+             <%= f.collection_select(:client_id, @clients, :id, :name, prompt: true, id: 'client_select') %>
+
+             <div id="clients_attributes" style="display: none;">
                <h3>client details:</h3>
                 Name: <span id="client_name"></span><br>
                 Address: <span id="client_address"></span><br>
@@ -102,7 +103,10 @@
           <%= submit_tag("Reset", { :name => 'reset', :id => 'reset', :type => 'reset', :class => 'btn btn-dark' }) %>
         </div>
         <div class="col g-3" >
-          <%= f.submit 'Preview', name: 'preview_button', class: 'btn btn-dark', id: 'preview_button' %>
+          <%#= f.submit 'Preview', name: 'preview_button', class: 'btn btn-dark', id: 'preview_button' %>
+
+          <%= f.button 'Preview', name: 'preview_button', class: 'btn btn-dark', id: 'preview_button', data: { toggle: 'modal', target: '#invoicePreviewModal' } %>
+
         </div>
       </div>
     <% end %>

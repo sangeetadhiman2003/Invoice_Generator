@@ -1,10 +1,8 @@
 <h1>Preview Invoice</h1>
 
 <%= render partial: 'invoice_preview', locals: { invoice: @invoice } %>
-<%#= link_to 'Edit', edit_invoice_path(@invoice) %>
+
 <% if @invoice.persisted? %>
   <%= link_to 'Edit', edit_invoice_path(@invoice) %>
 <% end %>
-<%#= link_to "Back to Edit", new_invoice_path(@invoice.attributes) %>
-<%#= link_to 'Edit Invoice', edit_invoice_path(@invoice) %>
-<%= link_to 'Back to New Invoice', new_invoice_path(session_params: session[:invoice_params]) %>
+<%= link_to 'Back to New Invoice', new_invoice_path(session_params: session[:invoice_params]), class: 'btn btn-dark btn-lg' %>

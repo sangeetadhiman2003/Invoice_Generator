@@ -90,7 +90,6 @@
   </div>
 <% else %>
 <div>
-<%= @invoice&.id %>
 <h5>Date: <%= @invoice&.invoice_date %></h5>
 <div class="row">
     <div class="col-md-6">
@@ -100,6 +99,8 @@
     <h4>Due Date: <%= @invoice&.due_date %></h4>
     </div>
 </div>
+<%  sub_total = 0 %>
+<% tax = 0 %>
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -123,6 +124,8 @@
             <td><%= service&.hour %></td>
             <td><%= service&.amount %></td>
           </tr>
+          <% sub_total = @invoice.sub_total_service(service) %>
+          <%= tax = @invoice.calculate_tax(sub_total) %>
         <% end %>
       <% else %>
         <tr>
@@ -130,36 +133,32 @@
         </tr>
       <% end %>
       <tr>
-      <th colspan="7"></th>
-      </tr>
-      <tr>
-        <td></td>
-        <td colspan="5">Tax Value</td>
-        <td><%#= @invoice.calculate_total_tax %></td>
+      <th colspan="7">
+        <h3>client details:</h3>
+        Name: <span><%= @invoice.client&.name %></span><br>
+        Address: <span><%= @invoice.client&.address %></span><br>
+        Pan: <span></span><br>
+        Contact No: <span><%= @invoice.client&.phone %></span><br>
+        State: <span><%= @invoice.client&.state %>
+        </span><br>
+      </th>
       </tr>
       <tr>
         <td></td>
         <td colspan="5">Sub Total</td>
-        <td><%#= @invoice.sub_total_service(service )%></td>
+        <td><%= sub_total %></td>
       </tr>
-
-      <% total= sub_total + tax_value %>
       <tr>
+      <tr>
+        <td></td>
+        <td colspan="5">Tax Value</td>
+        <td><%= tax %></td>
+      </tr>
         <td></td>
         <td colspan="5">Grand Total</td>
-        <td><%#= @invoice.calculate_grand_total %></td>
+        <td><%= @invoice.calculate_total_amount(sub_total,tax) %></td>
       </tr>
-      <tr>
-        <td></td>
-        <td colspan="5">Discount</td>
-        <td><%#= @invoice.calculate_discount %>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td colspan="5">Due Balance</td>
-        <td><%#= @invoice.calculate_due  %></td>
-      </tr>
+
     </tbody>
 </table>
 </div>

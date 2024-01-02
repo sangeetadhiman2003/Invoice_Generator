@@ -80,90 +80,79 @@
   </div>
 </div>
 <% else %>
-
-
-  <div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal">x</button>
-  <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-  </div>
-  <div class="modal-body">
-  <%= form_with(model: @invoice, remote: true, id: 'invoiceForm') do |f| %>
-    <div  class="mb-3 row">
-      <div class="col ">
-        <%= f.label 'User name' %>
-        <%= @invoice.user&.name%>
-      </div>
-      <div class="col ">
-      <strong>Organization Name: <%= current_organization.name%></strong>
-      </div>
-    </div>
-    <div class="row g-3">
-        <div class="col">
-          <div class = "fields">
-            <%= f.label 'Client name' %>
-            <%= @invoice.client&.name%>
-                <h3>client details:</h3>
-                Name: <%= @invoice.client&.name%><br>
-                Address: <%= @invoice.client&.address%></span><br>
-                Pan: <%= @invoice.client&.pan%><br>
-                Contact No: <%= @invoice.client&.phone%></span><br>
-                State: <%= @invoice.client&.state%></span><br>
-          </div>
+  <div>
+    <%= form_with(model: @invoice, remote: true, id: 'invoiceForm') do |f| %>
+      <div  class="mb-3 row">
+        <div class="col ">
+          <%= f.label 'User name' %>
+          <%= @invoice.user&.name%>
+        </div>
+        <div class="col ">
+        <strong>Organization Name: <%= current_organization.name%></strong>
         </div>
       </div>
-    <br>
-    <div class="mb-3 row">
-      <div class="col-sm-2 ">
-        <%= f.label 'Logo image' %>
-        <%= f.file_field :logo_image %>
+      <div class="row g-3">
+          <div class="col">
+            <div class = "fields">
+              <%= f.label 'Client name' %>
+              <%= @invoice.client&.name%>
+                  <h3>client details:</h3>
+                  Name: <%= @invoice.client&.name%><br>
+                  Address: <%= @invoice.client&.address%></span><br>
+                  Pan: <%= @invoice.client&.pan%><br>
+                  Contact No: <%= @invoice.client&.phone%></span><br>
+                  State: <%= @invoice.client&.state%></span><br>
+            </div>
+          </div>
+        </div>
+      <br>
+      <div class="mb-3 row">
+        <div class="col-sm-2 ">
+          <%= f.label 'Logo image' %>
+          <%= f.file_field :logo_image %>
+        </div>
       </div>
-    </div>
-    <br>
-    <div class="row g-3">
-      <div class="col ">
-        <%= f.label 'invoice_no',class: "col-sm-2 col-form-label" %>
-        <%= @invoice.invoice_no%>
+      <br>
+      <div class="row g-3">
+        <div class="col ">
+          <%= f.label 'invoice_no',class: "col-sm-2 col-form-label" %>
+          <%= @invoice.invoice_no%>
+        </div>
+        <div class="col ">
+          <%= f.label 'invoice_date', class: "col-sm-2 col-form-label" %>
+          <%= @invoice.invoice_date %>
+        </div>
       </div>
-      <div class="col ">
-        <%= f.label 'invoice_date', class: "col-sm-2 col-form-label" %>
-        <%= @invoice.invoice_date %>
-      </div>
-    </div>
-    <br>
-    <div class="row g-3">
-      <div class="col">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <th scope="col" class="col-1">Name of service</th>
-            <th scope="col" class="col-1">Hour</th>
-            <th scope="col" class="col-1">Amount</th>
-          </tr>
-          </thead>
-          <tbody>
-            <% if  @invoice.services.present? %>
-              <% @invoice.services.each do |service| %>
+      <br>
+      <div class="row g-3">
+        <div class="col">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th scope="col" class="col-1">Name of service</th>
+              <th scope="col" class="col-1">Hour</th>
+              <th scope="col" class="col-1">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+              <% if  @invoice.services.present? %>
+                <% @invoice.services.each do |service| %>
+                  <tr>
+                    <td><%= service.name %></td>
+                    <td><%= service.hour %></td>
+                    <td><%= service.amount %></td>
+                  </tr>
+                <% end %>
+              <% else %>
                 <tr>
-                  <td><%= service.name %></td>
-                  <td><%= service.hour %></td>
-                  <td><%= service.amount %></td>
+                  <td colspan = "4">NO Services Found For This Invoice. </td>
                 </tr>
               <% end %>
-            <% else %>
               <tr>
-                <td colspan = "4">NO Services Found For This Invoice. </td>
-              </tr>
-            <% end %>
-            <tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary">Save</button>
-  </div>
-
-
 <% end %>

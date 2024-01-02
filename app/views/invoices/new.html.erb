@@ -1,7 +1,6 @@
 <% if @organization.type_of_invoice == @invoice_type %>
 <%= render "form", invoice: @invoice %>
 <% else %>
-  <%#= render 'invoices/service_invoice' %>
   <%= render "form_service", invoice: @invoice %>
-  <%= link_to "Back" , home_index_path, class: 'btn btn-inverse' %>
 <% end %>
+<%= link_to "Back" , home_index_path, class: 'btn btn-inverse' %>
