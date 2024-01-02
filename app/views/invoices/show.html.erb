@@ -104,9 +104,9 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th scope="col" class="col-1">Name of service</th>
-      <th scope="col" class="col-1">Hours</th>
-      <th scope="col" class="col-1">Amount</th>
+      <th scope="col" class="col-3">Name of service</th>
+      <th scope="col" class="col-3">Hours</th>
+      <th scope="col" class="col-3">Amount</th>
     </tr>
     </thead>
     <% total = 0 %>
@@ -133,7 +133,7 @@
         </tr>
       <% end %>
       <tr>
-      <th colspan="7">
+      <th colspan="4">
         <h3>client details:</h3>
         Name: <span><%= @invoice.client&.name %></span><br>
         Address: <span><%= @invoice.client&.address %></span><br>
@@ -145,17 +145,17 @@
       </tr>
       <tr>
         <td></td>
-        <td colspan="5">Sub Total</td>
+        <td colspan="4">Sub Total</td>
         <td><%= sub_total %></td>
       </tr>
       <tr>
       <tr>
-        <td></td>
-        <td colspan="5">Tax Value</td>
+      <td></td>
+        <td colspan="4">Tax Value</td>
         <td><%= tax %></td>
       </tr>
         <td></td>
-        <td colspan="5">Grand Total</td>
+        <td colspan="4">Grand Total</td>
         <td><%= @invoice.calculate_total_amount(sub_total,tax) %></td>
       </tr>
 
