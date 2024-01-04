@@ -19,7 +19,6 @@
         </div>
       </div>
 
-
       <div class="mb-3 row">
         <% if devise_mapping.rememberable? %>
           <div class="field">
@@ -39,3 +38,5 @@
     </div>
   </div>
 </center>
+<%= link_to "forget pasword" ,  new_organization_password_path%>
+<%#= render "devise/shared/links" %>

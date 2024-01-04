@@ -1,0 +1,52 @@
+# app/views/invoices/show.xlsx.axlsx.erb
+
+# Create a new Axlsx package
+package = Axlsx::Package.new
+
+# Add a worksheet to the package
+package.workbook.add_worksheet(name: 'Invoice') do |sheet|
+
+  # Add invoice details
+  sheet.add_row ["Date:", @invoice&.invoice_date]
+  sheet.add_row ["User:", @invoice&.user&.name]
+  sheet.add_row ["Due Date:", @invoice&.due_date]
+  sheet.add_row [] # Add an empty row for spacing
+
+  # Add table headers
+  sheet.add_row ['Name of service', 'Hours', 'Amount']
+
+  # Iterate over services and add them to the sheet
+  @services.each do |service|
+    sheet.add_row [service&.name, service&.hour, service&.amount]
+  end
+
+  sheet.add_row [] # Add an empty row for spacing
+
+  # Add client details
+  sheet.add_row ['Client details:']
+  sheet.add_row ["Name:", @invoice&.client&.name]
+  sheet.add_row ["Address:", @invoice&.client&.address]
+  sheet.add_row ["Pan:", ''] # Add client PAN information if available
+  sheet.add_row ["Contact No:", @invoice&.client&.phone]
+  sheet.add_row ["State:", @invoice&.client&.state]
+  sheet.add_row [] # Add an empty row for spacing
+
+  # Add subtotal, tax, and grand total
+  sub_total = @invoice.sub_total
+  tax = @invoice.calculate_tax(sub_total)
+  grand_total = @invoice.calculate_total_amount(sub_total, tax)
+
+  sheet.add_row ['', '', 'Sub Total', sub_total]
+  sheet.add_row ['', '', 'Tax Value', tax]
+  sheet.add_row ['', '', 'Grand Total', grand_total]
+
+end
+
+# Serialize the package to a stream
+stream = package.to_stream
+
+# Set the stream position to the beginning
+stream.rewind
+
+# Output the stream
+stream.read

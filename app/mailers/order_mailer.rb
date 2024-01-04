@@ -12,8 +12,6 @@ class OrderMailer < ApplicationMailer
     mail(to: @user.email, subject: @subject)
   end
 
-
-
   def invoices_pdf_email(user, pdf_data, combined_pdf_filename)
     @user = user
     attachments[combined_pdf_filename] = { mime_type: 'application/pdf', content: pdf_data }

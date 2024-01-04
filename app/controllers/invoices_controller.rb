@@ -1,7 +1,12 @@
 require 'combine_pdf'
+require 'axlsx'
+require 'zip'
+require 'docx'
+require 'sanitize'
+
 class InvoicesController < ApplicationController
   before_action :set_organization
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy]
+  before_action :set_invoice, only: [:show, :edit, :update, :generate_doc, :destroy]
   before_action :set_organization_and_invoice_type
   before_action :load_invoice_from_session, only: [:new]
 
@@ -21,8 +26,16 @@ class InvoicesController < ApplicationController
 
   def show
     #@invoice = Invoice.find(params[:id])
+    @bank_accounts = BankAccount.all
+    @bank_accounts = @organization.bank_accounts
     @items = @invoice.items
     @services = @invoice.services
+
+    respond_to do |format|
+      format.html
+      format.docx { generate_docx }
+    end
+
     respond_to do |format|
       format.html
       format.pdf do
@@ -112,6 +125,8 @@ class InvoicesController < ApplicationController
       invoices.each do |invoice|
         @invoice = invoice
         @items = @invoice.items
+        @services = @invoice.services
+        @bank_accounts = BankAccount.all
         html_content << render_to_string(layout: "pdf/#{selected_layout}.html.erb", template: 'invoices/show.html.erb', locals: { invoice: @invoice })
         html_content << "<p style='page-break-before: always'></p>"
       end
@@ -141,6 +156,48 @@ class InvoicesController < ApplicationController
       format.js { render layout: false }
     end
     render layout: false
+  end
+
+  def generate_invoice_docx
+    @invoice = Invoice.find(params[:id])
+    @bank_accounts = BankAccount.all
+    @bank_accounts = @organization.bank_accounts
+    @items = @invoice.items
+    @services = @invoice.services
+
+
+    respond_to do |format|
+      format.docx do
+        html_content = render_to_string("invoices/show.html.erb", layout: "layouts/application", locals: { invoice: @invoice })
+        file = Htmltoword::Document.create(html_content, "invoice_#{params[:id]}.docx")
+        send_file file.path, disposition: "attachment"
+      end
+    end
+  end
+
+  def generate_doc
+    @invoice = Invoice.find(params[:id])
+    @bank_accounts = BankAccount.all
+    @bank_accounts = @organization.bank_accounts
+    @items = @invoice.items
+    @services = @invoice.services
+
+    respond_to do |format|
+      format.docx {
+        doc_content = render_to_string(template: 'invoices/show.html.erb', layout: false, locals: { invoice: @invoice })
+        plain_text_content = Sanitize.fragment(doc_content, elements: []).strip
+
+        package = Axlsx::Package.new
+        package.workbook.add_worksheet(name: 'Invoice') do |sheet|
+          sheet.add_row [plain_text_content], types: [:string]
+        end
+
+        file_path = Rails.root.join('tmp', 'invoice.docx')
+        package.serialize(file_path)
+
+        send_file file_path, filename: 'invoice.docx', disposition: 'attachment', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      }
+    end
   end
 
   private

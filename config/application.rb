@@ -13,6 +13,7 @@ module MYAPP
 
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+    Mime::Type.register "application/vnd.openxmlformats-officedocument.wordprocessingml.document", :docx
 
   end
 end

@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   resources :invoices do
     member do
       post 'duplicate'
+      get 'generate_doc', format: [:html, :docx]
     end
     collection do
       post 'generate_pdf'
