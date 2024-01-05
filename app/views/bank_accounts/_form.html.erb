@@ -1,0 +1,46 @@
+<div class="form">
+  <h1 style="background-color:lightyellow;">Account Details</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <%= form_with(model: @bank_account, local: true) do |f|%>
+        <div class="mb-3 row">
+          <div class="col-sm-2 ">
+          <%= f.label 'name', class:"col-sm-2 col-form-control" %>
+          </div>
+          <div class="col">
+          <%= f.text_field :name, placeholder: "Enter Name of Bank", class:"form-control" %>
+          <% @bank_account.errors.full_messages_for(:name).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <%= f.label 'Acoount No', class:"col-sm-2 col-form-label",id: "name-field" %>
+          <div class="col">
+          <%= f.text_field :account_number, placeholder: "Enter Account Number", class:"form-control" %>
+          <% @bank_account.errors.full_messages_for(:account_number).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <%= f.label 'ifsc_code', class:"col-sm-2 col-form-label" %>
+          <div class="col">
+          <%= f.text_field :ifsc_code, placeholder: "Enter IFSC Code", class:"form-control" %>
+          <% @bank_account.errors.full_messages_for(:ifsc_code).each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col">
+          <%= f.submit 'Submit'%>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <%= image_tag('https://www.thebalancemoney.com/thmb/5EhCo5R624w__LimAJoC-Xc3Bwg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Whatyouneedtolinkexternalbankaccounts-10885c75b7c04ed69b547368b7cde662.jpeg', size: '550x335') %>
+    </div>
+  </div>
+</div>

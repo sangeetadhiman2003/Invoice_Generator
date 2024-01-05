@@ -1,0 +1,12 @@
+<div class="container p-5 my-5 border" id="bank_details" >
+  <h2>Organizations Details </h2>
+    Name: <span><%= current_organization.name %></span><br>
+    <div class="message text-right">
+      <%= link_to "Show Bank Accounts",bank_accounts_path, class:"btn btn-dark" %>
+    </div>
+    Email: <span><%= current_organization.email %></span><br>
+    <div class="message text-right">
+      <%= link_to "Create Bank Account",new_bank_account_path, class:"btn btn-dark" %>
+    </div>
+</div>
+<%= link_to "Back" , home_index_path, style: 'width: 70px; height: 30px;',class: 'btn btn-dark' %>

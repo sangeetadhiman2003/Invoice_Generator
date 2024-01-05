@@ -40,19 +40,12 @@
         <% end%>
         <%= link_to 'Invoices' , invoices_path, class: "link-body-emphasis"  %></strong>
         </li>
-        <li class="nav-item dropdown px-2" >
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <%= image_tag("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBAeVuh4IDx4NnKfv77vZi_nTCvNOGkbpQjL-BuIs&s", size: '35x35') %>
-            <strong>Show List</strong>
-          </a>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'User' , users_path , class: 'navber-brand '%></li>
-            <li><%= link_to 'Item' , items_path , class: 'navber-brand' %>     </li>
-            <li><%= link_to 'Invoices' , invoices_path , class: 'navber-brand' %></li></li>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li><%= link_to 'Client' , clients_path , class: 'navber-brand' %></li>
-          </ul>
+        <li class="nav-item  px-3">
+        <strong>
+        <%= link_to organizations_path do %>
+        <li><%= image_tag("https://cdn-icons-png.flaticon.com/512/1759/1759326.png", size: '60x60') %>
+        <% end%>
+        <%= link_to 'Organization' , organizations_path, class: "link-body-emphasis"  %></strong>
         </li>
       </ul>
     </div>

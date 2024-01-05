@@ -149,6 +149,7 @@ class UsersController < ApplicationController
         # TODO: check this mail sending in backgroud with deliver_later option
         EmailSenderJob.perform_async(user.id)
         # OrderMailer.send_email(user).deliver_now
+        #below code work same as EmailSenderJob
         #OrderMailer.send_email(user).deliver_later
       end
 

@@ -7,7 +7,8 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-
+  resources :organizations
+  resources :bank_accounts
   resources :clients do
     member do
       get 'download_pdf'

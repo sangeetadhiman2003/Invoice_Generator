@@ -104,9 +104,9 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th scope="col" class="col-3">Name of service</th>
-          <th scope="col" class="col-3">Hours</th>
-          <th scope="col" class="col-3">Amount</th>
+          <th>Name of service</th>
+          <th>Hours</th>
+          <th>Amount</th>
         </tr>
         </thead>
         <% total = 0 %>
@@ -145,31 +145,38 @@
           </tr>
           <tr>
             <td></td>
-            <td colspan="2">Sub Total</td>
+            <td>Sub Total</td>
             <td><%= sub_total %></td>
           </tr>
           <tr>
           <tr>
           <td></td>
-            <td colspan="2">Tax Value</td>
+            <td>Tax Value</td>
             <td><%= tax %></td>
           </tr>
             <td></td>
-            <td colspan="2">Grand Total</td>
+            <td>Grand Total</td>
             <td><%= @invoice&.calculate_total_amount(sub_total,tax) %></td>
           </tr>
 
         </tbody>
     </table>
   </div>
-  <div class="container p-5 my-5 border" >
-    <h2>Bank Account Details </h2>
+<% end %>
+<% @bank_accounts = @current_organization.bank_accounts %>
+<% if @bank_accounts.present? %>
+  <div class="container p-5 my-5 border" id="bank_details">
+    <h2>Bank Account Details</h2>
     <% @bank_accounts.each do |bank| %>
-      Name: <span><%= bank.name %></span><br>
-      Account Number: <span><%= bank.account_number %></span><br>
-      IFSC Code: <span><%= bank.ifsc_code %></span>
+      <div class="bank-entry">
+        <p>Name: <span><%= bank.name %></span></p>
+        <p>Account Number: <span><%= bank.account_number %></span></p>
+        <p>IFSC Code: <span><%= bank.ifsc_code %></span></p>
+      </div>
     <% end %>
   </div>
-  <%= link_to 'Generate Document', generate_doc_invoice_path(@invoice, format: :docx) %>
 <% end %>
+
+<%= link_to 'Generate Document', generate_doc_invoice_path(@invoice, format: :docx) %>
+
 <%= link_to "Back", invoices_path, class: 'btn' %>

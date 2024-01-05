@@ -64,7 +64,6 @@ class InvoicesController < ApplicationController
       redirect_to new_invoice_path
     else
       @invoice = Invoice.new(invoice_params)
-      debugger
       if params[:preview_button]
         store_invoice_params_in_session
         render :preview

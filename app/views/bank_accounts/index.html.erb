@@ -1,0 +1,28 @@
+<% if @bank_accounts.present? %>
+  <% @bank_accounts.each do |bank| %>
+    <div class="card border-dark mb-3" style="max-width: 50rem;">
+      <div class="card-header">Bank Details</div>
+        <div class="card-body">
+        <h5 class="card-title">Organization Account Details</h5>
+        <h2>Bank Account Details </h2>
+        Name: <span><%= bank.name %></span><br>
+        Account Number: <span><%= bank.account_number %></span><br>
+        IFSC Code: <span><%= bank.ifsc_code %></span>
+      </div>
+    </div>
+    <br>
+  <% end %>
+<% else %>
+  <center>
+    <div class="card border-dark mb-3" style="max-width: 50rem;">
+      <div class="card-header">Bank Details...!</div>
+      <div class="card-body">
+        <h5 class="card-title">Organization Account Details</h5>
+        <p>There is no account present for this organization </p>
+      </div>
+    </div>
+  </center>
+<% end %>
+<center>
+  <%= link_to "Back", organizations_path, style: 'width: 70px; height: 30px;', class: 'btn btn-dark' %>
+</center>
