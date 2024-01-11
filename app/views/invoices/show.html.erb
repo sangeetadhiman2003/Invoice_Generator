@@ -164,10 +164,21 @@
   </div>
 <% end %>
 <% @bank_accounts = @current_organization.bank_accounts %>
-<% if @bank_accounts.present? %>
+
+<% if @selected_bank_account %>
   <div class="container p-5 my-5 border" id="bank_details">
     <h2>Bank Account Details</h2>
-    <% @bank_accounts.each do |bank| %>
+    <div class="bank-entry">
+      <p>Name: <span><%= @selected_bank_account.name %></span></p>
+      <p>Account Number: <span><%= @selected_bank_account.account_number %></span></p>
+      <p>IFSC Code: <span><%= @selected_bank_account.ifsc_code %></span></p>
+    </div>
+  </div>
+<% else %>
+  <% if @bank_accounts.present? %>
+  <div class="container p-5 my-5 border" id="bank_details">
+    <h2>Bank Account Details</h2>
+    <% @bank_accounts.limit(1).each do |bank| %>
       <div class="bank-entry">
         <p>Name: <span><%= bank.name %></span></p>
         <p>Account Number: <span><%= bank.account_number %></span></p>
@@ -175,8 +186,9 @@
       </div>
     <% end %>
   </div>
+  <br>
 <% end %>
-
+<% end %>
 <%= link_to 'Generate Document', generate_doc_invoice_path(@invoice, format: :docx) %>
 
 <%= link_to "Back", invoices_path, class: 'btn' %>

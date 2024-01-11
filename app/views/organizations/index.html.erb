@@ -9,4 +9,6 @@
       <%= link_to "Create Bank Account",new_bank_account_path, class:"btn btn-dark" %>
     </div>
 </div>
+<strong>Organization choose their account for visible on the show page </strong>
+<%= render 'bank_account_dropdown', bank_accounts: @organization.bank_accounts %>
 <%= link_to "Back" , home_index_path, style: 'width: 70px; height: 30px;',class: 'btn btn-dark' %>

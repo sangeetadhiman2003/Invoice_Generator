@@ -1,0 +1,6 @@
+<!-- app/views/organizations/_bank_account_dropdown.html.erb -->
+<%= form_tag select_bank_account_organization_path(@organization), method: :post do %>
+  <label for="bank_account">Select Bank Account:</label>
+  <%= select_tag 'bank_account', options_for_select(bank_accounts.map { |account| [account.name, account.id] }), prompt: 'select the bank' %>
+  <%= submit_tag 'Select Bank Account' %>
+<% end %>

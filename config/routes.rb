@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  resources :organizations
+  resources :organizations do
+    member do
+      post 'select_bank_account'
+    end
+  end
   resources :bank_accounts
   resources :clients do
     member do

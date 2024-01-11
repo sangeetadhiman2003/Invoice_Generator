@@ -26,10 +26,15 @@ class InvoicesController < ApplicationController
 
   def show
     #@invoice = Invoice.find(params[:id])
+    @invoice_type = @invoice_type
     @bank_accounts = BankAccount.all
     @bank_accounts = @organization.bank_accounts
     @items = @invoice.items
     @services = @invoice.services
+    # @selected_bank_details = find_bank_details_by_name(params[:bank_name])
+    # @selected_bank_account_details = session.delete(:selected_bank_account_details)
+    @selected_bank_account = BankAccount.find(session[:selected_bank_account_id]) if session[:selected_bank_account_id]
+
 
     respond_to do |format|
       format.html
@@ -132,7 +137,7 @@ class InvoicesController < ApplicationController
 
       combined_html = html_content.join("\n")
 
-      PdfGeneratorJob.perform_async(selected_invoice_ids, combined_html, 'invoices/show.html.erb', selected_layout)
+      # PdfGeneratorJob.perform_async(selected_invoice_ids, combined_html, 'invoices/show.html.erb', selected_layout)
 
       pdf_data = WickedPdf.new.pdf_from_string(combined_html, page_size: 'A4')
 
@@ -228,6 +233,14 @@ class InvoicesController < ApplicationController
 
   def clear_invoice_params_in_session
     session[:invoice_params] = nil
+  end
+
+  def find_bank_details_by_name(bank_name)
+    # Assuming you have a Bank model
+    bank = BankAccount.find_by(name: bank_name)
+
+    # Example: If the Bank model has a 'details' column
+    bank&.details
   end
 
 end

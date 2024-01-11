@@ -6,19 +6,19 @@
         <div class="col ">
           <% if @users.present? %>
             <div class="form-group">
-            <%= f.label :user, "Select a User" %>
-             <%#= f.collection_select :user_id, User.all, :id, :name, prompt: true %>
-             <%= f.collection_select(:user_id, @users, :id, :name, prompt: true) %>
+              <%= f.label :user, "Select a User" %>
+              <%#= f.collection_select :user_id, User.all, :id, :name, prompt: true %>
+              <%= f.collection_select(:user_id, @users, :id, :name, prompt: true) %>
+              </div>
+            <% end %>
             </div>
+           <div class="col ">
+            <% if @clients.present? %>
+                <div class="form-group">
+                <%= f.label :client, "Select a Client" %>
+              <%= f.collection_select(:client_id, @clients, :id, :name, prompt: true) %>
+              </div>
           <% end %>
-        </div>
-        <div class="col ">
-          <% if @clients.present? %>
-              <div class="form-group">
-              <%= f.label :client, "Select a Client" %>
-             <%= f.collection_select(:client_id, @clients, :id, :name, prompt: true) %>
-            </div>
-         <% end %>
         </div>
       </div>
       <br>

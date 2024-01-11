@@ -5,4 +5,4 @@
 <% if @invoice.persisted? %>
   <%= link_to 'Edit', edit_invoice_path(@invoice) %>
 <% end %>
-<%= link_to 'Back to New Invoice', new_invoice_path(session_params: session[:invoice_params]), class: 'btn btn-dark btn-lg' %>
+<%= link_to 'Back', new_invoice_path(session_params: session[:invoice_params]), style: 'width: 70px; height: 30px;', class: 'btn btn-dark btn-lg' %>
