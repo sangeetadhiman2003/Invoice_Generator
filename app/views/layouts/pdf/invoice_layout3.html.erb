@@ -6,6 +6,7 @@
     text-align: right;
   }
   #pdf-layout {
+    background-image: url('https://images.unsplash.com/photo-1530293959042-0aac487c21e3?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Ymx1ZSUyMGFuZCUyMHdoaXRlfGVufDB8fDB8fHww');
     background-size: contain; /* Adjust to your needs */
     background-position:flex; /* Adjust to your needs */
     background-repeat: repeat;
@@ -13,8 +14,6 @@
 
   #invoice_img{
     text-align: left;
-    font-size:50px;
-    background-color: lightblue;
   }
 
   table {
@@ -44,9 +43,7 @@
 </head>
 <body>
   <!-- Add an image to the layout -->
-  <div id="invoice_img">
-  <p>INVOICE TAX</p>
-  </div>
+  <div id="invoice_img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThNoMrQx9fn1YWvRJdxFeZhDUE29bwUSL-RA&usqp=CAU" </div>
 
   <div id="pdf-layout">
     <%= yield %>
