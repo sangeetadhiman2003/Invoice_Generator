@@ -58,7 +58,6 @@
             <div class = "fields">
              <%= f.label :client, "Select a Client" %>
              <%= f.collection_select(:client_id, @clients, :id, :name, prompt: true, id: 'client_select') %>
-
              <div id="clients_attributes" style="display: none;">
                <h3>client details:</h3>
                 Name: <span id="client_name"></span><br>

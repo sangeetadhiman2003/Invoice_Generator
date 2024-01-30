@@ -1,6 +1,7 @@
 require "prawn"
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :set_organization_and_invoice_type
 
   def index
     if params[:query].present?
@@ -207,6 +208,11 @@ class UsersController < ApplicationController
     unless current_user.organization_id.present?
       redirect_to root_path, alert: "You do not belong to any organization."
     end
+  end
+
+  def set_organization_and_invoice_type
+    @organization = current_organization if organization_signed_in?
+    @invoice_type = 'PRODUCT'
   end
 
 end

@@ -3,7 +3,9 @@ class OrganizationsController < ApplicationController
 
   def index
     @organizations = Organization.all
-    @bank_names = @organization.bank_accounts.pluck(:name)
+    @bank_names = @organizations.map { |organization| organization.bank_accounts.pluck(:name) }
+    #render json: @organizations, each_serializer: OrganizationSerializer
+
   end
 
   def select_bank_account

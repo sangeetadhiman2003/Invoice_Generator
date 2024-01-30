@@ -1,6 +1,8 @@
 require 'pagy'
 
 class ItemsController < ApplicationController
+  before_action :set_organization_and_invoice_type
+
   def index
     if params[:product_name].present?
       search_word = params[:product_name]
@@ -96,4 +98,11 @@ class ItemsController < ApplicationController
       text "Quantity: #{item.quantity}"
     end.render
   end
+
+  def set_organization_and_invoice_type
+    @organization = current_organization if organization_signed_in?
+    @invoice_type = 'PRODUCT'
+  end
+
+
 end

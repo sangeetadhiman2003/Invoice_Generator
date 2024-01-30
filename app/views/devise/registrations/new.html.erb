@@ -42,11 +42,16 @@
         <%= f.label 'type_of_invoice', class:"col-sm-2 col-form-control" %>
         <div class="col">
 
-          <%= f.select :type_of_invoice, options_for_select(Organization::  INVOICE_TYPE), {prompt:"Select State" } ,class:"form-control"  %>
+          <%= f.select :type_of_invoice, options_for_select(Organization::  INVOICE_TYPE), {prompt:"Select Type Of Invoice" } ,class:"form-control"  %>
 
         </div>
       </div>
-
+      <div class="mb-3 row">
+        <div class="col-sm-2 ">
+          <%= f.label 'organization_logo' %>
+          <%= f.file_field :organization_logo %>
+        </div>
+      </div>
 
       <div class="actions">
         <%= f.submit "Sign up" %>

@@ -40,7 +40,10 @@
   <nav>
     <% if organization_signed_in? %>
       <!-- Display organization information or sign out link -->
-      Welcome <%= current_organization.email %>! <%= link_to 'Sign out',  destroy_organization_session_path, method: :delete %>
+      Welcome <%= current_organization.email %>!
+      <div style="text-align: left; padding-left: 1200px;">
+        <%= link_to 'Sign out',  destroy_organization_session_path, method: :delete, width: '70px; height: 30px;', class: 'btn btn-dark' %>
+      </div>
     <% end %>
   </nav>
 

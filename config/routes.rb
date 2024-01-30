@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
 
-  devise_for :organizations
+  root 'home#index'
+
+  devise_for :organizations,  controllers: { registrations: 'registrations' }
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
-
-  root 'home#index'
 
   resources :organizations do
     member do

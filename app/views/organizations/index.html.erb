@@ -1,6 +1,12 @@
 <div class="container p-5 my-5 border" id="bank_details" >
-  <h2>Organizations Details </h2>
+    <h2>Organizations Details </h2>
     Name: <span><%= current_organization.name %></span><br>
+    <% if current_organization&.organization_logo&.attached? %>
+        <%= image_tag current_organization.organization_logo %>
+    <% else %>
+      <p> Image not found </p>
+    <% end %>
+
     <div class="message text-right">
       <%= link_to "Show Bank Accounts",bank_accounts_path, class:"btn btn-dark" %>
     </div>

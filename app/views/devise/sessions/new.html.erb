@@ -29,7 +29,9 @@
       </div>
 
       <div class="actions">
-        <%= f.submit "Sign up" %>
+        <%= f.submit "Sign In", style: 'width: 70px; height: 30px;', class: 'btn btn-dark' %>
+        <%= link_to "Sign Up" , new_organization_registration_path, style: 'width: 70px; height: 30px;', class: 'btn btn-dark' %>
+
       </div>
     <% end %>
     </div>

@@ -7,7 +7,7 @@ require 'sanitize'
 class InvoicesController < ApplicationController
   before_action :set_organization
   before_action :set_invoice, only: [:show, :edit, :update, :generate_doc, :destroy]
-  before_action :set_organization_and_invoice_type
+  before_action :invoice_type
   before_action :load_invoice_from_session, only: [:new]
 
   def index
@@ -26,20 +26,11 @@ class InvoicesController < ApplicationController
 
   def show
     #@invoice = Invoice.find(params[:id])
-    @invoice_type = @invoice_type
     @bank_accounts = BankAccount.all
     @bank_accounts = @organization.bank_accounts
     @items = @invoice.items
     @services = @invoice.services
-    # @selected_bank_details = find_bank_details_by_name(params[:bank_name])
-    # @selected_bank_account_details = session.delete(:selected_bank_account_details)
     @selected_bank_account = BankAccount.find(session[:selected_bank_account_id]) if session[:selected_bank_account_id]
-
-
-    respond_to do |format|
-      format.html
-      format.docx { generate_docx }
-    end
 
     respond_to do |format|
       format.html
@@ -119,7 +110,21 @@ class InvoicesController < ApplicationController
     when 'delete'
       Invoice.where(id: selected_invoice_ids).destroy_all
       redirect_to invoices_path, notice: 'Selected invoices deleted.'
-    when 'generate_pdf'
+      when 'preview_layout'
+      selected_invoice_ids = params[:invoice_ids]
+      invoices = Invoice.where(id: selected_invoice_ids)
+      selected_layout = params[:layout]
+      html_content = []
+
+      invoices.each do |invoice|
+        @invoice = invoice
+        @items = @invoice.items
+        @services = @invoice.services
+        @bank_accounts = BankAccount.all
+        html_content = render_to_string(layout: "pdf/#{selected_layout}.html.erb", template: 'invoices/show.html.erb', locals: { invoice: @invoice })
+      end
+      render html: html_content.to_s.html_safe
+      when 'generate_pdf'
       selected_invoice_ids = params[:invoice_ids]
       selected_layout = params[:layout]
       invoices = Invoice.where(id: selected_invoice_ids)
@@ -147,11 +152,6 @@ class InvoicesController < ApplicationController
     end
   end
 
-  # def preview
-  #   @invoice = Invoice.new(session[:invoice_params])
-  #   render :preview
-  # end
-
   def preview
     @invoice = Invoice.new(session[:invoice_params])
 
@@ -162,22 +162,22 @@ class InvoicesController < ApplicationController
     render layout: false
   end
 
-  def generate_invoice_docx
-    @invoice = Invoice.find(params[:id])
-    @bank_accounts = BankAccount.all
-    @bank_accounts = @organization.bank_accounts
-    @items = @invoice.items
-    @services = @invoice.services
+  # def generate_invoice_docx
+  #   @invoice = Invoice.find(params[:id])
+  #   @bank_accounts = BankAccount.all
+  #   @bank_accounts = @organization.bank_accounts
+  #   @items = @invoice.items
+  #   @services = @invoice.services
 
 
-    respond_to do |format|
-      format.docx do
-        html_content = render_to_string("invoices/show.html.erb", layout: "layouts/application", locals: { invoice: @invoice })
-        file = Htmltoword::Document.create(html_content, "invoice_#{params[:id]}.docx")
-        send_file file.path, disposition: "attachment"
-      end
-    end
-  end
+  #   respond_to do |format|
+  #     format.docx do
+  #       html_content = render_to_string("invoices/show.html.erb", layout: "layouts/application", locals: { invoice: @invoice })
+  #       file = Htmltoword::Document.create(html_content, "invoice_#{params[:id]}.docx")
+  #       send_file file.path, disposition: "attachment"
+  #     end
+  #   end
+  # end
 
   def generate_doc
     @invoice = Invoice.find(params[:id])
@@ -214,8 +214,7 @@ class InvoicesController < ApplicationController
     @organization = current_organization
   end
 
-  def set_organization_and_invoice_type
-    #@organization = current_organization if organization_signed_in?
+  def invoice_type
     @invoice_type = 'PRODUCT'
   end
 

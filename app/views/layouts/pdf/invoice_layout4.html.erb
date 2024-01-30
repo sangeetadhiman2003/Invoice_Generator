@@ -1,0 +1,52 @@
+
+
+
+<!DOCTYPE html>
+<html>
+ <style>
+  #invoice{
+
+    text-align: right;
+  }
+  #pdf-layout {
+    background-image: url('https://www.imageshine.in/uploads/gallery/Blue-Abstract-Background-free-Vector-image.png');
+    background-size: contain; /* Adjust to your needs */
+    background-position:flex; /* Adjust to your needs */
+    background-repeat: repeat;
+  }
+
+  #invoice_img{
+    text-align: left;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+ </style>
+<head>
+  <title>PDF Layout</title>
+  <link rel="stylesheet" href="<%= wicked_pdf_stylesheet_link_tag 'pdf_stylesheet' %>" media="all" />
+</head>
+<body>
+  <!-- Add an image to the layout -->
+  <div id="invoice_img"><img src="https://www.chargebee.com/blog/wp-content/uploads/2015/07/invoice-banner.png"  height="200" width="1000" </div>
+
+  <div id="pdf-layout">
+    <%= yield %>
+  </div>
+
+
+</body>
+</html>
