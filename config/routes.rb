@@ -64,4 +64,7 @@ Rails.application.routes.draw do
     end
   end
 
+  post '/payments/create', to: 'payments#create'
+
+
 end
