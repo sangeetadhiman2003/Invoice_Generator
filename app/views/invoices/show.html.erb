@@ -78,7 +78,10 @@
           <tr>
           <td></td>
           <td colspan="5">Amount Paid</td>
-          <td><%= @invoice.calculate_amount_paid %></td>
+            <%= @amount =  @invoice.calculate_amount_paid %>
+          <td><%= @amount %>
+          <%= button_to "Pay Now", "/payments/create", method: :post, params: { amount: @amount }, id:"pay-btn", class: "btn-info" %>
+        </td>
           </tr>
           <tr>
             <td></td>
@@ -156,9 +159,11 @@
           </tr>
             <td></td>
             <td>Grand Total</td>
-            <td><%= @invoice&.calculate_total_amount(sub_total,tax) %></td>
+              <% @amount = @invoice&.calculate_total_amount(sub_total,tax) %>
+            <td><%= @amount %>
+              <%= button_to "Pay Now", "/payments/create", method: :post, params: { amount: @amount }, id:"pay-btn", class: "btn-info" %>
+            </td>
           </tr>
-
         </tbody>
     </table>
   </div>
@@ -192,3 +197,37 @@
 <%= link_to 'Generate Document', generate_doc_invoice_path(@invoice, format: :docx) %>
 
 <%= link_to "Back", invoices_path, class: 'btn' %>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+    "key": "<%= Rails.application.credentials.razorpay[:key_id] %>", // Enter the Key ID generated from the Dashboard
+    "amount": "<%= @amount %>", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise or ₹500.
+    "currency": "INR",
+    "name": "<%= @organization.name %>",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "handler": function (response){
+        // After the payment is successful, you can use the response[razorpay_payment_id] and
+        // response[razorpay_order_id] to verify the payment and save the details in your database
+    },
+    "prefill": {
+        "name": '<%= @invoice.user.name %>',
+        "email": "<%= @invoice.user.email %>",
+        "contact": "<%= @invoice.user.phone %>"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office",
+        "invoice_id": "<%= @invoice.invoice_no %>"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+  };
+  var rzp1 = new Razorpay(options);
+  document.getElementById('pay-btn').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+  }
+</script>
