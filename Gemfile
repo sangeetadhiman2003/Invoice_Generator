@@ -42,6 +42,7 @@ gem 'cocoon', '~> 1.2', '>= 1.2.9'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -65,6 +66,9 @@ gem 'bootstrap-daterangepicker-rails'
 gem 'jquery-turbolinks'
 group :development do
   gem 'sunspot_solr'
+end
+group :production do
+  gem 'mysql2'
 end
 gem 'wkhtmltopdf-binary'
 gem 'pagy'
