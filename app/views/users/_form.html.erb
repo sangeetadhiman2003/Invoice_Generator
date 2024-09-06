@@ -60,10 +60,17 @@
           </div>
         </div>
         <div class="mb-3 row">
-           <%= f.label 'Please attached image ',  class:"col-sm-2 col-form-label" %>
-          <div class="col">
-            <%= f.file_field :signature_image , id:"formFile" , class:"form-control"%>
-          </div>
+            <%= f.label :signature_image, 'Please attach an image', class: "col-sm-2 col-form-label" %>
+            <div class="col">
+              <%= f.file_field :signature_image, id: "formFile", class: "form-control" %>
+              <% if f.object.errors[:signature_image].any? %>
+                <div class="invalid-feedback">
+                  <% f.object.errors[:signature_image].each do |message| %>
+                    <p><%= message %></p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
         </div>
         <div class="mb-3 row">
           <div class="col">
